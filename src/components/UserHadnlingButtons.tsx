@@ -13,7 +13,7 @@ export function SignOutButton() {
 
 export function SignInButton() {
   return (
-    <Button className='w-fit' onClick={() => signIn()}>
+    <Button variant={'outline'} className='w-fit' onClick={() => signIn()}>
       Sign In
     </Button>
   );

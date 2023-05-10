@@ -2,10 +2,16 @@
 import React from 'react';
 import Post from './Post';
 
-export default function Feed({ posts }: { posts: any[] }) {
+export default function Feed({ initialPosts }: { initialPosts: any[] }) {
   return (
     <>
-      {[...posts, ...posts, ...posts, ...posts, ...posts].map((post) => (
+      {[
+        ...initialPosts,
+        ...initialPosts,
+        ...initialPosts,
+        ...initialPosts,
+        ...initialPosts,
+      ].map((post) => (
         <Post post={post} />
       ))}
     </>
