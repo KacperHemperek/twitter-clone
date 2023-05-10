@@ -22,7 +22,7 @@ export default async function RootLayout({
     <html lang='en'>
       <body className='dark bg-background text-white'>
         <Providers session={session}>
-          <main className='relative mx-auto flex min-h-screen max-w-7xl'>
+          <main className='relative mx-auto flex min-h-screen max-w-7xl '>
             {!!session?.user && (
               <>
                 <NavBarContainer />
