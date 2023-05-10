@@ -8,7 +8,7 @@ export default function NavBarContainer() {
   const session = useSession();
 
   return (
-    <div className='sticky right-full top-0 flex h-screen flex-col justify-between border-y border-l border-gray-700 px-4 py-6'>
+    <div className='sticky right-full top-0 flex h-screen flex-col justify-between px-4 py-6'>
       <div className='flex flex-col'>
         <div className='p-1'>
           <TwitterIcon className='h-8 w-8' />

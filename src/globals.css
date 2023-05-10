@@ -70,11 +70,6 @@
   }
 }
 
-html {
-  overscroll-behavior: none;
-  overflow-y: auto;
-}
-
 @layer base {
   * {
     @apply border-border;

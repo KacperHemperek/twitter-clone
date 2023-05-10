@@ -27,7 +27,7 @@ export default function AvatarDropdown({
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent side='top' align='start'>
         <DropdownMenuItem className='flex items-center gap-2 p-3'>
           <UserIcon className='h-4 w-4' />
           <span>Account</span>
