@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html lang='en'>
-      <body className='dark overflow-scroll overscroll-none bg-background text-white'>
+      <body className='dark overflow-auto overscroll-none bg-background text-white'>
         <Providers session={session}>
           <main className='relative mx-auto flex min-h-screen max-w-7xl'>
             {!!session?.user && (
