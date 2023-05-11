@@ -1,6 +1,11 @@
 import Feed from '@/components/feed/Feed';
+import { Post } from '@/types/Post.type';
 
 export default async function Home() {
+  const posts: { data: Post[] } = await fetch(
+    process.env.NEXTAUTH_URL! + '/api/posts'
+  ).then((res) => res.json());
+
   return (
     <div className='flex min-h-screen w-full flex-col items-center text-white'>
       <div className='refative flex h-full min-h-screen w-full flex-col border-x border-x-gray-700'>
@@ -8,7 +13,7 @@ export default async function Home() {
           <h1 className='text-2xl font-bold'>Home</h1>
         </div>
 
-        <Feed initialPosts={['post1', 'post2']} />
+        <Feed initialPosts={posts.data} />
       </div>
     </div>
   );

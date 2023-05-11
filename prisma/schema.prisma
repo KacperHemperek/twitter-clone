@@ -77,11 +77,13 @@ model Like {
 }
 
 model Post {
-  id       String  @id @default(cuid())
-  message  String  @db.VarChar(255)
+  id        String   @id @default(cuid())
+  message   String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+
   likes    Like[]
-  author   User?   @relation(fields: [authorId], references: [id])
-  authorId String?
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
 
   @@index([authorId])
 }

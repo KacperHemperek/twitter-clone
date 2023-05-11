@@ -35,8 +35,13 @@ async function generateUsers() {
       image: 'https://cdn.discordapp.com/embed/avatars/3.png',
       posts: {
         create: [
-          { message: 'My name is Jane doe Gorge bush did (tweet deleted)' },
-          { message: "I'm a reformed woman now" },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident',
+          },
+          {
+            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+          },
           {
             message:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
@@ -57,7 +62,7 @@ type UserWithPosts = {
 };
 
 async function likeTweets(jane: UserWithPosts, joe: UserWithPosts) {
-  prisma.post.update({
+  await prisma.post.update({
     where: { id: jane.posts[0].id },
     data: { likes: { create: [{ userId: jane.id }, { userId: joe.id }] } },
   });
@@ -68,7 +73,7 @@ async function main() {
 
   const { jane, joe } = await generateUsers();
 
-  likeTweets(jane, joe);
+  await likeTweets(jane, joe);
 }
 
 main()

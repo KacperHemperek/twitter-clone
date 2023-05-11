@@ -1,18 +1,13 @@
 'use client';
 import React from 'react';
 import Post from './Post';
+import { type Post as PostType } from '@/types/Post.type';
 
-export default function Feed({ initialPosts }: { initialPosts: any[] }) {
+export default function Feed({ initialPosts }: { initialPosts: PostType[] }) {
   return (
     <>
-      {[
-        ...initialPosts,
-        ...initialPosts,
-        ...initialPosts,
-        ...initialPosts,
-        ...initialPosts,
-      ].map((post) => (
-        <Post post={post} />
+      {initialPosts.map((post) => (
+        <Post key={post.id} post={post} />
       ))}
     </>
   );
