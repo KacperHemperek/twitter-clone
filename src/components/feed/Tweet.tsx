@@ -8,7 +8,7 @@ import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/cn';
 
-function Post({ post }: { post: Post }) {
+function Tweet({ post }: { post: Post }) {
   const { data: session } = useSession();
   const userLikedTweet = post.likes.some(
     (like) => like.userId === session?.user.id
@@ -50,4 +50,4 @@ function Post({ post }: { post: Post }) {
   );
 }
 
-export default memo(Post);
+export default memo(Tweet);

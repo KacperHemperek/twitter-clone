@@ -22,9 +22,7 @@ export default function AvatarDropdown({
       <DropdownMenuTrigger className='outline-none'>
         <Avatar className='h-8 w-8 md:h-10 md:w-10'>
           <AvatarImage src={image ?? undefined} />
-          <AvatarFallback className='text-black'>
-            {firstLetter ?? 'A'}
-          </AvatarFallback>
+          <AvatarFallback>{firstLetter ?? 'A'}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent side='top' align='start'>

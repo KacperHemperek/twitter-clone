@@ -23,6 +23,9 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
+    redirect: async ({ baseUrl }) => {
+      return baseUrl + '/feed/main';
+    },
   },
 
   providers: [
