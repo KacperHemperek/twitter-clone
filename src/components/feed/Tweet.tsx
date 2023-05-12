@@ -7,9 +7,17 @@ import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/cn';
+import { useMutation } from '@tanstack/react-query';
 
 function Tweet({ post }: { post: Post }) {
   const { data: session } = useSession();
+
+  const { mutate: likeTweet } = useMutation({
+    mutationFn: async () =>
+      fetch(`/api/posts/${post.id}/like`, { method: 'POST' }).then((res) =>
+        res.json()
+      ),
+  });
 
   const userLikedTweet = post.likes.some(
     (like) => like.userId === session?.user.id
@@ -38,10 +46,11 @@ function Tweet({ post }: { post: Post }) {
             <button
               className={cn(
                 userLikedTweet ? 'text-pink-600' : 'text-gray-400',
-                'flex cursor-pointer items-center'
+                'group flex cursor-pointer items-center'
               )}
+              onClick={() => likeTweet()}
             >
-              <HeartIcon className='mr-2 h-4 w-4' />
+              <HeartIcon className='mr-4  h-4 w-4' />
               {formatNumberToCompact(post.likes.length)}
             </button>
           </div>
