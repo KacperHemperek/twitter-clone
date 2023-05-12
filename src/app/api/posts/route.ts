@@ -1,7 +1,13 @@
 import { prisma } from '@/db/prisma';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+const LIMIT = 10;
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+
+  const page = Number(searchParams.get('page'));
+
   const posts = await prisma.post.findMany({
     select: {
       author: true,
@@ -10,8 +16,12 @@ export async function GET() {
       message: true,
       likes: true,
     },
+    take: LIMIT,
+    skip: page * LIMIT,
     orderBy: { createdAt: 'desc' },
   });
 
-  return NextResponse.json({ data: posts });
+  const nextPage = posts.length < 10 ? page + 1 : undefined;
+
+  return NextResponse.json({ data: posts, nextPage });
 }
