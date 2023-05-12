@@ -20,7 +20,7 @@ export default function AvatarDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='outline-none'>
-        <Avatar>
+        <Avatar className='h-8 w-8 md:h-10 md:w-10'>
           <AvatarImage src={image ?? undefined} />
           <AvatarFallback className='text-black'>
             {firstLetter ?? 'A'}
