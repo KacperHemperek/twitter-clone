@@ -7,6 +7,18 @@ This twitter clone is created with Next.js 13 app directory, prisma, planetscale
 - [x] setup next-auth
 - [x] add database for next-auth
 - [x] make tailwind work again
-- [ ] create post module and feed with all posts (for now)
+- [x] create post module and feed with all posts (for now)
 - [ ] redirect user to login page when not logged in
-- [ ] get posts from database with pagination
+- [x] get posts from database with pagination
+- [ ] add tweet form
+- [ ] like tweet functionality
+- [ ] account page
+- [ ] follow functionality
+- [ ] followed users only feed
+- [ ] add description to account
+- [ ] add location to account
+- [ ] add a link to account (for social media youtube/discord/linkedin)
+- [ ] comments for every tweet
+- [ ] retweet functionality
+- [ ] add image to tweet (?)
+- [ ] change account image (?)

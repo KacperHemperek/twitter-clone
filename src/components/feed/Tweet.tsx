@@ -10,6 +10,7 @@ import { cn } from '@/lib/cn';
 
 function Tweet({ post }: { post: Post }) {
   const { data: session } = useSession();
+
   const userLikedTweet = post.likes.some(
     (like) => like.userId === session?.user.id
   );
@@ -33,15 +34,17 @@ function Tweet({ post }: { post: Post }) {
         </div>
         <p className=''>{post.message}</p>
         <div className='grid grid-cols-3'>
-          <button
-            className={cn(
-              userLikedTweet ? 'text-pink-600' : 'text-gray-400',
-              'flex cursor-pointer items-center'
-            )}
-          >
-            <HeartIcon className='mr-2 h-4 w-4' />
-            {formatNumberToCompact(post.likes.length)}
-          </button>
+          <div>
+            <button
+              className={cn(
+                userLikedTweet ? 'text-pink-600' : 'text-gray-400',
+                'flex cursor-pointer items-center'
+              )}
+            >
+              <HeartIcon className='mr-2 h-4 w-4' />
+              {formatNumberToCompact(post.likes.length)}
+            </button>
+          </div>
           <div>lol</div>
           <div>lol</div>
         </div>

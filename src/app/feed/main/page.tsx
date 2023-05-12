@@ -1,11 +1,12 @@
 import Feed from '@/components/feed/Feed';
-import { Post } from '@/types/Post.type';
+import { GetPostsType } from '@/types/api/posts';
 import React from 'react';
+import MainFeed from './MainFeed';
 
 export default async function page() {
-  const posts: { data: Post[] } = await fetch(
+  const posts: GetPostsType = await fetch(
     process.env.NEXTAUTH_URL! + '/api/posts'
   ).then((res) => res.json());
 
-  return <Feed initialPosts={posts.data} />;
+  return <MainFeed initialData={posts} />;
 }

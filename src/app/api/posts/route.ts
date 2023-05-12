@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     orderBy: { createdAt: 'desc' },
   });
 
-  const nextPage = posts.length < 10 ? page + 1 : undefined;
+  const nextPage = posts.length === 10 ? page + 1 : undefined;
 
   return NextResponse.json({ data: posts, nextPage });
 }
