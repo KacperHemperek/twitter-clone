@@ -3,9 +3,9 @@ import { type Post, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function clearDataBase() {
+  await prisma.like.deleteMany();
   await prisma.post.deleteMany();
   await prisma.user.deleteMany();
-  await prisma.like.deleteMany();
 }
 
 async function generateUsers() {
@@ -18,6 +18,38 @@ async function generateUsers() {
         create: [
           { message: 'this is first tweet' },
           { message: 'My second tweet' },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
           {
             message:
               'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
@@ -41,6 +73,34 @@ async function generateUsers() {
           },
           {
             message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
+          },
+          {
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident accusantium doloribus blanditiis modi vel, nemo enim pariatur nobis! Quae, perspiciatis eligendi praesentium autem aspernatur ipsa recusandae voluptatum accusamus temporibus.',
           },
           {
             message:
