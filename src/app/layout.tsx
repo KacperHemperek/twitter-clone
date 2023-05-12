@@ -5,6 +5,7 @@ import Providers from '@/components/Providers';
 
 import NavBarContainer from '@/components/navbar/NavBarContainer';
 import { SignInButton } from '@/components/UserHadnlingButtons';
+import { authOptions } from './api/auth/[...nextauth]/route';
 
 export const metadata = {
   title: 'Create Next App',
@@ -16,7 +17,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang='en'>
