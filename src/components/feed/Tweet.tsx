@@ -56,7 +56,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   );
 
   return (
-    <div className='flex space-x-3 border-b border-gray-700 p-3 text-sm'>
+    <div className='flex space-x-3 border-b border-gray-700 p-4 text-sm'>
       <Avatar className='z-0 h-10 w-10'>
         <AvatarImage src={post.author.image ?? undefined} />
         <AvatarFallback className='text-white'>

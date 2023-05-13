@@ -51,7 +51,7 @@ export default function NewTweetForm({
     newTweet.trim().length <= 256 && newTweet.trim().length > 0;
 
   return (
-    <div className='p-3 flex space-x-3 border-b border-gray-600'>
+    <div className='p-4 flex space-x-3 border-b border-gray-600'>
       <Avatar>
         <AvatarImage src={session?.user.image ?? undefined} />
         <AvatarFallback>{session?.user.name?.[0] ?? ''}</AvatarFallback>
