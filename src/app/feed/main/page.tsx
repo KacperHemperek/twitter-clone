@@ -8,5 +8,9 @@ export default async function page() {
     process.env.NEXTAUTH_URL! + '/api/posts'
   ).then((res) => res.json());
 
-  return <MainFeed initialData={posts} />;
+  return (
+    <>
+      <MainFeed initialData={posts} />
+    </>
+  );
 }

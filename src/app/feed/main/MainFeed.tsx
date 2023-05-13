@@ -1,6 +1,7 @@
 'use client';
 
 import Feed from '@/components/feed/Feed';
+import NewTweetForm from '@/components/feed/NewTweetForm';
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
@@ -51,11 +52,14 @@ export default function MainFeed({
   }, [tweets]);
 
   return (
-    <Feed
-      posts={arrayOfReducedTweets}
-      fetchNextPage={fetchNextPage}
-      hasNextPage={hasNextPage}
-      feedQueryKey={MAIN_FEED_QUERY_KEYS}
-    />
+    <>
+      <NewTweetForm feedQueryKey={MAIN_FEED_QUERY_KEYS} />
+      <Feed
+        posts={arrayOfReducedTweets}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        feedQueryKey={MAIN_FEED_QUERY_KEYS}
+      />
+    </>
   );
 }

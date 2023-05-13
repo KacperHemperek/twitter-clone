@@ -23,8 +23,6 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
         res.json()
       ),
     onMutate: async () => {
-      console.log({ feedQueryKey });
-
       await queryClient.cancelQueries({ queryKey: feedQueryKey });
 
       const feed =
