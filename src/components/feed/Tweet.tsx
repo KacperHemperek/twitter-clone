@@ -9,8 +9,10 @@ import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/cn';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../Providers';
-import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
-import { uuid } from 'uuidv4';
+import {
+  InfiniteQueryData,
+  getUpdatedFeedWithNewLike,
+} from '@/lib/infiniteQueryHelpers';
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const { data: session } = useSession();
@@ -32,33 +34,12 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
         return { feed };
       }
 
-      const updatedFeed: InfiniteQueryData<Post> = {
-        pages: feed.pages.map((page) => {
-          return {
-            data: page.data.map((tweetFromCache) =>
-              tweetFromCache.id !== post.id
-                ? tweetFromCache
-                : {
-                    ...tweetFromCache,
-                    likes: tweetIsLiked
-                      ? tweetFromCache.likes.filter(
-                          (like) => like.userId !== session.user.id
-                        )
-                      : [
-                          ...tweetFromCache.likes,
-                          {
-                            id: uuid(),
-                            postId: tweetFromCache.id,
-                            userId: session.user.id,
-                          },
-                        ],
-                  }
-            ),
-            nextPage: page?.nextPage,
-          };
-        }),
-        pageParams: feed.pageParams,
-      };
+      const updatedFeed = getUpdatedFeedWithNewLike(
+        feed,
+        post,
+        tweetIsLiked,
+        session.user.id
+      );
 
       queryClient.setQueryData(feedQueryKey, updatedFeed);
 
