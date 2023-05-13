@@ -11,7 +11,7 @@ This twitter clone is created with Next.js 13 app directory, prisma, planetscale
 - [ ] redirect user to login page when not logged in
 - [x] get posts from database with pagination
 - [ ] add tweet form
-- [ ] like tweet functionality
+- [x] like tweet functionality
 - [ ] account page
 - [ ] follow functionality
 - [ ] followed users only feed

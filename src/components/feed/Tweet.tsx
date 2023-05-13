@@ -25,7 +25,6 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
 
       await queryClient.cancelQueries({ queryKey: feedQueryKey });
 
-      //   // Snapshot the previous value
       const feed =
         queryClient.getQueryData<InfiniteQueryData<Post>>(feedQueryKey);
 
@@ -70,9 +69,6 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
       if (context?.feed) {
         queryClient.setQueryData(feedQueryKey, context.feed);
       }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(feedQueryKey);
     },
   });
 
