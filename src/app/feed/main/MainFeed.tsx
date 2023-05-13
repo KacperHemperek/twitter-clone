@@ -2,9 +2,12 @@
 
 import Feed from '@/components/feed/Feed';
 import { Post } from '@/types/Post.type';
-import { GetPostsType } from '@/types/api/posts';
+import { PaginatedResponse } from '@/types/api/pagination';
+
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
+
+const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
 
 async function getMainFeedTweets(page?: number) {
   const url = `/api/posts${page ? '?page=' + page : ''}`;
@@ -15,22 +18,23 @@ async function getMainFeedTweets(page?: number) {
 export default function MainFeed({
   initialData,
 }: {
-  initialData: GetPostsType;
+  initialData: PaginatedResponse<Post>;
 }) {
   const {
     data: tweets,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<GetPostsType>({
+  } = useInfiniteQuery({
     initialData: {
-      pages: [{ data: initialData.data, nextPage: initialData.nextPage }],
+      pages: [initialData],
       pageParams: [],
     },
-    queryKey: ['mainTweets'],
+    queryKey: MAIN_FEED_QUERY_KEYS,
     queryFn: ({ pageParam }) => {
       return getMainFeedTweets(pageParam);
     },
-    getNextPageParam: (lastPage: GetPostsType) => lastPage.nextPage,
+    getNextPageParam: (lastPage: any) => lastPage.nextPage,
+    refetchOnMount: false,
   });
 
   if (!tweets?.pages.length) {
@@ -46,12 +50,12 @@ export default function MainFeed({
       );
   }, [tweets]);
 
-  console.log('has next page ', hasNextPage);
   return (
     <Feed
       posts={arrayOfReducedTweets}
       fetchNextPage={fetchNextPage}
       hasNextPage={hasNextPage}
+      feedQueryKey={MAIN_FEED_QUERY_KEYS}
     />
   );
 }

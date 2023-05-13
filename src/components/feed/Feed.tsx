@@ -7,9 +7,11 @@ export default function Feed({
   posts: initialPosts,
   fetchNextPage,
   hasNextPage,
+  feedQueryKey,
 }: {
   posts: PostType[];
   fetchNextPage: () => void;
+  feedQueryKey: string[];
   hasNextPage?: boolean;
 }) {
   const lastItemRef = useRef<HTMLDivElement>(null);
@@ -36,7 +38,7 @@ export default function Feed({
   return (
     <>
       {initialPosts.map((post) => (
-        <Tweet key={post.id} post={post} />
+        <Tweet key={post.id} post={post} feedQueryKey={feedQueryKey} />
       ))}
       {hasNextPage && (
         <div className='p-3 text-center' ref={lastItemRef}>

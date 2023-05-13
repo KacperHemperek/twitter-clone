@@ -8,8 +8,11 @@ import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/cn';
 import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '../Providers';
+import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
+import { uuid } from 'uuidv4';
 
-function Tweet({ post }: { post: Post }) {
+function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const { data: session } = useSession();
 
   const { mutate: likeTweet } = useMutation({
@@ -17,9 +20,63 @@ function Tweet({ post }: { post: Post }) {
       fetch(`/api/posts/${post.id}/like`, { method: 'POST' }).then((res) =>
         res.json()
       ),
+    onMutate: async () => {
+      console.log({ feedQueryKey });
+
+      await queryClient.cancelQueries({ queryKey: feedQueryKey });
+
+      //   // Snapshot the previous value
+      const feed =
+        queryClient.getQueryData<InfiniteQueryData<Post>>(feedQueryKey);
+
+      if (!feed || !session?.user.id) {
+        return { feed };
+      }
+
+      const updatedFeed: InfiniteQueryData<Post> = {
+        pages: feed.pages.map((page) => {
+          return {
+            data: page.data.map((tweetFromCache) =>
+              tweetFromCache.id !== post.id
+                ? tweetFromCache
+                : {
+                    ...tweetFromCache,
+                    likes: tweetIsLiked
+                      ? tweetFromCache.likes.filter(
+                          (like) => like.userId !== session.user.id
+                        )
+                      : [
+                          ...tweetFromCache.likes,
+                          {
+                            id: uuid(),
+                            postId: tweetFromCache.id,
+                            userId: session.user.id,
+                          },
+                        ],
+                  }
+            ),
+            nextPage: page?.nextPage,
+          };
+        }),
+        pageParams: feed.pageParams,
+      };
+
+      queryClient.setQueryData(feedQueryKey, updatedFeed);
+
+      return { feed };
+    },
+
+    onError: (error, _, context) => {
+      if (context?.feed) {
+        queryClient.setQueryData(feedQueryKey, context.feed);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(feedQueryKey);
+    },
   });
 
-  const userLikedTweet = post.likes.some(
+  const tweetIsLiked = post.likes.some(
     (like) => like.userId === session?.user.id
   );
 
@@ -45,7 +102,7 @@ function Tweet({ post }: { post: Post }) {
           <div>
             <button
               className={cn(
-                userLikedTweet ? 'text-pink-600' : 'text-gray-400',
+                tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
                 'group flex cursor-pointer items-center'
               )}
               onClick={() => likeTweet()}
