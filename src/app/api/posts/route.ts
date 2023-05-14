@@ -8,7 +8,11 @@ const LIMIT = 10;
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
-  const page = Number(searchParams.get('page'));
+  const page = !!Number(searchParams.get('page'))
+    ? Number(searchParams.get('page'))
+    : 1;
+
+  console.log('page ', page);
 
   const posts = await prisma.post.findMany({
     select: {
@@ -19,7 +23,7 @@ export async function GET(req: Request) {
       likes: true,
     },
     take: LIMIT,
-    skip: page * LIMIT,
+    skip: (page - 1) * LIMIT,
     orderBy: { createdAt: 'desc' },
   });
 
