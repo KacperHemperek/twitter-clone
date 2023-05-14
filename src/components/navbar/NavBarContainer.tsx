@@ -8,7 +8,7 @@ export default function NavBarContainer() {
   const session = useSession();
 
   return (
-    <div className='sticky right-full top-0 flex h-screen flex-col justify-between items-center md:items-start px-2 pb-4 pt-2 md:px-4 max-w-[230px] w-full'>
+    <div className='sticky right-full top-0 flex h-screen flex-col justify-between items-center md:items-start px-2 pb-4 pt-2 md:px-4 '>
       <div className='flex flex-col justify-center space-y-2'>
         <div className='p-3 rounded-full hover:bg-gray-600/30 transition-all max-w-fit md:mb-2'>
           <TwitterIcon className='h-6 w-6 md:h-8 md:w-8' />
@@ -25,7 +25,8 @@ export default function NavBarContainer() {
 
       <AvatarDropdown
         image={session.data?.user?.image ?? undefined}
-        firstLetter={session.data?.user?.name?.[0]}
+        name={session.data?.user?.name ?? undefined}
+        email={session.data?.user.email ?? undefined}
       />
     </div>
   );
