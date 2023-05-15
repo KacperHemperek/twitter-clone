@@ -25,17 +25,17 @@ export default function AvatarDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild={true}>
-        <div className='outline-none p-2 hover:bg-gray-600/30 rounded-full flex gap-3 transition-all min-w-[240px] items-center cursor-pointer'>
+        <div className='flex cursor-pointer items-center gap-3 rounded-full p-2 outline-none transition-all hover:bg-gray-600/30 xl:min-w-[240px]'>
           <Avatar className='h-8 w-8 md:h-10 md:w-10'>
             <AvatarImage src={image ?? undefined} />
             <AvatarFallback>{name?.[0] ?? 'A'}</AvatarFallback>
           </Avatar>
-          <div className='flex-col hidden md:flex flex-1 max-w-[150px]'>
-            <h3 className='font-bold truncate'>{name}</h3>
-            <p className='text-gray-500 truncate'>{`@${email}`}</p>
+          <div className='hidden flex-1 flex-col md:flex xl:max-w-[150px]'>
+            <h3 className='truncate font-bold'>{name}</h3>
+            <p className='truncate text-gray-500'>{`@${email}`}</p>
           </div>
 
-          <SettingsIcon className='w-4 h-4 hidden md:block' />
+          <SettingsIcon className='hidden h-4 w-4 md:block' />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent side='top' align='end'>
