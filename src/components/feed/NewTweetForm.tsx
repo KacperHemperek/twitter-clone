@@ -27,7 +27,7 @@ export default function NewTweetForm({
           if (old) {
             return {
               pages: [old.pages[0]],
-              pageParams: [old.pageParams[0]],
+              pageParams: ['1'],
             };
           }
         }
@@ -35,6 +35,7 @@ export default function NewTweetForm({
     },
 
     onError: (e) => {
+      //TODO: show toast when there is an error
       console.error({ e });
     },
     onSuccess: () => {
@@ -51,12 +52,12 @@ export default function NewTweetForm({
     newTweet.trim().length <= 256 && newTweet.trim().length > 0;
 
   return (
-    <div className='p-4 flex space-x-3 border-b border-gray-600'>
+    <div className='flex space-x-3 border-b border-gray-600 p-4'>
       <Avatar>
         <AvatarImage src={session?.user.image ?? undefined} />
         <AvatarFallback>{session?.user.name?.[0] ?? ''}</AvatarFallback>
       </Avatar>
-      <div className='flex flex-col flex-grow'>
+      <div className='flex flex-grow flex-col'>
         <textarea
           value={newTweet}
           onChange={(e) => setNewTweet(e.target.value)}
@@ -64,15 +65,15 @@ export default function NewTweetForm({
           placeholder='What is happening?!'
           className={cn(
             isLoading && 'text-gray-600',
-            'bg-transparent placeholder:text-gray-600 transition-colors flex-grow text-xl outline-none resize-x-none overscroll-contain mb-4 border-b border-gray-600'
+            'resize-x-none mb-4 flex-grow overscroll-contain border-b border-gray-600 bg-transparent text-xl outline-none transition-colors placeholder:text-gray-600'
           )}
         />
-        <div className='flex self-end items-center space-x-4'>
+        <div className='flex items-center space-x-4 self-end'>
           <p className='text-sm text-gray-600'>
             {newTweet.trim().length} / 255
           </p>
           <button
-            className='bg-sky-500 px-5 py-1.5 rounded-full font-bold max-w-fit disabled:bg-gray-400 transition-colors'
+            className='max-w-fit rounded-full bg-sky-500 px-5 py-1.5 font-bold transition-colors disabled:bg-gray-400'
             disabled={!tweetButtonNotDisabled || isLoading}
             onClick={() => postTweet()}
           >

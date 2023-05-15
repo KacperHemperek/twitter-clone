@@ -4,7 +4,7 @@ import { uuid } from 'uuidv4';
 
 export type InfiniteQueryData<T> = {
   pages: PaginatedResponse<T>[];
-  pageParams: string[];
+  pageParams: string[] | number[];
 };
 
 export function reduceDataFromInfiniteQuery<T>(
