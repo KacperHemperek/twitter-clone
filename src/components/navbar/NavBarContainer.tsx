@@ -3,6 +3,7 @@ import { TwitterIcon, HomeIcon, UserIcon } from 'lucide-react';
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import AvatarDropdown from './AvatarDropdown';
+import Link from 'next/link';
 
 export default function NavBarContainer() {
   const session = useSession();
@@ -13,17 +14,24 @@ export default function NavBarContainer() {
         <div className='p-3 rounded-full hover:bg-gray-600/30 transition-all max-w-fit md:mb-2'>
           <TwitterIcon className='h-6 w-6 md:h-8 md:w-8' />
         </div>
-        <div className='p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer'>
+        <Link
+          href={'/feed/main'}
+          className='p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer'
+        >
           <HomeIcon className='h-6 w-6 md:h-8 md:w-8' />
           <p className='text-xl md:mr-3 font-bold hidden md:inline'>Home</p>
-        </div>
-        <div className='p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer'>
+        </Link>
+        <Link
+          href={`/account/${session.data?.user.id}`}
+          className='p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer'
+        >
           <UserIcon className='h-6 w-6 md:h-8 md:w-8' />
           <p className='text-xl md:mr-3 hidden md:inline'>Profile</p>
-        </div>
+        </Link>
       </div>
 
       <AvatarDropdown
+        id={session.data?.user.id}
         image={session.data?.user?.image ?? undefined}
         name={session.data?.user?.name ?? undefined}
         email={session.data?.user.email ?? undefined}

@@ -9,12 +9,15 @@ import {
 } from '../ui/dropdown-menu';
 import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function AvatarDropdown({
+  id,
   image,
   name,
   email,
 }: {
+  id?: string;
   image?: string;
   name?: string;
   email?: string;
@@ -36,10 +39,12 @@ export default function AvatarDropdown({
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent side='top' align='end'>
-        <DropdownMenuItem className='flex items-center gap-2 p-3'>
-          <UserIcon className='h-4 w-4' />
-          <span>Account</span>
-        </DropdownMenuItem>
+        <Link href={`/account${id}`}>
+          <DropdownMenuItem className='flex items-center gap-2 p-3'>
+            <UserIcon className='h-4 w-4' />
+            <span>Account</span>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem
           className='flex items-center gap-2 p-3'
           onClick={() => signOut()}
