@@ -19,11 +19,14 @@ export default function NewTweetForm({
   const { toast } = useToast();
 
   const { mutate: postTweet, isLoading } = useMutation({
-    mutationFn: async () =>
-      fetch('/api/posts', {
+    mutationFn: async () => {
+      const res = await fetch('/api/posts', {
         method: 'POST',
         body: JSON.stringify({ tweetBody: newTweet }),
-      }).then((res) => res.json()),
+      });
+
+      return res.json();
+    },
 
     onMutate: () => {
       queryClient.setQueryData(
@@ -42,8 +45,8 @@ export default function NewTweetForm({
     onError: (e) => {
       toast({
         variant: 'destructive',
-        title: 'Oh no! something went wrong while sending you tweet.',
-        description: 'You can try that again1!',
+        title: 'Oh no!',
+        description: 'Something went wrong while sending you tweet.',
       });
       console.error({ e });
     },
