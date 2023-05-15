@@ -8,18 +8,23 @@ import { queryClient } from '../Providers';
 import { cn } from '@/lib/cn';
 import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
 import { Post } from '@/types/Post.type';
+import { Oval } from 'react-loader-spinner';
+import { useToast } from '../ui/use-toast';
 
 export default function NewTweetForm({
   feedQueryKey,
 }: {
   feedQueryKey: string[];
 }) {
+  const { toast } = useToast();
+
   const { mutate: postTweet, isLoading } = useMutation({
     mutationFn: async () =>
       fetch('/api/posts', {
         method: 'POST',
         body: JSON.stringify({ tweetBody: newTweet }),
-      }),
+      }).then((res) => res.json()),
+
     onMutate: () => {
       queryClient.setQueryData(
         feedQueryKey,
@@ -35,7 +40,11 @@ export default function NewTweetForm({
     },
 
     onError: (e) => {
-      //TODO: show toast when there is an error
+      toast({
+        variant: 'destructive',
+        title: 'Oh no! something went wrong while sending you tweet.',
+        description: 'You can try that again1!',
+      });
       console.error({ e });
     },
     onSuccess: () => {
@@ -73,11 +82,27 @@ export default function NewTweetForm({
             {newTweet.trim().length} / 255
           </p>
           <button
-            className='max-w-fit rounded-full bg-sky-500 px-5 py-1.5 font-bold transition-colors disabled:bg-gray-400'
+            className={cn(
+              isLoading ? 'w-14' : 'w-20',
+              'flex items-center justify-center rounded-full bg-sky-500 py-1.5 font-bold transition-all duration-300 disabled:bg-gray-400 '
+            )}
             disabled={!tweetButtonNotDisabled || isLoading}
             onClick={() => postTweet()}
           >
-            Tweet
+            {isLoading ? (
+              <Oval
+                width={18}
+                height={18}
+                color='white'
+                visible={true}
+                ariaLabel='oval-loading'
+                secondaryColor='white'
+                strokeWidth={6}
+                strokeWidthSecondary={6}
+              />
+            ) : (
+              <span>Tweet</span>
+            )}
           </button>
         </div>
       </div>

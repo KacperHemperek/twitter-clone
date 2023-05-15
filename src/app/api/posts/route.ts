@@ -57,10 +57,13 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ data: { createdPost: newPost } });
-  } catch (e) {
-    return NextResponse.json(e, {
-      status: 500,
-      statusText: 'Internal server error',
-    });
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: e.message },
+      {
+        status: 500,
+        statusText: 'Internal server error',
+      }
+    );
   }
 }
