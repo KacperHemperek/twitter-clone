@@ -63,14 +63,16 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
           {post.author.name?.[0] ?? 'A'}
         </AvatarFallback>
       </Avatar>
-      <div className='flex-grow space-y-1'>
-        <div className='flex items-center space-x-1'>
-          <h5 className='font-bold'>{post.author.name} </h5>
-          <span className='text-gray-400'>{`@${post.author.email}`}</span>
-          <span className='text-gray-400'>·</span>
-          <span className='text-gray-400'>
-            {formatTweetDate(new Date(post.createdAt))}
-          </span>
+      <div className='flex-grow space-y-2'>
+        <div className='flex flex-col gap-0.5 xl:flex-row xl:gap-1'>
+          <h5 className='whitespace-nowrap font-bold'>{post.author.name} </h5>
+          <div className='flex gap-0.5 xl:gap-1'>
+            <span className='truncate text-gray-400'>{`@${post.author.email}`}</span>
+            <span className='text-gray-400'>·</span>
+            <span className=' text-gray-400'>
+              {formatTweetDate(new Date(post.createdAt))}
+            </span>
+          </div>
         </div>
         <p className=''>{post.message}</p>
         <div className='grid grid-cols-3'>
