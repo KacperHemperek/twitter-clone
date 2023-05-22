@@ -14,6 +14,7 @@ import {
   getUpdatedFeedWithNewLike,
 } from '@/lib/infiniteQueryHelpers';
 import { useRouter } from 'next/navigation';
+import TweetUserInfo from '@/components/common/TweetHeader';
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -78,16 +79,12 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
         </AvatarFallback>
       </Avatar>
       <div className='flex-grow space-y-2'>
-        <div className='flex flex-col gap-0.5 xl:flex-row xl:gap-1'>
-          <h5 className='whitespace-nowrap font-bold'>{post.author.name} </h5>
-          <div className='flex gap-0.5 xl:gap-1'>
-            <span className='truncate text-gray-400'>{`@${post.author.email}`}</span>
-            <span className='text-gray-400'>·</span>
-            <span className=' text-gray-400'>
-              {formatTweetDate(new Date(post.createdAt))}
-            </span>
-          </div>
-        </div>
+        <TweetUserInfo
+          authorEmail={post.author.email}
+          authorName={post.author.name}
+          createdAt={post.createdAt}
+        />
+
         <p className=''>{post.message}</p>
         <div className='grid grid-cols-3'>
           <div>
