@@ -1,5 +1,5 @@
 import React from 'react';
-import MainFeed from './MainFeed';
+import MainFeed from './(components)/MainFeed';
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
