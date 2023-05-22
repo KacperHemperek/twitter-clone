@@ -1,4 +1,4 @@
-import HeaderNavigation from '@/components/feed/HeaderNavigation';
+import HeaderNavigation from '@/components/feed/HeaderNavigation/HeaderNavigation';
 import MainWrapper from '@/components/layout/MainWrapper';
 import React, { PropsWithChildren } from 'react';
 

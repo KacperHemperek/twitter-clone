@@ -1,10 +1,10 @@
 import { getServerSession } from 'next-auth';
 import '@/globals.css';
 
-import Providers from '@/components/Providers';
+import Providers from '@/components/context/Providers';
 
 import NavBarContainer from '@/components/navbar/NavBarContainer';
-import { SignInButton } from '@/components/UserHadnlingButtons';
+import { SignInButton } from '@/components/common/UserHadnlingButtons';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import { Metadata } from 'next';
 

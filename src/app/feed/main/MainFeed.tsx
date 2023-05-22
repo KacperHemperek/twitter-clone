@@ -1,7 +1,7 @@
 'use client';
 
 import Feed from '@/components/feed/Feed';
-import NewTweetForm from '@/components/feed/NewTweetForm';
+import NewTweetForm from '@/components/feed/NewTweetForm/NewTweetForm';
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 

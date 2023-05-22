@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
-import Tweet from './Tweet';
+import Tweet from './Tweet/Tweet';
 import { type Post as PostType } from '@/types/Post.type';
 
 export default function Feed({

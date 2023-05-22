@@ -1,14 +1,14 @@
 'use client';
 import { type Post } from '@/types/Post.type';
 import React, { memo } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 import { formatTweetDate } from '@/lib/timeAgo';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/cn';
 import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '../Providers';
+import { queryClient } from '../../context/Providers';
 import {
   InfiniteQueryData,
   getUpdatedFeedWithNewLike,
@@ -69,7 +69,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   return (
     <div
       onClick={goToTweetDetails}
-      className='flex cursor-default space-x-3 border-b border-gray-700 p-4 text-sm'
+      className='flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm'
     >
       <Avatar className='z-0 h-10 w-10'>
         <AvatarImage src={post.author.image ?? undefined} />
