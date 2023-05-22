@@ -1,4 +1,5 @@
 import MainWrapper from '@/components/layout/MainWrapper';
+import TweetDetailsHeader from '@/components/tweet-details/Header';
 import React from 'react';
 
 export default function TweetDetails({
@@ -7,8 +8,8 @@ export default function TweetDetails({
   params: { tweetId: string };
 }) {
   return (
-    <MainWrapper headerComponent={<div></div>}>
-      <div>tweet id {params.tweetId}</div>;
+    <MainWrapper headerComponent={<TweetDetailsHeader />} showBorder={false}>
+      <div>tweet id {params.tweetId}</div>
     </MainWrapper>
   );
 }
