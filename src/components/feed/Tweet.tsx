@@ -13,9 +13,10 @@ import {
   InfiniteQueryData,
   getUpdatedFeedWithNewLike,
 } from '@/lib/infiniteQueryHelpers';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
+  const router = useRouter();
   const { data: session } = useSession();
 
   const { mutate: likeTweet } = useMutation({
@@ -52,13 +53,22 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
     },
   });
 
+  const onLikeTweet = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    likeTweet();
+  };
+
+  const goToTweetDetails = () => {
+    router.push(`/tweet/${post.id}`);
+  };
+
   const tweetIsLiked = post.likes.some(
     (like) => like.userId === session?.user.id
   );
 
   return (
-    <Link
-      href={`/tweet/${post.id}`}
+    <div
+      onClick={goToTweetDetails}
       className='flex cursor-default space-x-3 border-b border-gray-700 p-4 text-sm'
     >
       <Avatar className='z-0 h-10 w-10'>
@@ -86,7 +96,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
                 tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
                 'group flex cursor-pointer items-center'
               )}
-              onClick={() => likeTweet()}
+              onClick={onLikeTweet}
             >
               <HeartIcon className='mr-4  h-4 w-4' />
               {formatNumberToCompact(post.likes.length)}
@@ -96,7 +106,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
           <div>lol</div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

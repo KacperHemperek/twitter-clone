@@ -8,7 +8,7 @@ export default function layout({ children }: PropsWithChildren) {
       <MainWrapper
         headerComponent={
           <div className='flex w-full flex-col '>
-            <h1 className='mb-4 p-4 text-xl font-bold md:text-[24px]'>Home</h1>
+            <h1 className='p-4 text-xl font-bold md:text-[24px]'>Home</h1>
             <HeaderNavigation />
           </div>
         }
