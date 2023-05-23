@@ -1,27 +1,27 @@
 import { prisma } from '@/db/prisma';
-import { HandledError, ServerError } from '@/lib/serverError';
+import { ServerError, getNextServerError } from '@/lib/serverError';
 import { Post } from '@/types/Post.type';
 import { NextResponse } from 'next/server';
 
 export async function getTweetDetailsController(tweetId: string) {
   if (!tweetId) {
-    return ServerError(400, "Didn't find id in request");
+    return getNextServerError(400, "Didn't find id in request");
   }
 
   try {
     const tweetDetails = await getTweetDetails(tweetId);
 
     if (!tweetDetails) {
-      throw new HandledError(404, "Couldn't find tweet with given id");
+      throw new ServerError(404, "Couldn't find tweet with given id");
     }
 
     return NextResponse.json(tweetDetails);
   } catch (e) {
-    if (e instanceof HandledError) {
-      return ServerError(e.code, e.message);
+    if (e instanceof ServerError) {
+      return getNextServerError(e.code, e.message);
     }
 
-    return ServerError(500, 'Unexpected Server Error');
+    return getNextServerError(500);
   }
 }
 
@@ -40,6 +40,6 @@ async function getTweetDetails(tweetId: string): Promise<Post | null> {
 
     return tweetDetails;
   } catch (e) {
-    throw new HandledError(404, "Couldn't find tweet with given id");
+    throw new ServerError(404, "Couldn't find tweet with given id");
   }
 }

@@ -1,6 +1,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/db/prisma';
-import { ServerError, HandledError } from '@/lib/serverError';
+import { getNextServerError, ServerError } from '@/lib/serverError';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -13,7 +13,7 @@ async function getLikeByTweetIdAndUserId(tweetId: string, userId: string) {
 
     return like;
   } catch (e) {
-    throw new HandledError(500, "Couldn't like tweet");
+    throw new ServerError(500, "Couldn't like tweet");
   }
 }
 
@@ -23,7 +23,7 @@ async function likeTweet(userId: string, tweetId: string) {
       data: { userId: userId, postId: tweetId },
     });
   } catch (_) {
-    throw new HandledError(500, "Couldn't like tweet");
+    throw new ServerError(500, "Couldn't like tweet");
   }
 }
 
@@ -31,7 +31,7 @@ async function dislikeTweet(likeId: string) {
   try {
     await prisma.like.delete({ where: { id: likeId } });
   } catch (_) {
-    throw new HandledError(500, "Couldn't dislike tweet");
+    throw new ServerError(500, "Couldn't dislike tweet");
   }
 }
 
@@ -42,7 +42,10 @@ export async function likeTweetController(tweetId: string) {
     const userId = session?.user.id;
 
     if (!userId) {
-      return ServerError(403, 'User must be logged in to perform that action');
+      return getNextServerError(
+        403,
+        'User must be logged in to perform that action'
+      );
     }
 
     const like = await getLikeByTweetIdAndUserId(tweetId, userId);
@@ -57,11 +60,11 @@ export async function likeTweetController(tweetId: string) {
       message: !!like ? 'disliked successfuly' : 'liked successfuly',
     });
   } catch (e) {
-    if (e instanceof HandledError) {
+    if (e instanceof ServerError) {
       console.log({ message: e.message, code: e.code });
-      return ServerError(e.code, e.message);
+      return getNextServerError(e.code, e.message);
     }
 
-    return ServerError(500, 'Unexpected error occured');
+    return getNextServerError(500);
   }
 }
