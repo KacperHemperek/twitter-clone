@@ -27,13 +27,14 @@ export async function createPostController(req: NextRequest) {
   const userId = session.user.id;
 
   try {
+    debugger;
     const body: { tweetBody?: string } = await getBody(req);
 
     if (!body.tweetBody) {
       throw new ServerError(400, 'Tweet body must not be empty');
     }
 
-    const newTweet = createTweet(body.tweetBody, userId);
+    const newTweet = await createTweet(body.tweetBody, userId);
 
     return NextResponse.json({ data: { createdPost: newTweet } });
   } catch (e) {
