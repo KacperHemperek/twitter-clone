@@ -1,0 +1,45 @@
+import { prisma } from '@/db/prisma';
+import { HandledError, ServerError } from '@/lib/serverError';
+import { Post } from '@/types/Post.type';
+import { NextResponse } from 'next/server';
+
+export async function getTweetDetailsController(tweetId: string) {
+  if (!tweetId) {
+    return ServerError(400, "Didn't find id in request");
+  }
+
+  try {
+    const tweetDetails = await getTweetDetails(tweetId);
+
+    if (!tweetDetails) {
+      throw new HandledError(404, "Couldn't find tweet with given id");
+    }
+
+    return NextResponse.json(tweetDetails);
+  } catch (e) {
+    if (e instanceof HandledError) {
+      return ServerError(e.code, e.message);
+    }
+
+    return ServerError(500, 'Unexpected Server Error');
+  }
+}
+
+async function getTweetDetails(tweetId: string): Promise<Post | null> {
+  try {
+    const tweetDetails = await prisma.post.findUnique({
+      where: { id: tweetId },
+      select: {
+        author: true,
+        id: true,
+        likes: true,
+        message: true,
+        createdAt: true,
+      },
+    });
+
+    return tweetDetails;
+  } catch (e) {
+    throw new HandledError(404, "Couldn't find tweet with given id");
+  }
+}
