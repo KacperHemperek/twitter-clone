@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 
-import { getPostsController } from '../(controllers)/getPosts';
-import { createPostController } from '../(controllers)/createPost';
+import { getPostsController } from './(controllers)/getPosts';
+import { createPostController } from './(controllers)/createPost';
 
 export async function GET(req: NextRequest) {
   return getPostsController(req);
