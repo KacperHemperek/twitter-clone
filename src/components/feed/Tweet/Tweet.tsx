@@ -91,7 +91,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
             <button
               className={cn(
                 tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
-                'group flex cursor-pointer items-center'
+                'group flex cursor-pointer items-center transition-all hover:text-pink-600'
               )}
               onClick={onLikeTweet}
             >
