@@ -2,7 +2,6 @@
 import { type Post } from '@/types/Post.type';
 import React, { memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
-import { formatTweetDate } from '@/lib/timeAgo';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -91,7 +90,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
             <button
               className={cn(
                 tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
-                'group flex cursor-pointer items-center transition-all hover:text-pink-600'
+                'group flex cursor-pointer items-center transition-all hover:text-pink-400'
               )}
               onClick={onLikeTweet}
             >
