@@ -9,7 +9,7 @@ export default function TweetUserInfo({
 }: {
   authorName?: string | null;
   authorEmail?: string | null;
-  createdAt?: string | null;
+  createdAt?: Date | null;
   showDate?: boolean;
 }) {
   return (
