@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 
+type ReactJSXElementConstructor<Props> =
+  | ((props: Props) => React.ReactNode)
+  | (new (props: Props) => React.Component<Props, any>);
+
 declare global {
   namespace JSX {
-    type ElementType =
-      | keyof JSX.IntrinsicElements
-      | ((props: any) => Promise<ReactNode> | ReactNode);
+    type ElementType = string | ReactJSXElementConstructor<any>;
   }
 }
