@@ -1,3 +1,4 @@
+import { cn } from '@/lib/cn';
 import { formatTweetDate } from '@/lib/timeAgo';
 import React from 'react';
 
@@ -6,14 +7,21 @@ export default function TweetUserInfo({
   authorEmail,
   createdAt,
   showDate = true,
+  alwaysShowShowInColumn = false,
 }: {
   authorName?: string | null;
   authorEmail?: string | null;
   createdAt?: Date | null;
   showDate?: boolean;
+  alwaysShowShowInColumn?: boolean;
 }) {
   return (
-    <div className='flex flex-col gap-0.5 xl:flex-row xl:gap-1'>
+    <div
+      className={cn(
+        !alwaysShowShowInColumn && 'xl:flex-row xl:gap-1',
+        'flex flex-col gap-0.5 '
+      )}
+    >
       <h5 className='whitespace-nowrap font-bold'>{authorName} </h5>
       <div className='flex gap-0.5 xl:gap-1'>
         <span className='truncate text-gray-400'>{`@${

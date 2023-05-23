@@ -14,7 +14,7 @@ import {
   getUpdatedFeedWithNewLike,
 } from '@/lib/infiniteQueryHelpers';
 import { useRouter } from 'next/navigation';
-import TweetUserInfo from '@/components/common/TweetHeader';
+import TweetUserInfo from '@/components/common/TweetUserInfo';
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const router = useRouter();

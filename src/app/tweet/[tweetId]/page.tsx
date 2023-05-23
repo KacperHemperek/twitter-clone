@@ -1,4 +1,4 @@
-import TweetUserInfo from '@/components/common/TweetHeader';
+import TweetUserInfo from '@/components/common/TweetUserInfo';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Post } from '@/types/Post.type';
 import { HeartIcon, MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
@@ -32,6 +32,7 @@ export default async function TweetDetails({
           authorName={tweetDetails?.author.name}
           authorEmail={tweetDetails?.author.email}
           showDate={false}
+          alwaysShowShowInColumn={true}
         />
       </div>
       <div className='space-y-4 border-b border-gray-700 py-3.5'>
