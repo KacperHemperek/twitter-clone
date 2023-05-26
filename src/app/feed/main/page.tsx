@@ -6,7 +6,7 @@ import { PaginatedResponse } from '@/types/api/pagination';
 
 export default async function page() {
   const posts: PaginatedResponse<Post> = await fetch(
-    process.env.NEXTAUTH_URL! + '/api/posts',
+    process.env.NEXTAUTH_URL! + '/api/tweets',
     { cache: 'no-cache' }
   ).then((res) => res.json());
 

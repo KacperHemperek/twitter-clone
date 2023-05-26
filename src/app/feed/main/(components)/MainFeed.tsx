@@ -12,7 +12,7 @@ import { PaginatedResponse } from '@/types/api/pagination';
 const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
 
 async function getMainFeedTweets(page?: number) {
-  const url = `/api/posts${page ? '?page=' + page : ''}`;
+  const url = `/api/tweets${page ? '?page=' + page : ''}`;
 
   return fetch(url).then((res) => res.json());
 }

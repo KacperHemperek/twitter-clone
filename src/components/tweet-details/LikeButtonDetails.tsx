@@ -23,7 +23,7 @@ export default function LikeButtonDetails({
   // FIXME: Upadte likes on home feed
   const { mutate: likeTweet } = useMutation({
     mutationFn: async () =>
-      fetch(`/api/posts/${tweetId}/like`, { method: 'POST' }).then((res) =>
+      fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' }).then((res) =>
         res.json()
       ),
     onMutate: async () => {

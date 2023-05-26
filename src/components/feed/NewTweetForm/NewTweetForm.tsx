@@ -23,7 +23,7 @@ export default function NewTweetForm({
 
   const { mutate: postTweet, isLoading } = useMutation({
     mutationFn: async () => {
-      const res = await fetch('/api/posts', {
+      const res = await fetch('/api/tweet', {
         method: 'POST',
         body: JSON.stringify({ tweetBody: newTweet }),
       });

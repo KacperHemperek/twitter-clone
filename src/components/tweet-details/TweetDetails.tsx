@@ -27,7 +27,7 @@ export default function TweetDetails({
   });
 
   return (
-    <>
+    <div className="flex flex-col p-4">
       <div className="flex gap-2">
         <Avatar>
           <AvatarImage src={tweetDetails?.author.image ?? undefined} />
@@ -78,6 +78,6 @@ export default function TweetDetails({
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TweetComments from '@/components/tweet-details/TweetComments';
 import TweetDetails from '@/components/tweet-details/TweetDetails';
 
 import { Post } from '@/types/Post.type';
@@ -7,7 +8,7 @@ import { Post } from '@/types/Post.type';
 export async function getTweetDetails(
   tweetId: string
 ): Promise<Post | undefined> {
-  const url = `${process.env.NEXTAUTH_URL ?? ''}/api/posts/${tweetId}`;
+  const url = `${process.env.NEXTAUTH_URL ?? ''}/api/tweets/${tweetId}`;
 
   const tweetDetailsRes = await fetch(url, { cache: 'no-cache' });
 
@@ -29,6 +30,7 @@ export default async function TweetDetailsPage({
         tweetId={params.tweetId}
         initialtweetDetails={tweetDetails}
       />
+      <TweetComments tweetId={params.tweetId} />
     </>
   );
 }
