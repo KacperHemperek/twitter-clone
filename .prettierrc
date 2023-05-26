@@ -1,0 +1,14 @@
+{
+  "singleQuote": true,
+  "semi": true,
+  "importOrder": [
+    "(.*)(controllers)(.*)$",
+    "(.*)(services)(.*)$",
+    "(.*)(router)(.*)$",
+    "(.*)/auth/(.*)$",
+    "^@/components(.*)$",
+    "(.*)/ui/(.*)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

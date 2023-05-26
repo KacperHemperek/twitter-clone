@@ -1,8 +1,7 @@
-import TweetDetails from '@/components/tweet-details/TweetDetails';
-
 import { Post } from '@/types/Post.type';
-
 import React from 'react';
+
+import TweetDetails from '@/components/tweet-details/TweetDetails';
 
 export async function getTweetDetails(
   tweetId: string

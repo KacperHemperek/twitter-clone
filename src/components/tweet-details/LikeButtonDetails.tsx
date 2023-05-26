@@ -1,12 +1,13 @@
 'use client';
+
+import { queryClient } from '../context/Providers';
+import { cn } from '@/lib/cn';
+import { Post } from '@/types/Post.type';
+import { Like } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon } from 'lucide-react';
-import React from 'react';
-import { queryClient } from '../context/Providers';
-import { Post } from '@/types/Post.type';
 import { useSession } from 'next-auth/react';
-import { Like } from '@prisma/client';
-import { cn } from '@/lib/cn';
+import React from 'react';
 import { uuid } from 'uuidv4';
 
 export default function LikeButtonDetails({
@@ -70,7 +71,7 @@ export default function LikeButtonDetails({
         'transition-all hover:text-pink-400'
       )}
     >
-      <HeartIcon className='h-5 w-5' />
+      <HeartIcon className="h-5 w-5" />
     </button>
   );
 }

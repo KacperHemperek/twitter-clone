@@ -1,4 +1,5 @@
 'use client';
+
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -8,10 +9,10 @@ export default function HeaderNavigation() {
   const isHomeFeed = pathname.includes('/feed/main');
 
   return (
-    <div className='grid grid-cols-2'>
+    <div className="grid grid-cols-2">
       <Link
         href={'/feed/main'}
-        className='flex items-center justify-center hover:bg-white/5'
+        className="flex items-center justify-center hover:bg-white/5"
       >
         <div>
           <h2
@@ -32,7 +33,7 @@ export default function HeaderNavigation() {
       </Link>
       <Link
         href={'/feed/followed'}
-        className='flex items-center justify-center hover:bg-white/5'
+        className="flex items-center justify-center hover:bg-white/5"
       >
         <div>
           <h2

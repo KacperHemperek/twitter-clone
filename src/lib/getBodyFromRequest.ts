@@ -1,5 +1,5 @@
-import { NextRequest } from 'next/server';
 import { ServerError } from './serverError';
+import { NextRequest } from 'next/server';
 
 export async function getBody(req: NextRequest | Request) {
   try {

@@ -1,7 +1,8 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+
 import Tweet from './Tweet/Tweet';
 import { type Post as PostType } from '@/types/Post.type';
+import React, { useEffect, useRef } from 'react';
 
 export default function Feed({
   posts: initialPosts,
@@ -41,11 +42,11 @@ export default function Feed({
         <Tweet key={post.id} post={post} feedQueryKey={feedQueryKey} />
       ))}
       {hasNextPage && (
-        <div className='p-3 text-center' ref={lastItemRef}>
+        <div className="p-3 text-center" ref={lastItemRef}>
           Loading more posts...
         </div>
       )}{' '}
-      {!hasNextPage && <div className='p-3 text-center'>No more posts</div>}
+      {!hasNextPage && <div className="p-3 text-center">No more posts</div>}
     </>
   );
 }

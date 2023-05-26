@@ -40,6 +40,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^20.1.2",
     "prettier-plugin-tailwindcss": "^0.2.8",
     "prisma": "^4.14.0",

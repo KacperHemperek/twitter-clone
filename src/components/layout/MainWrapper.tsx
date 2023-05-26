@@ -12,7 +12,7 @@ export default function MainWrapper({
   showBorder = true,
 }: MainWrapperProps) {
   return (
-    <div className='refative flex h-full min-h-screen w-full flex-col border-x border-x-gray-700'>
+    <div className="refative flex h-full min-h-screen w-full flex-col border-x border-x-gray-700">
       <div
         className={cn(
           showBorder && 'border-b',

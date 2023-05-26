@@ -1,9 +1,11 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
-import { ServerError, getNextServerError } from '@/lib/serverError';
-import { NextRequest, NextResponse } from 'next/server';
 import { getBody } from '@/lib/getBodyFromRequest';
+import { ServerError, getNextServerError } from '@/lib/serverError';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
+
 import { createTweet } from '../(services)/post.service';
+
+import { authOptions } from '../../auth/[...nextauth]/route';
 
 export async function createPostController(req: NextRequest) {
   const session = await getServerSession(authOptions);

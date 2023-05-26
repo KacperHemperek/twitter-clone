@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import { getMainFeedTweets } from '../(services)/post.service';
 
 export async function getPostsController(req: NextRequest) {

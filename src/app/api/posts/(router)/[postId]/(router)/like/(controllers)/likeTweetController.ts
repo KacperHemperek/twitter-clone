@@ -1,8 +1,9 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/db/prisma';
-import { getNextServerError, ServerError } from '@/lib/serverError';
+import { ServerError, getNextServerError } from '@/lib/serverError';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 async function getLikeByTweetIdAndUserId(tweetId: string, userId: string) {
   try {
