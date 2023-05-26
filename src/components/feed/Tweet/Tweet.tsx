@@ -3,7 +3,7 @@ import { type Post } from '@/types/Post.type';
 import React, { memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
-import { HeartIcon } from 'lucide-react';
+import { HeartIcon, MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/cn';
 import { useMutation } from '@tanstack/react-query';
@@ -66,6 +66,8 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
     (like) => like.userId === session?.user.id
   );
 
+  const tweetIsRetweeted = false;
+
   return (
     <div
       onClick={goToTweetDetails}
@@ -98,8 +100,27 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
               {formatNumberToCompact(post.likes.length)}
             </button>
           </div>
-          <div>lol</div>
-          <div>lol</div>
+          <div>
+            <button
+              className={cn(
+                tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
+                'group flex cursor-pointer items-center transition-all hover:text-green-400'
+              )}
+            >
+              <RefreshCwIcon className='mr-4  h-4 w-4' />
+              {formatNumberToCompact(13)}
+            </button>
+          </div>
+          <div>
+            <button
+              className={
+                'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
+              }
+            >
+              <MessageCircleIcon className='mr-4  h-4 w-4' />
+              {formatNumberToCompact(post.likes.length)}
+            </button>
+          </div>
         </div>
       </div>
     </div>
