@@ -17,10 +17,9 @@ export function getNextServerError(
   message: string = 'Unexpected Server Error'
 ) {
   return NextResponse.json(
-    {},
+    { message: message },
     {
       status: code,
-      statusText: message,
     }
   );
 }
