@@ -7,6 +7,7 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import TweetUserInfo from '../common/TweetUserInfo';
 import LikeButtonDetails from './LikeButtonDetails';
+import { formatLongDate } from '@/lib/dateFormatters';
 
 export default function TweetDetails({
   tweetId,
@@ -37,9 +38,8 @@ export default function TweetDetails({
       </div>
       <div className='space-y-4 border-b border-gray-700 py-3.5'>
         <p className='text-lg'>{tweetDetails?.message}</p>
-        <p className=' text-gray-500'>
-          {/* {formatTweetDate(new Date(createdAt))} */}
-          {new Date(tweetDetails?.createdAt ?? '').getTime()}
+        <p className=' text-gray-400'>
+          {formatLongDate(new Date(tweetDetails?.createdAt ?? ''))}
         </p>
       </div>
       <div className='grid grid-cols-3 border-b border-gray-700 py-3.5'>

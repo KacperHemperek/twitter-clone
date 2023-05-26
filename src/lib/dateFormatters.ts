@@ -1,6 +1,5 @@
 import TimeAgo from 'javascript-time-ago';
 
-// English.
 import en from 'javascript-time-ago/locale/en';
 
 TimeAgo.addDefaultLocale(en);
@@ -14,4 +13,18 @@ export function formatTweetDate(date: Date) {
   }
 
   return timeAgo.format(date, 'mini');
+}
+
+export function formatLongDate(date: Date) {
+  const dateFormatter = Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  });
+
+  const hourFormatter = Intl.DateTimeFormat('en-US', {
+    timeStyle: 'short',
+  });
+
+  return hourFormatter.format(date) + ' · ' + dateFormatter.format(date);
 }
