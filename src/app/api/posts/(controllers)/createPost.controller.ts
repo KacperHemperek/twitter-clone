@@ -2,20 +2,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { ServerError, getNextServerError } from '@/lib/serverError';
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/db/prisma';
 import { getBody } from '@/lib/getBodyFromRequest';
-
-async function createTweet(tweetBody: string, userId: string) {
-  try {
-    const newTweet = await prisma.post.create({
-      data: { message: tweetBody, authorId: userId },
-    });
-
-    return newTweet;
-  } catch (e) {
-    throw new ServerError(500, "Couldn't create tweet");
-  }
-}
+import { createTweet } from '../(services)/post.service';
 
 export async function createPostController(req: NextRequest) {
   const session = await getServerSession(authOptions);
