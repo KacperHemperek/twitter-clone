@@ -85,5 +85,10 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
+  comments Post[]  @relation("Comments")
+  parent   Post?   @relation("Comments", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parentId String?
+
   @@index([authorId])
+  @@index([parentId])
 }
