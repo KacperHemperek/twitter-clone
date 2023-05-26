@@ -14,8 +14,10 @@ This twitter clone is created with Next.js 13 app directory, prisma, planetscale
 - [x] like tweet functionality
 - [ ] page for every tweet (in progress)
   - [x] simple details (likes, tweet body, user info)
-  - [ ] like functionality
+  - [x] like functionality
   - [ ] get comments functionality
+  - [ ] add comment
+  - [ ] loading tweet details page
 - [ ] comments for every tweet
 - [ ] account page
 - [ ] follow functionality
