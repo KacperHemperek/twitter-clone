@@ -1,9 +1,11 @@
-import { prisma } from '@/db/prisma';
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+
+import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+
+import { prisma } from '@/db/prisma';
 
 async function getLikeByTweetIdAndUserId(tweetId: string, userId: string) {
   try {

@@ -1,12 +1,13 @@
 'use client';
 
-import { Post } from '@/types/Post.type';
-import { PaginatedResponse } from '@/types/api/pagination';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
 import Feed from '@/components/feed/Feed';
 import NewTweetForm from '@/components/feed/NewTweetForm/NewTweetForm';
+
+import { Post } from '@/types/Post.type';
+import { PaginatedResponse } from '@/types/api/pagination';
 
 const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
 

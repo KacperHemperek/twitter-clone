@@ -1,6 +1,7 @@
+import React from 'react';
+
 import { cn } from '@/lib/cn';
 import { formatTweetDate } from '@/lib/dateFormatters';
-import React from 'react';
 
 export default function TweetUserInfo({
   authorName,

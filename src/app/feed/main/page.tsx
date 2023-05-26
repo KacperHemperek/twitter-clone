@@ -1,7 +1,8 @@
 import MainFeed from './(components)/MainFeed';
+import React from 'react';
+
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
-import React from 'react';
 
 export default async function page() {
   const posts: PaginatedResponse<Post> = await fetch(

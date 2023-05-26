@@ -1,6 +1,6 @@
-import { type Post, PrismaClient } from '@prisma/client';
+import { type Post } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/db/prisma';
 
 async function clearDataBase() {
   await prisma.like.deleteMany();

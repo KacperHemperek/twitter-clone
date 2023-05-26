@@ -3,13 +3,15 @@
 import TweetUserInfo from '../common/TweetUserInfo';
 import LikeButtonDetails from './LikeButtonDetails';
 import { getTweetDetails } from '@/app/tweet/[tweetId]/page';
-import { formatLongDate } from '@/lib/dateFormatters';
-import { Post } from '@/types/Post.type';
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+
+import { formatLongDate } from '@/lib/dateFormatters';
+
+import { Post } from '@/types/Post.type';
 
 export default function TweetDetails({
   tweetId,

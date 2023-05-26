@@ -1,6 +1,7 @@
+import { uuid } from 'uuidv4';
+
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
-import { uuid } from 'uuidv4';
 
 export type InfiniteQueryData<T> = {
   pages: PaginatedResponse<T>[];

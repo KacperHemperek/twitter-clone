@@ -1,13 +1,6 @@
 'use client';
 
 import { queryClient } from '../../context/Providers';
-import { cn } from '@/lib/cn';
-import {
-  InfiniteQueryData,
-  getUpdatedFeedWithNewLike,
-} from '@/lib/infiniteQueryHelpers';
-import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
-import { type Post } from '@/types/Post.type';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon, MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -17,6 +10,15 @@ import React, { memo } from 'react';
 import TweetUserInfo from '@/components/common/TweetUserInfo';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
+
+import { cn } from '@/lib/cn';
+import {
+  InfiniteQueryData,
+  getUpdatedFeedWithNewLike,
+} from '@/lib/infiniteQueryHelpers';
+import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
+
+import { type Post } from '@/types/Post.type';
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const router = useRouter();

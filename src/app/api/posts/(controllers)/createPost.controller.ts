@@ -1,11 +1,12 @@
-import { getBody } from '@/lib/getBodyFromRequest';
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createTweet } from '../(services)/post.service';
 
 import { authOptions } from '../../auth/[...nextauth]/route';
+
+import { getBody } from '@/lib/getBodyFromRequest';
+import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
 
 export async function createPostController(req: NextRequest) {
   const session = await getServerSession(authOptions);

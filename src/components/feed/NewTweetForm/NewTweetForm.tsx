@@ -1,9 +1,6 @@
 'use client';
 
 import { queryClient } from '../../context/Providers';
-import { cn } from '@/lib/cn';
-import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
-import { Post } from '@/types/Post.type';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
@@ -11,6 +8,11 @@ import { Oval } from 'react-loader-spinner';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 import { useToast } from '../../ui/use-toast';
+
+import { cn } from '@/lib/cn';
+import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
+
+import { Post } from '@/types/Post.type';
 
 export default function NewTweetForm({
   feedQueryKey,

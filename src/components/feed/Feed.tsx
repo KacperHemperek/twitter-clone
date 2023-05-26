@@ -1,8 +1,9 @@
 'use client';
 
 import Tweet from './Tweet/Tweet';
-import { type Post as PostType } from '@/types/Post.type';
 import React, { useEffect, useRef } from 'react';
+
+import { type Post as PostType } from '@/types/Post.type';
 
 export default function Feed({
   posts: initialPosts,

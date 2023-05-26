@@ -1,7 +1,10 @@
-import { prisma } from '@/db/prisma';
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
-import { Post } from '@/types/Post.type';
 import { NextResponse } from 'next/server';
+
+import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+
+import { Post } from '@/types/Post.type';
+
+import { prisma } from '@/db/prisma';
 
 export async function getTweetDetailsController(tweetId: string) {
   if (!tweetId) {

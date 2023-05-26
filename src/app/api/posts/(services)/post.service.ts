@@ -1,5 +1,6 @@
-import { prisma } from '@/db/prisma';
 import { ServerError } from '@/lib/serverError';
+
+import { prisma } from '@/db/prisma';
 
 const MAIN_FEED_LIMIT = 10;
 

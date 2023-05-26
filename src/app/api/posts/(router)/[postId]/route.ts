@@ -1,6 +1,4 @@
-import { prisma } from '@/db/prisma';
-import { Post } from '@/types/Post.type';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 import { getTweetDetailsController } from './(controllers)/getTweetDetails';
 
