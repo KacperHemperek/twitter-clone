@@ -6,4 +6,7 @@ export type Post = {
   createdAt: Date;
   id: string;
   likes: Like[];
+  comments?: {
+    id: string;
+  }[];
 };

@@ -118,7 +118,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
               }
             >
               <MessageCircleIcon className='mr-4  h-4 w-4' />
-              {formatNumberToCompact(post.likes.length)}
+              {formatNumberToCompact(post.comments?.length ?? 0)}
             </button>
           </div>
         </div>

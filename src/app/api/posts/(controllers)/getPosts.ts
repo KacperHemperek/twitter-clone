@@ -10,15 +10,17 @@ export async function getPostsController(req: NextRequest) {
     ? Number(searchParams.get('page'))
     : 1;
 
-  console.log('page ', page);
-
   const posts = await prisma.post.findMany({
+    where: {
+      parentId: null,
+    },
     select: {
       author: true,
       createdAt: true,
       id: true,
       message: true,
       likes: true,
+      comments: { select: { id: true } },
     },
     take: LIMIT,
     skip: (page - 1) * LIMIT,
