@@ -1,11 +1,11 @@
 import { prisma } from '@/db/prisma';
-import { ServerError, getNextServerError } from '@/lib/serverError';
+import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
 import { Post } from '@/types/Post.type';
 import { NextResponse } from 'next/server';
 
 export async function getTweetDetailsController(tweetId: string) {
   if (!tweetId) {
-    return getNextServerError(400, "Didn't find id in request");
+    return nextServerErrorFactory(400, "Didn't find id in request");
   }
 
   try {
@@ -18,10 +18,10 @@ export async function getTweetDetailsController(tweetId: string) {
     return NextResponse.json(tweetDetails);
   } catch (e) {
     if (e instanceof ServerError) {
-      return getNextServerError(e.code, e.message);
+      return nextServerErrorFactory(e.code, e.message);
     }
 
-    return getNextServerError(500);
+    return nextServerErrorFactory(500);
   }
 }
 

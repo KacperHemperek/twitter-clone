@@ -1,5 +1,5 @@
 import { prisma } from '@/db/prisma';
-import { ServerError, getNextServerError } from '@/lib/serverError';
+import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -43,7 +43,7 @@ export async function likeTweetController(tweetId: string) {
     const userId = session?.user.id;
 
     if (!userId) {
-      return getNextServerError(
+      return nextServerErrorFactory(
         403,
         'User must be logged in to perform that action'
       );
@@ -63,9 +63,9 @@ export async function likeTweetController(tweetId: string) {
   } catch (e) {
     if (e instanceof ServerError) {
       console.log({ message: e.message, code: e.code });
-      return getNextServerError(e.code, e.message);
+      return nextServerErrorFactory(e.code, e.message);
     }
 
-    return getNextServerError(500);
+    return nextServerErrorFactory(500);
   }
 }

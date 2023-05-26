@@ -12,7 +12,7 @@ export class ServerError extends Error {
   }
 }
 
-export function getNextServerError(
+export function nextServerErrorFactory(
   code: number,
   message: string = 'Unexpected Server Error'
 ) {

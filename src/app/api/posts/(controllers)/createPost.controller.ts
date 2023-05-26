@@ -1,5 +1,5 @@
 import { getBody } from '@/lib/getBodyFromRequest';
-import { ServerError, getNextServerError } from '@/lib/serverError';
+import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -11,7 +11,7 @@ export async function createPostController(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return getNextServerError(403, 'User is not authenticated');
+    return nextServerErrorFactory(403, 'User is not authenticated');
   }
 
   const userId = session.user.id;
@@ -29,9 +29,9 @@ export async function createPostController(req: NextRequest) {
     return NextResponse.json({ data: { createdPost: newTweet } });
   } catch (e) {
     if (e instanceof ServerError) {
-      return getNextServerError(e.code, e.message);
+      return nextServerErrorFactory(e.code, e.message);
     }
 
-    return getNextServerError(500);
+    return nextServerErrorFactory(500);
   }
 }
