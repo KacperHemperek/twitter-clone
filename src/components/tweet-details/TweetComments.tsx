@@ -1,5 +1,6 @@
 'use client';
 
+import NewTweetForm from '../feed/NewTweetForm/NewTweetForm';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
@@ -20,9 +21,18 @@ async function getComments(
   return comments;
 }
 
+async function addComment(tweetBody: string, tweetId?: string) {
+  await fetch(`/api/tweets/${tweetId}/comments`, {
+    method: 'POST',
+    body: JSON.stringify({ tweetBody }),
+  });
+}
+
 export default function TweetComments({ tweetId }: { tweetId: string }) {
+  const queryKey = ['comments', tweetId];
+
   const { data: comments, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['comments', tweetId],
+    queryKey,
     queryFn: async ({ pageParam }) => getComments(pageParam, tweetId),
   });
 
@@ -38,10 +48,17 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
   }, [comments]);
 
   return (
-    <Feed
-      feedQueryKey={['comments', tweetId]}
-      fetchNextPage={fetchNextPage}
-      posts={arrayOfReducedTweets}
-    />
+    <>
+      <NewTweetForm
+        feedQueryKey={queryKey}
+        createTweet={addComment}
+        tweetId={tweetId}
+      />
+      <Feed
+        feedQueryKey={['comments', tweetId]}
+        fetchNextPage={fetchNextPage}
+        posts={arrayOfReducedTweets}
+      />
+    </>
   );
 }

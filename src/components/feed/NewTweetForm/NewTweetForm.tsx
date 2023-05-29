@@ -17,14 +17,16 @@ import { Post } from '@/types/Post.type';
 export default function NewTweetForm({
   feedQueryKey,
   createTweet,
+  tweetId,
 }: {
   feedQueryKey: string[];
-  createTweet: (tweetBody: string) => Promise<void>;
+  createTweet: (tweetBody: string, tweetId?: string) => Promise<void>;
+  tweetId?: string;
 }) {
   const { toast } = useToast();
 
   const { mutate: postTweet, isLoading } = useMutation({
-    mutationFn: async () => await createTweet(newTweet),
+    mutationFn: async () => await createTweet(newTweet, tweetId),
     onMutate: () => {
       queryClient.setQueryData(
         feedQueryKey,
