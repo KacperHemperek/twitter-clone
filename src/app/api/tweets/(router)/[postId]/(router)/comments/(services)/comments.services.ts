@@ -18,6 +18,7 @@ export async function getComments(tweetId: string): Promise<Post[]> {
         id: true,
         comments: { select: { id: true } },
       },
+      orderBy: { createdAt: 'desc' },
     });
 
     return comments;
