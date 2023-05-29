@@ -1,5 +1,7 @@
 import { ServerError } from '@/lib/serverError';
 
+import { Post } from '@/types/Post.type';
+
 import { prisma } from '@/db/prisma';
 
 const MAIN_FEED_LIMIT = 10;
@@ -38,5 +40,24 @@ export async function createTweet(tweetBody: string, userId: string) {
     return newTweet;
   } catch (e) {
     throw new ServerError(500, "Couldn't create tweet");
+  }
+}
+
+export async function getTweetDetails(tweetId: string): Promise<Post | null> {
+  try {
+    const tweetDetails = await prisma.post.findUnique({
+      where: { id: tweetId },
+      select: {
+        author: true,
+        id: true,
+        likes: true,
+        message: true,
+        createdAt: true,
+      },
+    });
+
+    return tweetDetails;
+  } catch (e) {
+    throw new ServerError(404, "Couldn't find tweet with given id");
   }
 }

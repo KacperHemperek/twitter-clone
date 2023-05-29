@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getMainFeedTweets } from '../(services)/post.service';
+import { getMainFeedTweets } from '../(services)/tweet.service';
 
 export async function getPostsController(req: NextRequest) {
   const { searchParams } = new URL(req.url);

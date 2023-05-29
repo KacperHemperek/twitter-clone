@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { createTweet } from '../(services)/post.service';
+import { createTweet } from '../(services)/tweet.service';
 
 import { authOptions } from '../../auth/[...nextauth]/route';
 

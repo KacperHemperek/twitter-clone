@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 
+import { getTweetDetails } from '../../../(services)/tweet.service';
+
 import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
-
-import { Post } from '@/types/Post.type';
-
-import { prisma } from '@/db/prisma';
 
 export async function getTweetDetailsController(tweetId: string) {
   if (!tweetId) {
@@ -25,24 +23,5 @@ export async function getTweetDetailsController(tweetId: string) {
     }
 
     return nextServerErrorFactory(500);
-  }
-}
-
-async function getTweetDetails(tweetId: string): Promise<Post | null> {
-  try {
-    const tweetDetails = await prisma.post.findUnique({
-      where: { id: tweetId },
-      select: {
-        author: true,
-        id: true,
-        likes: true,
-        message: true,
-        createdAt: true,
-      },
-    });
-
-    return tweetDetails;
-  } catch (e) {
-    throw new ServerError(404, "Couldn't find tweet with given id");
   }
 }
