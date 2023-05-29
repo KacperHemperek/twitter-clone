@@ -17,6 +17,13 @@ async function getMainFeedTweets(page?: number) {
   return fetch(url).then((res) => res.json());
 }
 
+async function postTweet(tweetBody: string) {
+  await fetch('/api/tweets', {
+    method: 'POST',
+    body: JSON.stringify({ tweetBody }),
+  });
+}
+
 export default function MainFeed({
   initialData,
 }: {
@@ -54,7 +61,10 @@ export default function MainFeed({
 
   return (
     <>
-      <NewTweetForm feedQueryKey={MAIN_FEED_QUERY_KEYS} />
+      <NewTweetForm
+        feedQueryKey={MAIN_FEED_QUERY_KEYS}
+        createTweet={postTweet}
+      />
       <Feed
         posts={arrayOfReducedTweets}
         fetchNextPage={fetchNextPage}

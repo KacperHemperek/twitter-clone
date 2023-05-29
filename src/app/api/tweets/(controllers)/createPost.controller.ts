@@ -18,7 +18,6 @@ export async function createPostController(req: NextRequest) {
   const userId = session.user.id;
 
   try {
-    debugger;
     const body: { tweetBody?: string } = await getBody(req);
 
     if (!body.tweetBody) {
