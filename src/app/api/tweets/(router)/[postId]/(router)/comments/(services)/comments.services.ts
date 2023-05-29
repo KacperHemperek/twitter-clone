@@ -25,3 +25,27 @@ export async function getComments(tweetId: string): Promise<Post[]> {
     throw new ServerError(500, "Couldn't retrieve comments for tweet ");
   }
 }
+
+export async function createComment({
+  authorId,
+  message,
+  parentId,
+}: {
+  parentId: string;
+  message: string;
+  authorId: string;
+}) {
+  try {
+    const newComment = await prisma.post.create({
+      data: {
+        message,
+        authorId,
+        parentId,
+      },
+    });
+
+    return newComment;
+  } catch (e) {
+    throw new ServerError(500, "Couldn't add comment");
+  }
+}
