@@ -53,6 +53,7 @@ export async function getTweetDetails(tweetId: string): Promise<Post | null> {
         likes: true,
         message: true,
         createdAt: true,
+        comments: true,
       },
     });
 

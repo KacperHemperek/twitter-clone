@@ -56,7 +56,7 @@ export default function TweetDetails({
           <span className="text-gray-500">retweets</span>
         </div>
         <div className="text-center">
-          <span className="font-bold">0</span>{' '}
+          <span className="font-bold">{tweetDetails?.comments?.length}</span>{' '}
           <span className="text-gray-500">comments</span>
         </div>
       </div>
