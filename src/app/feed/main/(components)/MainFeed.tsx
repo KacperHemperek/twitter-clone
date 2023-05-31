@@ -9,7 +9,7 @@ import NewTweetForm from '@/components/feed/NewTweetForm/NewTweetForm';
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
-const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
+export const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
 
 async function getMainFeedTweets(page?: number) {
   const url = `/api/tweets${page ? '?page=' + page : ''}`;

@@ -20,7 +20,7 @@ export default function TweetUserInfo({
     <div
       className={cn(
         !alwaysShowShowInColumn && 'xl:flex-row xl:gap-1',
-        'flex flex-col gap-0.5 '
+        'flex flex-col gap-0.5 text-sm'
       )}
     >
       <h5 className="whitespace-nowrap font-bold">{authorName} </h5>

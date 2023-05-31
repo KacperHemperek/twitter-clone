@@ -1,15 +1,19 @@
 'use client';
 
-import { queryClient } from '../../context/Providers';
+import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon, MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
 import TweetUserInfo from '@/components/common/TweetUserInfo';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
+import { queryClient } from '../../context/Providers';
+import NewTweetForm from '../NewTweetForm/NewTweetForm';
+import TweetAvatar from '../TweetAvatar';
 
 import { cn } from '@/lib/cn';
 import {
@@ -19,6 +23,15 @@ import {
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 import { type Post } from '@/types/Post.type';
+
+async function commentTweet(tweetBody: string, tweetId?: string) {
+  const url = `/api/tweets/${tweetId}/comments`;
+
+  await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ tweetBody }),
+  });
+}
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -74,61 +87,103 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const tweetIsRetweeted = false;
 
   return (
-    <div
-      onClick={goToTweetDetails}
-      className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm"
-    >
-      <Avatar className="z-0 h-10 w-10">
-        <AvatarImage src={post.author.image ?? undefined} />
-        <AvatarFallback className="text-white">
-          {post.author.name?.[0] ?? 'A'}
-        </AvatarFallback>
-      </Avatar>
-      <div className="flex-grow space-y-2">
-        <TweetUserInfo
-          authorEmail={post.author.email}
-          authorName={post.author.name}
-          createdAt={post.createdAt}
-        />
+    <Dialog>
+      <div
+        onClick={goToTweetDetails}
+        className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm"
+      >
+        <TweetAvatar image={post.author.image} authorName={post.author.name} />
+        <div className="flex-grow space-y-2">
+          <TweetUserInfo
+            authorEmail={post.author.email}
+            authorName={post.author.name}
+            createdAt={post.createdAt}
+          />
 
-        <p className="">{post.message}</p>
-        <div className="grid grid-cols-3">
-          <div>
-            <button
-              className={cn(
-                tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
-                'group flex cursor-pointer items-center transition-all hover:text-pink-400'
-              )}
-              onClick={onLikeTweet}
-            >
-              <HeartIcon className="mr-4  h-4 w-4" />
-              {formatNumberToCompact(post.likes.length)}
-            </button>
-          </div>
-          <div>
-            <button
-              className={cn(
-                tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
-                'group flex cursor-pointer items-center transition-all hover:text-green-400'
-              )}
-            >
-              <RefreshCwIcon className="mr-4  h-4 w-4" />
-              {formatNumberToCompact(13)}
-            </button>
-          </div>
-          <div>
-            <button
-              className={
-                'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
-              }
-            >
-              <MessageCircleIcon className="mr-4  h-4 w-4" />
-              {formatNumberToCompact(post.comments?.length ?? 0)}
-            </button>
+          <p>{post.message}</p>
+          <div className="grid grid-cols-3">
+            <div>
+              <button
+                className={cn(
+                  tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
+                  'group flex cursor-pointer items-center transition-all hover:text-pink-400'
+                )}
+                onClick={onLikeTweet}
+              >
+                <HeartIcon className="mr-4  h-4 w-4" />
+                {formatNumberToCompact(post.likes.length)}
+              </button>
+            </div>
+            <div>
+              <button
+                className={cn(
+                  tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
+                  'group flex cursor-pointer items-center transition-all hover:text-green-400'
+                )}
+              >
+                <RefreshCwIcon className="mr-4  h-4 w-4" />
+                {formatNumberToCompact(13)}
+              </button>
+            </div>
+            <div>
+              <DialogTrigger
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className={
+                  'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
+                }
+              >
+                <MessageCircleIcon className="mr-4  h-4 w-4" />
+                {formatNumberToCompact(post.comments?.length ?? 0)}
+              </DialogTrigger>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <DialogContent className="border-0 gap-2 h-full sm:h-min">
+        <div className="flex flex-col">
+          <div className="flex gap-3">
+            <div className="flex flex-col items-center">
+              <TweetAvatar
+                authorName={post.author.name}
+                image={post.author.image}
+              />
+              <div className="h-full w-0.5 bg-gray-400 my-2" />
+            </div>
+            <div className="flex flex-col ">
+              <TweetUserInfo
+                authorEmail={post.author.email}
+                authorName={post.author.name}
+                createdAt={post.createdAt}
+                alwaysShowShowInColumn={true}
+              />
+              <p className="mt-2 mb-4">{post.message}</p>
+              <p className="text-gray-400 text-sm mb-6">
+                Replying to{' '}
+                <Link
+                  className="text-sky-500"
+                  href={`/account/${post.author.id}`}
+                >
+                  {post.author.email}
+                </Link>
+              </p>
+            </div>
+          </div>
+          <NewTweetForm
+            createTweet={commentTweet}
+            onSuccessCallback={() => {
+              router.push(`/tweet/${post.id}`);
+              queryClient.invalidateQueries(MAIN_FEED_QUERY_KEYS);
+            }}
+            wrapperClassname="border-b-0 p-0"
+            tweetId={post.id}
+            feedQueryKey={['comments', post.id]}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
