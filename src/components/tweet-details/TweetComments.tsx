@@ -1,10 +1,12 @@
 'use client';
 
-import NewTweetForm from '../feed/NewTweetForm/NewTweetForm';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
 import Feed from '@/components/feed/Feed';
+
+import NewTweetForm from '../feed/NewTweetForm/NewTweetForm';
+import { TweetSceleton } from '../feed/Tweet/TweetSceleton';
 
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
@@ -31,9 +33,14 @@ async function addComment(tweetBody: string, tweetId?: string) {
 export default function TweetComments({ tweetId }: { tweetId: string }) {
   const queryKey = ['comments', tweetId];
 
-  const { data: comments, fetchNextPage } = useInfiniteQuery({
+  const {
+    data: comments,
+    fetchNextPage,
+    isLoading,
+  } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam }) => getComments(pageParam, tweetId),
+    getNextPageParam: ({ nextPage }) => nextPage,
   });
 
   const arrayOfReducedTweets = useMemo<Post[]>(() => {
@@ -54,11 +61,15 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
         createTweet={addComment}
         tweetId={tweetId}
       />
-      <Feed
-        feedQueryKey={['comments', tweetId]}
-        fetchNextPage={fetchNextPage}
-        posts={arrayOfReducedTweets}
-      />
+      {isLoading &&
+        [...Array(10)].map((_, index) => <TweetSceleton key={index} />)}
+      {comments && !isLoading && (
+        <Feed
+          feedQueryKey={['comments', tweetId]}
+          fetchNextPage={fetchNextPage}
+          posts={arrayOfReducedTweets}
+        />
+      )}
     </>
   );
 }

@@ -2,16 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getMainFeedTweets } from '../(services)/tweet.service';
 
+import { getServerSearchParams } from '@/lib/getServerSearchParams';
+import { handleServerError } from '@/lib/serverError';
+
 export async function getPostsController(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { page } = getServerSearchParams<['page']>(req, ['page']);
 
-  const page = !!Number(searchParams.get('page'))
-    ? Number(searchParams.get('page'))
-    : 1;
+  const pageNumber = !!Number(page) ? Number(page) : 1;
 
-  const posts = await getMainFeedTweets(page);
+  try {
+    const posts = await getMainFeedTweets(pageNumber);
 
-  const nextPage = posts.length === 10 ? page + 1 : undefined;
+    const nextPage = posts.length === 10 ? pageNumber + 1 : undefined;
 
-  return NextResponse.json({ data: posts, nextPage });
+    return NextResponse.json({ data: posts, nextPage });
+  } catch (e) {
+    handleServerError(e);
+  }
 }

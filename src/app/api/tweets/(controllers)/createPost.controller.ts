@@ -6,7 +6,11 @@ import { createTweet } from '../(services)/tweet.service';
 import { authOptions } from '../../auth/[...nextauth]/route';
 
 import { getBody } from '@/lib/getBodyFromRequest';
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+import {
+  ServerError,
+  handleServerError,
+  nextServerErrorFactory,
+} from '@/lib/serverError';
 
 export async function createPostController(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -29,9 +33,7 @@ export async function createPostController(req: NextRequest) {
     return NextResponse.json({ data: { createdPost: newTweet } });
   } catch (e) {
     if (e instanceof ServerError) {
-      return nextServerErrorFactory(e.code, e.message);
+      handleServerError(e);
     }
-
-    return nextServerErrorFactory(500);
   }
 }

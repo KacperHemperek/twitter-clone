@@ -6,9 +6,12 @@ import { createComment } from '../(services)/comments.services';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { getBody } from '@/lib/getBodyFromRequest';
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+import { getServerSearchParams } from '@/lib/getServerSearchParams';
+import { ServerError, handleServerError } from '@/lib/serverError';
 
 export async function addCommentHandler(req: NextRequest, tweetId: string) {
+  const { page } = getServerSearchParams<['page']>(req, ['page']);
+
   try {
     const session = await getServerSession(authOptions);
 
@@ -30,10 +33,6 @@ export async function addCommentHandler(req: NextRequest, tweetId: string) {
 
     return NextResponse.json({ message: 'Comment createed succesfully' });
   } catch (e) {
-    if (e instanceof ServerError) {
-      return nextServerErrorFactory(e.code, e.message);
-    }
-
-    return nextServerErrorFactory(500);
+    handleServerError(e);
   }
 }
