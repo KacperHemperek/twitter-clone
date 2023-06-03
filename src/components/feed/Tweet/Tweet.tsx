@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
-import TweetUserInfo from '@/components/common/TweetUserInfo';
+import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import { queryClient } from '../../context/Providers';

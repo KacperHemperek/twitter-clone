@@ -8,7 +8,6 @@ export function TweetSceleton() {
       </Avatar>
       <div className="flex-grow space-y-1">
         <div className="flex items-center space-x-1">
-          <h5 className="font-bold"></h5>
           <div className="my-1 h-4 w-24 animate-pulse rounded-full bg-muted"></div>
           <div className="my-1 h-4 w-24 animate-pulse rounded-full bg-muted"></div>
         </div>

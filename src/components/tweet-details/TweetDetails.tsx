@@ -1,12 +1,12 @@
 'use client';
 
-import TweetUserInfo from '../common/TweetUserInfo';
 import LikeButtonDetails from './LikeButtonDetails';
 import { getTweetDetails } from '@/app/tweet/[tweetId]/page';
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
+import TweetUserInfo from '../common/tweet-user-info/TweetUserInfo';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 import { formatLongDate } from '@/lib/dateFormatters';
