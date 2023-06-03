@@ -11,7 +11,9 @@ import { PaginatedResponse } from '@/types/api/pagination';
 
 export const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
 
-async function getMainFeedTweets(page?: number) {
+async function getMainFeedTweets(
+  page?: number
+): Promise<PaginatedResponse<Post>> {
   const url = `/api/tweets${page ? '?page=' + page : ''}`;
 
   return fetch(url).then((res) => res.json());
@@ -42,7 +44,7 @@ export default function MainFeed({
     queryFn: ({ pageParam }) => {
       return getMainFeedTweets(pageParam);
     },
-    getNextPageParam: (lastPage: any) => lastPage.nextPage,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
     refetchOnMount: false,
   });
 

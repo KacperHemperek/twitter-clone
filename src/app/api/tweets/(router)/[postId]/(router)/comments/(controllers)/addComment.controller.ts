@@ -6,12 +6,9 @@ import { createComment } from '../(services)/comments.services';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { getBody } from '@/lib/getBodyFromRequest';
-import { getServerSearchParams } from '@/lib/getServerSearchParams';
 import { ServerError, handleServerError } from '@/lib/serverError';
 
 export async function addCommentHandler(req: NextRequest, tweetId: string) {
-  const { page } = getServerSearchParams<['page']>(req, ['page']);
-
   try {
     const session = await getServerSession(authOptions);
 

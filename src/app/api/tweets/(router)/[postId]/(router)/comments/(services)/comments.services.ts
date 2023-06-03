@@ -4,7 +4,12 @@ import { Post } from '@/types/Post.type';
 
 import { prisma } from '@/db/prisma';
 
-export async function getComments(tweetId: string): Promise<Post[]> {
+const LIMIT_COMMENT_AMMOUNT = 10;
+
+export async function getComments(
+  tweetId: string,
+  page: number
+): Promise<Post[]> {
   try {
     const comments = prisma.post.findMany({
       where: {
@@ -18,6 +23,8 @@ export async function getComments(tweetId: string): Promise<Post[]> {
         id: true,
         comments: { select: { id: true } },
       },
+      take: LIMIT_COMMENT_AMMOUNT,
+      skip: (page - 1) * LIMIT_COMMENT_AMMOUNT,
       orderBy: { createdAt: 'desc' },
     });
 

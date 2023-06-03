@@ -15,7 +15,7 @@ async function getComments(
   pageParam: number,
   tweetId: string
 ): Promise<PaginatedResponse<Post>> {
-  const url = `/api/tweets/${tweetId}/comments`;
+  const url = `/api/tweets/${tweetId}/comments?page=${pageParam}`;
 
   const res = await fetch(url);
   const comments = await res.json();
@@ -37,10 +37,11 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
     data: comments,
     fetchNextPage,
     isLoading,
+    hasNextPage,
   } = useInfiniteQuery({
     queryKey,
-    queryFn: async ({ pageParam }) => getComments(pageParam, tweetId),
-    getNextPageParam: ({ nextPage }) => nextPage,
+    queryFn: ({ pageParam }) => getComments(pageParam, tweetId),
+    getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
   const arrayOfReducedTweets = useMemo<Post[]>(() => {
@@ -63,11 +64,13 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
       />
       {isLoading &&
         [...Array(10)].map((_, index) => <TweetSceleton key={index} />)}
+
       {comments && !isLoading && (
         <Feed
           feedQueryKey={['comments', tweetId]}
           fetchNextPage={fetchNextPage}
           posts={arrayOfReducedTweets}
+          hasNextPage={hasNextPage}
         />
       )}
     </>
