@@ -2,7 +2,6 @@
 
 import TweetUserInfo from './tweet-user-info/TweetUserInfo';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { createContext, useContext } from 'react';
 
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -13,14 +12,13 @@ import TweetAvatar from '../feed/TweetAvatar';
 import { Post } from '@/types/Post.type';
 
 type AddCommentModalContextType = {
-  tweet: Post | null;
   addComment: (...args: any) => Promise<void>;
-  onSuccess?: (...args: any) => void;
   feedQueryKey: string[];
+  onSuccess?: (...args: any) => void;
+  tweet?: Post;
 };
 
 const AddCommentModalContext = createContext<AddCommentModalContextType>({
-  tweet: null,
   addComment: async () => {},
   feedQueryKey: [],
 });

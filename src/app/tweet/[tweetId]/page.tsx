@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TweetComments from '@/components/tweet-details/TweetComments';
-import TweetDetails from '@/components/tweet-details/TweetDetails';
+import TweetComments from '@/components/tweet-details/components/TweetComments';
+import TweetDetails from '@/components/tweet-details/components/TweetDetails';
 
 import { Post } from '@/types/Post.type';
 
