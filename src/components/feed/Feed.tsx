@@ -10,11 +10,13 @@ export default function Feed({
   fetchNextPage,
   hasNextPage,
   feedQueryKey,
+  noMoreTweetsText = 'No more tweets',
 }: {
   posts: PostType[];
   fetchNextPage: () => void;
   feedQueryKey: string[];
   hasNextPage?: boolean;
+  noMoreTweetsText?: string;
 }) {
   const lastItemRef = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -47,7 +49,9 @@ export default function Feed({
           Loading more posts...
         </div>
       )}{' '}
-      {!hasNextPage && <div className="p-3 text-center">No more posts</div>}
+      {!hasNextPage && (
+        <div className="p-3 text-center">{noMoreTweetsText}</div>
+      )}
     </>
   );
 }

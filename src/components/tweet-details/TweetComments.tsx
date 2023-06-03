@@ -76,6 +76,7 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
           fetchNextPage={fetchNextPage}
           posts={arrayOfReducedTweets}
           hasNextPage={hasNextPage}
+          noMoreTweetsText="No more comments"
         />
       )}
     </>
