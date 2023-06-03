@@ -21,7 +21,7 @@ type AddCommentModalContextType = {
 
 const AddCommentModalContext = createContext<AddCommentModalContextType>({
   tweet: null,
-  addComment: async (...args: any) => {},
+  addComment: async () => {},
   feedQueryKey: [],
 });
 

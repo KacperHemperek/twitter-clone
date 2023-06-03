@@ -1,12 +1,13 @@
 'use client';
 
-import { queryClient } from '../context/Providers';
 import { Like } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import { uuid } from 'uuidv4';
+
+import { queryClient } from '../../context/Providers';
 
 import { cn } from '@/lib/cn';
 

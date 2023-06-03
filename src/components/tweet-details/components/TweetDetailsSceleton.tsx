@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TweetUserInfoSceleton from '../common/tweet-user-info/TweetUserInfoSceleton';
-import { Avatar, AvatarFallback } from '../ui/avatar';
+import TweetUserInfoSceleton from '../../common/tweet-user-info/TweetUserInfoSceleton';
+import { Avatar, AvatarFallback } from '../../ui/avatar';
 
 export default function TweetDetailsSceleton() {
   return (

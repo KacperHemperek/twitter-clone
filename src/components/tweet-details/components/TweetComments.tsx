@@ -3,32 +3,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
-import Feed from '@/components/feed/Feed';
+import { addComment, getComments } from '../services/TweetDetails.service';
 
-import NewTweetForm from '../feed/NewTweetForm/NewTweetForm';
-import { TweetSceleton } from '../feed/Tweet/TweetSceleton';
+import Feed from '@/components/feed/Feed';
+import NewTweetForm from '@/components/feed/NewTweetForm/NewTweetForm';
+import { TweetSceleton } from '@/components/feed/Tweet/TweetSceleton';
 
 import { Post } from '@/types/Post.type';
-import { PaginatedResponse } from '@/types/api/pagination';
-
-async function getComments(
-  pageParam: number,
-  tweetId: string
-): Promise<PaginatedResponse<Post>> {
-  const url = `/api/tweets/${tweetId}/comments?page=${pageParam}`;
-
-  const res = await fetch(url);
-  const comments = await res.json();
-
-  return comments;
-}
-
-async function addComment(tweetBody: string, tweetId?: string) {
-  await fetch(`/api/tweets/${tweetId}/comments`, {
-    method: 'POST',
-    body: JSON.stringify({ tweetBody }),
-  });
-}
 
 export default function TweetComments({ tweetId }: { tweetId: string }) {
   const queryKey = ['comments', tweetId];

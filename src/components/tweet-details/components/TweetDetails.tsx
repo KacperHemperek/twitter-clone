@@ -6,8 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
-import TweetUserInfo from '../common/tweet-user-info/TweetUserInfo';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
+
+import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 
 import { formatLongDate } from '@/lib/dateFormatters';
 
