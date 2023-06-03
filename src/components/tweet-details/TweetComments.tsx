@@ -38,6 +38,7 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
     fetchNextPage,
     isLoading,
     hasNextPage,
+    isError,
   } = useInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam }) => getComments(pageParam, tweetId),
@@ -63,8 +64,12 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
         tweetId={tweetId}
       />
       {isLoading &&
-        [...Array(10)].map((_, index) => <TweetSceleton key={index} />)}
-
+        [...Array(5)].map((_, index) => <TweetSceleton key={index} />)}
+      {isError && (
+        <div className="p-4 text-center text-base">
+          Sorry something went wrong while getting comments
+        </div>
+      )}
       {comments && !isLoading && (
         <Feed
           feedQueryKey={['comments', tweetId]}
