@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
+import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
@@ -87,103 +88,75 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const tweetIsRetweeted = false;
 
   return (
-    <Dialog>
-      <div
-        onClick={goToTweetDetails}
-        className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm"
-      >
-        <TweetAvatar image={post.author.image} authorName={post.author.name} />
-        <div className="flex-grow space-y-2">
-          <TweetUserInfo
-            authorEmail={post.author.email}
+    <AddCommentModal
+      addComment={commentTweet}
+      feedQueryKey={['comments', post.id]}
+      tweet={post}
+      onSuccess={() => {
+        router.push(`/tweet/${post.id}`);
+        queryClient.invalidateQueries(MAIN_FEED_QUERY_KEYS);
+      }}
+    >
+      <>
+        <div
+          onClick={goToTweetDetails}
+          className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm"
+        >
+          <TweetAvatar
+            image={post.author.image}
             authorName={post.author.name}
-            createdAt={post.createdAt}
           />
+          <div className="flex-grow space-y-2">
+            <TweetUserInfo
+              authorEmail={post.author.email}
+              authorName={post.author.name}
+              createdAt={post.createdAt}
+            />
 
-          <p>{post.message}</p>
-          <div className="grid grid-cols-3">
-            <div>
-              <button
-                className={cn(
-                  tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
-                  'group flex cursor-pointer items-center transition-all hover:text-pink-400'
-                )}
-                onClick={onLikeTweet}
-              >
-                <HeartIcon className="mr-4  h-4 w-4" />
-                {formatNumberToCompact(post.likes.length)}
-              </button>
-            </div>
-            <div>
-              <button
-                className={cn(
-                  tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
-                  'group flex cursor-pointer items-center transition-all hover:text-green-400'
-                )}
-              >
-                <RefreshCwIcon className="mr-4  h-4 w-4" />
-                {formatNumberToCompact(13)}
-              </button>
-            </div>
-            <div>
-              <DialogTrigger
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className={
-                  'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
-                }
-              >
-                <MessageCircleIcon className="mr-4  h-4 w-4" />
-                {formatNumberToCompact(post.comments?.length ?? 0)}
-              </DialogTrigger>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <DialogContent className="border-0 gap-2 h-full sm:h-min">
-        <div className="flex flex-col">
-          <div className="flex gap-3">
-            <div className="flex flex-col items-center">
-              <TweetAvatar
-                authorName={post.author.name}
-                image={post.author.image}
-              />
-              <div className="h-full w-0.5 bg-gray-400 my-2" />
-            </div>
-            <div className="flex flex-col ">
-              <TweetUserInfo
-                authorEmail={post.author.email}
-                authorName={post.author.name}
-                createdAt={post.createdAt}
-                alwaysShowShowInColumn={true}
-              />
-              <p className="mt-2 mb-4">{post.message}</p>
-              <p className="text-gray-400 text-sm mb-6">
-                Replying to{' '}
-                <Link
-                  className="text-sky-500"
-                  href={`/account/${post.author.id}`}
+            <p>{post.message}</p>
+            <div className="grid grid-cols-3">
+              <div>
+                <button
+                  className={cn(
+                    tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
+                    'group flex cursor-pointer items-center transition-all hover:text-pink-400'
+                  )}
+                  onClick={onLikeTweet}
                 >
-                  {post.author.email}
-                </Link>
-              </p>
+                  <HeartIcon className="mr-4  h-4 w-4" />
+                  {formatNumberToCompact(post.likes.length)}
+                </button>
+              </div>
+              <div>
+                <button
+                  className={cn(
+                    tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
+                    'group flex cursor-pointer items-center transition-all hover:text-green-400'
+                  )}
+                >
+                  <RefreshCwIcon className="mr-4  h-4 w-4" />
+                  {formatNumberToCompact(13)}
+                </button>
+              </div>
+              <div>
+                <AddCommentModal.DialogTrigger
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  className={
+                    'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
+                  }
+                >
+                  <MessageCircleIcon className="mr-4  h-4 w-4" />
+                  {formatNumberToCompact(post.comments?.length ?? 0)}
+                </AddCommentModal.DialogTrigger>
+              </div>
             </div>
           </div>
-          <NewTweetForm
-            createTweet={commentTweet}
-            onSuccessCallback={() => {
-              router.push(`/tweet/${post.id}`);
-              queryClient.invalidateQueries(MAIN_FEED_QUERY_KEYS);
-            }}
-            wrapperClassname="border-b-0 p-0"
-            tweetId={post.id}
-            feedQueryKey={['comments', post.id]}
-          />
         </div>
-      </DialogContent>
-    </Dialog>
+        <AddCommentModal.Form />
+      </>
+    </AddCommentModal>
   );
 }
 
