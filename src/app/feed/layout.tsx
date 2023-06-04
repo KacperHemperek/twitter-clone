@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 
-import HeaderNavigation from '@/components/feed/HeaderNavigation/HeaderNavigation';
+import HeaderNavigation from '@/components/feed/header-navigation/HeaderNavigation';
 import MainWrapper from '@/components/layout/MainWrapper';
 
 export default function layout({ children }: PropsWithChildren) {

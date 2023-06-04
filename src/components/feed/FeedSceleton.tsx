@@ -1,4 +1,4 @@
-import { TweetSceleton } from './Tweet/TweetSceleton';
+import { TweetSceleton } from './tweet/TweetSceleton';
 import React from 'react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';

@@ -6,8 +6,8 @@ import React, { createContext, useContext } from 'react';
 
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
-import NewTweetForm from '../feed/NewTweetForm/NewTweetForm';
 import TweetAvatar from '../feed/TweetAvatar';
+import NewTweetForm from '../feed/new-tweet-form/NewTweetForm';
 
 import { Post } from '@/types/Post.type';
 

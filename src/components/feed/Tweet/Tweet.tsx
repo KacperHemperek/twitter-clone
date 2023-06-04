@@ -13,8 +13,8 @@ import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import { queryClient } from '../../context/Providers';
-import NewTweetForm from '../NewTweetForm/NewTweetForm';
 import TweetAvatar from '../TweetAvatar';
+import NewTweetForm from '../new-tweet-form/NewTweetForm';
 
 import { cn } from '@/lib/cn';
 import {
