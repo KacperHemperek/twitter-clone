@@ -1,3 +1,5 @@
+import AccountSubInfo from './AccountSubInfo';
+import { Calendar, PartyPopper, Pin } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
@@ -52,6 +54,21 @@ export default function AccountDetails() {
           dolorum obcaecati commodi amet asperiores placeat ab odio illo
           consequuntur hic?
         </p>
+
+        <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
+          <AccountSubInfo
+            text={'joined 20 mar 2022'}
+            icon={<Calendar className="w-full h-full" />}
+          />
+          <AccountSubInfo
+            text={'Los Angeles, CA'}
+            icon={<Pin className="w-full h-full" />}
+          />
+          <AccountSubInfo
+            text={'Born 04.20.2002'}
+            icon={<PartyPopper className="w-full h-full" />}
+          />
+        </div>
       </div>
     </div>
   );
