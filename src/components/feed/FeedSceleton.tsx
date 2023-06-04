@@ -1,7 +1,5 @@
-import { TweetSceleton } from './tweet/TweetSceleton';
+import { TweetSceleton } from './Tweet/TweetSceleton';
 import React from 'react';
-
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export default function FeedLoading() {
   return (
