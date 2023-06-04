@@ -2,7 +2,7 @@
 
 import TweetUserInfo from './tweet-user-info/TweetUserInfo';
 import Link from 'next/link';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
@@ -14,31 +14,39 @@ import { Post } from '@/types/Post.type';
 type AddCommentModalContextType = {
   addComment: (...args: any) => Promise<void>;
   feedQueryKey: string[];
+  setDialogIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   onSuccess?: (...args: any) => void;
   tweet?: Post;
 };
 
 const AddCommentModalContext = createContext<AddCommentModalContextType>({
   addComment: async () => {},
+  setDialogIsOpened: () => {},
   feedQueryKey: [],
 });
 
-type AddCommentModalProps = AddCommentModalContextType & {
+type AddCommentModalProps = Omit<
+  AddCommentModalContextType,
+  'setDialogIsOpened'
+> & {
   children: React.ReactNode;
 };
 
 export default function AddCommentModal(props: AddCommentModalProps) {
+  const [dialogIsOpened, setDialogIsOpened] = useState(false);
+
   return (
-    <AddCommentModalContext.Provider value={{ ...props }}>
-      <Dialog>{props.children}</Dialog>
+    <AddCommentModalContext.Provider value={{ ...props, setDialogIsOpened }}>
+      <Dialog open={dialogIsOpened} onOpenChange={setDialogIsOpened}>
+        {props.children}
+      </Dialog>
     </AddCommentModalContext.Provider>
   );
 }
 
 function Form() {
-  const { addComment, feedQueryKey, tweet, onSuccess } = useContext(
-    AddCommentModalContext
-  );
+  const { addComment, feedQueryKey, tweet, onSuccess, setDialogIsOpened } =
+    useContext(AddCommentModalContext);
 
   return (
     <DialogContent className="border-0 gap-2 h-full sm:h-min">
@@ -72,7 +80,10 @@ function Form() {
         </div>
         <NewTweetForm
           createTweet={addComment}
-          onSuccessCallback={onSuccess}
+          onSuccessCallback={() => {
+            setDialogIsOpened(false);
+            onSuccess && onSuccess();
+          }}
           wrapperClassname="border-b-0 p-0"
           tweetId={tweet?.id}
           feedQueryKey={feedQueryKey}

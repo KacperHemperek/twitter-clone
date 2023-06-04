@@ -33,7 +33,7 @@ export default function TweetDetails({
   return (
     <AddCommentModal
       addComment={addComment}
-      feedQueryKey={['tweetDetails', tweetId]}
+      feedQueryKey={['comments']}
       tweet={tweetDetails}
     >
       <>
