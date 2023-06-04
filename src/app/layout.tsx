@@ -28,7 +28,9 @@ export default async function RootLayout({
             {!!session?.user && (
               <>
                 <NavBarContainer />
-                {children}
+                <div className="w-[calc(100vw-64px)] flex md:w-[calc(100vw-288px)] xl:w-full">
+                  {children}
+                </div>
               </>
             )}
             {!session?.user && (
