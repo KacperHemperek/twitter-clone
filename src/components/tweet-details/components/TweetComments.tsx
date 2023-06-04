@@ -6,8 +6,8 @@ import React, { useMemo } from 'react';
 import { addComment, getComments } from '../services/TweetDetails.service';
 
 import Feed from '@/components/feed/Feed';
-import { TweetSceleton } from '@/components/feed/TweetSceleton';
 import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';
+import { TweetSceleton } from '@/components/feed/tweet/TweetSceleton';
 
 import { Post } from '@/types/Post.type';
 

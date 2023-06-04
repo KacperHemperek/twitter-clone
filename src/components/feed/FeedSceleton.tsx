@@ -1,4 +1,4 @@
-import { TweetSceleton } from './TweetSceleton';
+import { TweetSceleton } from './tweet/TweetSceleton';
 import React from 'react';
 
 export default function FeedLoading() {

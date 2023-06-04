@@ -1,6 +1,6 @@
 'use client';
 
-import Tweet from './Tweet';
+import Tweet from './tweet/Tweet';
 import React, { useEffect, useRef } from 'react';
 
 import { type Post as PostType } from '@/types/Post.type';
