@@ -1,3 +1,4 @@
+import { authOptions } from '@/utils/next-auth';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -6,8 +7,6 @@ import {
   getLikeByTweetIdAndUserId,
   likeTweet,
 } from '../(services)/like.services';
-
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { handleServerError, nextServerErrorFactory } from '@/lib/serverError';
 

@@ -1,8 +1,7 @@
 import '@/globals.css';
+import { authOptions } from '@/utils/next-auth';
 import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
-
-import { authOptions } from './api/auth/[...nextauth]/route';
 
 import { SignInButton } from '@/components/common/UserHadnlingButtons';
 import Providers from '@/components/context/Providers';

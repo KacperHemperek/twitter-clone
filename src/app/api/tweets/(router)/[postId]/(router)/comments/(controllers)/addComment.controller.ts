@@ -1,9 +1,8 @@
+import { authOptions } from '@/utils/next-auth';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createComment } from '../(services)/comments.services';
-
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { getBody } from '@/lib/getBodyFromRequest';
 import { ServerError, handleServerError } from '@/lib/serverError';
