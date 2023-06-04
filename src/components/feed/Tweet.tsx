@@ -1,5 +1,6 @@
 'use client';
 
+import TweetAvatar from './TweetAvatar';
 import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon, MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
@@ -10,8 +11,7 @@ import React, { memo } from 'react';
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 
-import { queryClient } from '../../context/Providers';
-import TweetAvatar from '../TweetAvatar';
+import { queryClient } from '../context/Providers';
 
 import { cn } from '@/lib/cn';
 import {
