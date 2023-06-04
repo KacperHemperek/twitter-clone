@@ -1,5 +1,6 @@
 'use client';
 
+import { getTweetDetailsQueryKey } from './TweetDetails';
 import { Like } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon } from 'lucide-react';
@@ -28,7 +29,7 @@ export default function LikeButtonDetails({
         res.json()
       ),
     onMutate: async () => {
-      const tweet = queryClient.getQueryData<Post>(['tweetDetails']);
+      const tweet = queryClient.getQueryData<Post>(tweetDetailsQueryKeys);
 
       const userId = session?.user.id;
 
@@ -48,21 +49,23 @@ export default function LikeButtonDetails({
             likes: [...tweet.likes, { userId, id: uuid(), postId: tweet.id }],
           };
 
-      queryClient.setQueryData(['tweetDetails'], updatedTweet);
+      queryClient.setQueryData(tweetDetailsQueryKeys, updatedTweet);
 
       return { tweet };
     },
 
     onError: (_error, _vars, context) => {
       if (context?.tweet) {
-        queryClient.setQueryData(['tweetDetails'], context.tweet);
+        queryClient.setQueryData(tweetDetailsQueryKeys, context.tweet);
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['mainTweets']);
-      queryClient.invalidateQueries(['tweetDetails']);
+      queryClient.invalidateQueries(tweetDetailsQueryKeys);
     },
   });
+
+  const tweetDetailsQueryKeys = getTweetDetailsQueryKey(tweetId);
 
   const tweetIsLiked = likes.some((like) => like.userId === session?.user.id);
 

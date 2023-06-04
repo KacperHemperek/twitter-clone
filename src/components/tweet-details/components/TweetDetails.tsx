@@ -17,6 +17,11 @@ import { formatLongDate } from '@/lib/dateFormatters';
 
 import { Post } from '@/types/Post.type';
 
+export const getTweetDetailsQueryKey = (tweetId: string) => [
+  'tweetDetails',
+  tweetId,
+];
+
 export default function TweetDetails({
   tweetId,
   initialtweetDetails,
@@ -25,7 +30,7 @@ export default function TweetDetails({
   initialtweetDetails?: Post;
 }) {
   const { data: tweetDetails } = useQuery({
-    queryKey: ['tweetDetails', tweetId],
+    queryKey: getTweetDetailsQueryKey(tweetId),
     queryFn: async () => getTweetDetails(tweetId),
     initialData: initialtweetDetails,
   });
