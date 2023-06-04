@@ -4,17 +4,14 @@ import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon, MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import { queryClient } from '../../context/Providers';
 import TweetAvatar from '../TweetAvatar';
-import NewTweetForm from '../new-tweet-form/NewTweetForm';
 
 import { cn } from '@/lib/cn';
 import {
