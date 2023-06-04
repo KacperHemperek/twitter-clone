@@ -1,14 +1,12 @@
-import AccountSubInfo from './AccountSubInfo';
 import { Calendar, PartyPopper, Pin } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
-import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 
-function HeaderImageLoader() {
-  return <div className="w-full h-full " />;
-}
+import AccountSubInfo from '../account-sub-info/AccountSubInfo';
+
+import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 export default function AccountDetails() {
   return (
@@ -57,7 +55,7 @@ export default function AccountDetails() {
 
         <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
           <AccountSubInfo
-            text={'joined 20 mar 2022'}
+            text={'joined 07 mar 2022'}
             icon={<Calendar className="w-full h-full" />}
           />
           <AccountSubInfo
@@ -65,9 +63,24 @@ export default function AccountDetails() {
             icon={<Pin className="w-full h-full" />}
           />
           <AccountSubInfo
-            text={'Born 04.20.2002'}
+            text={'Born 20 Kwi 2022'}
             icon={<PartyPopper className="w-full h-full" />}
           />
+        </div>
+
+        <div className="flex gap-3">
+          <p className="text-sm text-gray-400">
+            <span className="text-white font-semibold">
+              {`${formatNumberToCompact(420_000)} `}
+            </span>{' '}
+            Following
+          </p>
+          <p className="text-sm text-gray-400">
+            <span className="text-white font-semibold">
+              {`${formatNumberToCompact(69_000_000)} `}
+            </span>
+            Followers
+          </p>
         </div>
       </div>
     </div>
