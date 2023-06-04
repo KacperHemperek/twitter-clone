@@ -5,7 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
-import { addComment, getTweetDetails } from '../services/TweetDetails.service';
+import { addComment } from '../services/Comments.service';
+import { getTweetDetails } from '../services/TweetDetails.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
