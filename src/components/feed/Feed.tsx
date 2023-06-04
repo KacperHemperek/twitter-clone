@@ -37,7 +37,7 @@ export default function Feed({
         lastItemRef.current &&
         observer.current.unobserve(lastItemRef.current);
     };
-  }, [lastItemRef.current, observer.current, hasNextPage]);
+  }, [lastItemRef.current, observer.current, hasNextPage, fetchNextPage]);
 
   return (
     <>

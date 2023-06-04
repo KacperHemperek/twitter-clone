@@ -47,19 +47,20 @@ export default function MainFeed({
     getNextPageParam: (lastPage) => lastPage.nextPage,
     refetchOnMount: false,
   });
+  const arrayOfReducedTweets = useMemo<Post[]>(() => {
+    return (
+      tweets?.pages
+        .map((page) => page.data)
+        .reduce(
+          (allTweets, currentTweets) => [...allTweets, ...currentTweets],
+          []
+        ) ?? []
+    );
+  }, [tweets]);
 
   if (!tweets?.pages.length) {
     return <div>No tweets here</div>;
   }
-
-  const arrayOfReducedTweets = useMemo<Post[]>(() => {
-    return tweets.pages
-      .map((page) => page.data)
-      .reduce(
-        (allTweets, currentTweets) => [...allTweets, ...currentTweets],
-        []
-      );
-  }, [tweets]);
 
   return (
     <>

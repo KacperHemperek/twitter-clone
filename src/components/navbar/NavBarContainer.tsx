@@ -10,7 +10,7 @@ export default function NavBarContainer() {
   const session = useSession();
 
   return (
-    <div className="sticky right-full top-0 flex h-screen w-16 md:w-72 flex-col justify-between items-center md:items-start px-2 pb-4 pt-2 md:px-4 ">
+    <div className="sticky right-full top-0 flex h-[100dvh] w-16 md:w-72 flex-col justify-between items-center md:items-start px-2 pb-4 pt-2 md:px-4 ">
       <div className="flex flex-col justify-center space-y-2">
         <div className="p-3 rounded-full hover:bg-gray-600/30 transition-all max-w-fit md:mb-2">
           <TwitterIcon className="h-6 w-6 md:h-8 md:w-8" />

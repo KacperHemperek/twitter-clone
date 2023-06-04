@@ -1,12 +1,11 @@
 'use client';
 
 import LikeButtonDetails from './LikeButtonDetails';
-import { getTweetDetails } from '@/app/tweet/[tweetId]/page';
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
-import { addComment } from '../services/TweetDetails.service';
+import { addComment, getTweetDetails } from '../services/TweetDetails.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
