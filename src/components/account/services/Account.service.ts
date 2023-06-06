@@ -2,7 +2,6 @@ export async function getAccoundDetails(userId: string) {
   // TODO: get user details from prisma
 
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/user/${userId}`;
-  console.log({ url });
 
   const res = await fetch(url);
 

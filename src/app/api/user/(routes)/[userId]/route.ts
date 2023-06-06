@@ -1,7 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
-export function GET(req: NextRequest, params: { userId: string }) {
-  console.log({ userId: params.userId });
+import { getAccountDetailsController } from './(controllers)/getAccountDetails.controller';
 
-  return NextResponse.json({ ok: true });
+type AccountParams = {
+  userId: string;
+};
+
+export function GET(
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: AccountParams;
+  }
+) {
+  return getAccountDetailsController(req, params.userId);
 }
