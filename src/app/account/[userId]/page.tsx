@@ -1,15 +1,21 @@
-import Image from 'next/image';
 import React from 'react';
 
-import AccountHeader from '@/components/account/components/AccountHeader';
 import AccountDetails from '@/components/account/components/account-details/AccountDetails';
-import MainWrapper from '@/components/layout/MainWrapper';
 
-const wait = (time: number) =>
-  new Promise((resolve) => setTimeout(resolve, time));
-
-export default async function AccountPage() {
-  await wait(20_000);
-
-  return <AccountDetails />;
+export default async function AccountPage({
+  params,
+}: {
+  params: { userId: string };
+}) {
+  return (
+    <AccountDetails
+      name="Test User Name"
+      description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium nostrum, asperiores exercitationem ea vitae rem rerum? Consequuntur voluptatibus fuga ea!"
+      image={new URL('https://cdn.discordapp.com/embed/avatars/2.png')}
+      email={'test@email.com'}
+      userId={params.userId}
+      followersCount={69_000}
+      followingCount={420_000}
+    />
+  );
 }
