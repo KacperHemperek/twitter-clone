@@ -22,17 +22,15 @@ export default function AccountDetails({
   createdAt,
   location,
   followersCount = 0,
-  backgroundImage = new URL(
-    'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
-  ),
+  backgroundImage = 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
   followingCount = 0,
 }: {
   name: string;
   email: string;
   description: string;
   userId: string;
-  image: URL;
-  backgroundImage?: URL;
+  image: string;
+  backgroundImage?: string;
   createdAt?: Date;
   born?: Date;
   location?: string;
@@ -43,11 +41,13 @@ export default function AccountDetails({
 
   const isCurrentUsersPage = session?.user.id === userId;
 
+  const showSubInfoTags = createdAt || born || location;
+
   return (
     <div className="flex flex-col">
       <div className="aspect-[3/1] w-full relative">
         <Image
-          src={backgroundImage.href}
+          src={backgroundImage}
           fill={true}
           className="object-cover "
           alt={'background image of a user'}
@@ -60,7 +60,7 @@ export default function AccountDetails({
           <div />
           <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
             <Avatar className="w-full h-full">
-              <AvatarImage src={image.href} />
+              <AvatarImage src={image} />
             </Avatar>
           </div>
           <div className="flex flex-row gap-2">
@@ -84,27 +84,29 @@ export default function AccountDetails({
         </div>
         <p className="text-base">{description}</p>
 
-        <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
-          {createdAt && (
-            <AccountSubInfo
-              text={`joined ${formatLongDate(createdAt)}`}
-              icon={<Calendar className="w-full h-full" />}
-            />
-          )}
+        {showSubInfoTags && (
+          <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
+            {createdAt && (
+              <AccountSubInfo
+                text={`joined ${formatLongDate(createdAt)}`}
+                icon={<Calendar className="w-full h-full" />}
+              />
+            )}
 
-          {location && (
-            <AccountSubInfo
-              text={location}
-              icon={<Pin className="w-full h-full" />}
-            />
-          )}
-          {born && (
-            <AccountSubInfo
-              text={`Born ${formatLongDate(born)}`}
-              icon={<PartyPopper className="w-full h-full" />}
-            />
-          )}
-        </div>
+            {location && (
+              <AccountSubInfo
+                text={location}
+                icon={<Pin className="w-full h-full" />}
+              />
+            )}
+            {born && (
+              <AccountSubInfo
+                text={`Born ${formatLongDate(born)}`}
+                icon={<PartyPopper className="w-full h-full" />}
+              />
+            )}
+          </div>
+        )}
 
         <div className="flex gap-3">
           <p className="text-sm text-gray-400">
