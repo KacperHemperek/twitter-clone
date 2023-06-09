@@ -13,13 +13,13 @@ export default async function AccountPage({
 
   return (
     <AccountDetails
-      name="Test User Name"
-      description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium nostrum, asperiores exercitationem ea vitae rem rerum? Consequuntur voluptatibus fuga ea!"
-      image={'https://cdn.discordapp.com/embed/avatars/2.png'}
-      email={'test@email.com'}
+      name={user.name ?? ''}
+      description={user.description}
+      image={user.image ?? ''}
+      email={user.email ?? ''}
       userId={params.userId}
-      followersCount={69_000}
-      followingCount={420_000}
+      followersCount={user.followingCount}
+      followingCount={user.followingCount}
     />
   );
 }

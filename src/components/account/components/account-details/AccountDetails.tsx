@@ -12,6 +12,8 @@ import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 import { formatLongDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
+const DEFAULT_DESCRIPTION = "This user doesn't have a description";
+
 export default function AccountDetails({
   name,
   email,
@@ -27,9 +29,9 @@ export default function AccountDetails({
 }: {
   name: string;
   email: string;
-  description: string;
   userId: string;
   image: string;
+  description?: string | null;
   backgroundImage?: string;
   createdAt?: Date;
   born?: Date;
@@ -82,7 +84,7 @@ export default function AccountDetails({
 
           <span className="truncate text-gray-400 text-sm">{`@${email}`}</span>
         </div>
-        <p className="text-base">{description}</p>
+        <p className="text-base">{description ?? DEFAULT_DESCRIPTION}</p>
 
         {showSubInfoTags && (
           <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">

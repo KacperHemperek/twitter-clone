@@ -1,3 +1,3 @@
 import { getAccountDetailsById } from '@/app/api/user/(routes)/[userId]/(services)/account.service';
 
-export type accountDetails = Awaited<ReturnType<typeof getAccountDetailsById>>;
+export type AccountDetails = Awaited<ReturnType<typeof getAccountDetailsById>>;

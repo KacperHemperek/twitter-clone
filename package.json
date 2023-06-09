@@ -29,6 +29,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "javascript-time-ago": "^2.5.9",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.214.0",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/lodash": "^4.14.195",
     "@types/node": "^20.1.2",
     "prettier-plugin-tailwindcss": "^0.2.8",
     "prisma": "^4.14.0",

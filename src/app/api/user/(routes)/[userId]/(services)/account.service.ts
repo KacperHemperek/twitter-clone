@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+
 import { ServerError } from '@/lib/serverError';
 
 import { prisma } from '@/db/prisma';
@@ -14,8 +16,7 @@ export async function getAccountDetailsById(userId: string) {
         id: true,
         location: true,
         image: true,
-        followers: { select: { _count: true } },
-        following: { select: { _count: true } },
+        _count: { select: { followers: true, following: true } },
       },
     });
 
@@ -23,7 +24,16 @@ export async function getAccountDetailsById(userId: string) {
       throw new ServerError(404, "Couldn't find user with id: " + userId);
     }
 
-    return accountDetails;
+    const formatedAccountDetails = omit(
+      {
+        ...accountDetails,
+        followersCount: accountDetails._count.followers,
+        followingCount: accountDetails._count.following,
+      },
+      ['_count']
+    );
+
+    return formatedAccountDetails;
   } catch (e) {
     throw new ServerError(404, "Couldn't find user with id: " + userId);
   }
