@@ -1,3 +1,6 @@
-import { getAccountDetailsById } from '@/app/api/user/(routes)/[userId]/(services)/account.service';
+import { User } from '@prisma/client';
 
-export type AccountDetails = Awaited<ReturnType<typeof getAccountDetailsById>>;
+export type AccountDetails = User & {
+  followersCount: number;
+  followingCount: number;
+};

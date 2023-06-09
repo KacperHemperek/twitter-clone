@@ -1,10 +1,14 @@
-import omit from 'lodash/omit';
+import { Prisma } from '@prisma/client';
 
 import { ServerError } from '@/lib/serverError';
 
+import { AccountDetails } from '@/types/AccountDetails.type';
+
 import { prisma } from '@/db/prisma';
 
-export async function getAccountDetailsById(userId: string) {
+export async function getAccountDetailsById(
+  userId: string
+): Promise<AccountDetails> {
   try {
     const accountDetails = await prisma.user.findUnique({
       where: { id: userId },
@@ -12,6 +16,7 @@ export async function getAccountDetailsById(userId: string) {
         name: true,
         born: true,
         description: true,
+        emailVerified: true,
         email: true,
         id: true,
         location: true,
@@ -24,17 +29,27 @@ export async function getAccountDetailsById(userId: string) {
       throw new ServerError(404, "Couldn't find user with id: " + userId);
     }
 
-    const formatedAccountDetails = omit(
-      {
-        ...accountDetails,
-        followersCount: accountDetails._count.followers,
-        followingCount: accountDetails._count.following,
-      },
-      ['_count']
-    );
+    const formatedAccountDetails: AccountDetails = {
+      ...accountDetails,
+      followersCount: accountDetails._count.followers,
+      followingCount: accountDetails._count.following,
+    };
 
     return formatedAccountDetails;
   } catch (e) {
     throw new ServerError(404, "Couldn't find user with id: " + userId);
+  }
+}
+
+export async function updateAccountDetailsById(
+  userId: string,
+  data: Prisma.UserUpdateInput
+) {
+  try {
+    const newUser = await prisma.user.update({ where: { id: userId }, data });
+
+    return newUser;
+  } catch (e) {
+    throw new ServerError(500, "Couldn't update users profile");
   }
 }
