@@ -9,7 +9,7 @@ export default function AccountDetailsSceleton() {
   return (
     <div className="flex flex-col">
       <div className="aspect-[3/1] w-full bg-muted animate-pulse"></div>
-      <div className="flex flex-col gap-4 sm:gap-8 p-4">
+      <div className="flex flex-col gap-4 sm:gap-6 p-4">
         <div className="flex justify-between relative">
           <div />
           <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">

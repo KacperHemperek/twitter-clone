@@ -20,6 +20,8 @@ export default async function AccountPage({
       userId={params.userId}
       followersCount={user.followingCount}
       followingCount={user.followingCount}
+      born={user.born ? new Date(user.born) : undefined}
+      location={user.location ?? undefined}
     />
   );
 }

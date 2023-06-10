@@ -32,7 +32,7 @@ export default function AccountDetails({
   description,
   image,
   born,
-  createdAt,
+
   location,
   followersCount = 0,
   backgroundImage = 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
@@ -44,7 +44,6 @@ export default function AccountDetails({
   image: string;
   description?: string | null;
   backgroundImage?: string;
-  createdAt?: Date;
   born?: Date;
   location?: string;
   followersCount?: number;
@@ -64,7 +63,7 @@ export default function AccountDetails({
 
   const isCurrentUsersPage = session?.user.id === userId;
 
-  const showSubInfoTags = createdAt || born || location;
+  const showSubInfoTags = born || location;
 
   return (
     <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
@@ -105,7 +104,7 @@ export default function AccountDetails({
             blurDataURL="https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
           />
         </div>
-        <div className="flex flex-col gap-4 sm:gap-8 p-4">
+        <div className="flex flex-col gap-4 sm:gap-4 p-4">
           <div className="flex justify-between relative">
             <div />
             <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
@@ -136,13 +135,6 @@ export default function AccountDetails({
 
           {showSubInfoTags && (
             <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
-              {createdAt && (
-                <AccountSubInfo
-                  text={`joined ${formatLongDate(createdAt)}`}
-                  icon={<Calendar className="w-full h-full" />}
-                />
-              )}
-
               {location && (
                 <AccountSubInfo
                   text={location}
