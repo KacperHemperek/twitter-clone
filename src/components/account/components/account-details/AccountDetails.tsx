@@ -8,8 +8,15 @@ import React, { useState } from 'react';
 
 import { updateAccountDetails } from '../../services/Account.service';
 
+import Input from '@/components/common/Input';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 
@@ -61,16 +68,16 @@ export default function AccountDetails({
   return (
     <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
       <DialogContent>
-        <label htmlFor="name">
-          Name
-          <input
-            type="text"
-            name="name"
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            className="bg-background rounded-lg border-muted border-2 p-1.5 outline-none"
-          />
-        </label>
+        <DialogHeader>
+          <DialogTitle>Edit Account</DialogTitle>
+        </DialogHeader>
+        <Input
+          value={newName}
+          setValue={setNewName}
+          limitCharacters={50}
+          name="name"
+          placeholder="Name"
+        />
         <button
           onClick={() => updateUserInfo()}
           className="bg-white text-background px-4 py-1.5 rounded-full font-bold"
@@ -99,12 +106,12 @@ export default function AccountDetails({
             </div>
             <div className="flex flex-row gap-2">
               {isCurrentUsersPage && (
-                <DialogTrigger className="bg-white text-background px-4 py-1.5 rounded-full font-bold">
+                <DialogTrigger className="bg-background text-white hover:bg-white/10 transition-all px-4 py-1.5 rounded-full font-bold border border-white">
                   Edit Profile
                 </DialogTrigger>
               )}
               {!isCurrentUsersPage && (
-                <button className="bg-white active:bg-white/80 text-background px-4 py-1.5 rounded-full font-bold">
+                <button className="bg-white active:bg-white/80 text-background px-4 py-1.5 rounded-full font-bold border-2 border-white">
                   Follow
                 </button>
               )}
