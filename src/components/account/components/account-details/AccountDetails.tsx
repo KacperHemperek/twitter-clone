@@ -53,6 +53,7 @@ export default function AccountDetails({
   const { data: session } = useSession();
 
   const [newName, setNewName] = useState(name);
+  const [newDescription, setNewDescription] = useState(description ?? '');
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const { mutate: updateUserInfo } = useMutation({
@@ -77,6 +78,14 @@ export default function AccountDetails({
           limitCharacters={50}
           name="name"
           placeholder="Name"
+        />
+        <Input
+          value={newDescription}
+          setValue={setNewDescription}
+          limitCharacters={160}
+          name="description"
+          placeholder="Description"
+          type="textarea"
         />
         <button
           onClick={() => updateUserInfo()}

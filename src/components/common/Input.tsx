@@ -10,12 +10,14 @@ export default function Input({
   name,
   placeholder,
   limitCharacters,
+  type = 'input',
 }: {
   name: string;
   placeholder: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   limitCharacters?: number;
+  type?: 'input' | 'textarea';
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const valueLength = value.trim().length;
@@ -43,14 +45,27 @@ export default function Input({
             </span>
           )}
         </div>
-        <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          id={name}
-          className="bg-transparent outline-none"
-        />
+        {type === 'input' && (
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            id={name}
+            className="bg-transparent outline-none"
+          />
+        )}
+        {type === 'textarea' && (
+          <textarea
+            value={value}
+            rows={3}
+            onChange={(e) => setValue(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            id={name}
+            className="bg-transparent outline-none resize-none"
+          />
+        )}
       </div>
     </label>
   );
