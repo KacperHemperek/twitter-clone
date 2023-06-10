@@ -67,7 +67,7 @@ export default function AccountDetails({
 
   return (
     <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
-      <DialogContent>
+      <DialogContent className="h-full flex flex-col sm:h-min">
         <DialogHeader>
           <DialogTitle>Edit Account</DialogTitle>
         </DialogHeader>
