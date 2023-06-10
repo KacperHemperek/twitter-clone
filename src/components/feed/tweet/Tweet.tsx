@@ -102,6 +102,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
           <TweetAvatar
             image={post.author.image}
             authorName={post.author.name}
+            authorId={post.author.id}
           />
           <div className="flex-grow space-y-2">
             <TweetUserInfo
