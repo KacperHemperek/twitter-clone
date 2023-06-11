@@ -52,7 +52,7 @@ export default function AccountDetails({
   );
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  const { mutate: updateUserInfo } = useMutation({
+  const { mutate: updateUserInfo, isLoading: updatingUser } = useMutation({
     mutationFn: async () =>
       await updateAccountDetails(initialAccountDetails.id, {
         name: newName,
@@ -93,7 +93,10 @@ export default function AccountDetails({
         />
         <button
           onClick={() => updateUserInfo()}
-          className="bg-white text-background px-4 py-1.5 rounded-full font-bold"
+          className={
+            'bg-white text-background px-4 py-1.5 rounded-full font-bold transition-colors disabled:bg-white/50'
+          }
+          disabled={updatingUser}
         >
           Submit
         </button>
@@ -112,7 +115,7 @@ export default function AccountDetails({
           />
         </div>
         <div className="flex flex-col gap-4 sm:gap-4 p-4">
-          <div className="flex justify-between relative">
+          <div className="flex justify-between relative sm:mb-4">
             <div />
             <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
               <Avatar className="w-full h-full">
@@ -144,7 +147,9 @@ export default function AccountDetails({
             <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
           </div>
           <p className="text-base">
-            {accountDetails?.description ?? DEFAULT_DESCRIPTION}
+            {accountDetails?.description || !!accountDetails.description?.length
+              ? accountDetails.description
+              : DEFAULT_DESCRIPTION}
           </p>
 
           {showSubInfoTags && (
