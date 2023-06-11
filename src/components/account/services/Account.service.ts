@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import { AccountDetails } from '@/types/AccountDetails.type';
 
 export const GET_ACCOUNT_DETAILS_TAGS = ['accountDetails'];
@@ -20,7 +22,7 @@ export async function getAccoundDetails(
 
 export async function updateAccountDetails(
   userId: string,
-  data: { name: string }
+  data: Prisma.UserUpdateInput
 ) {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/user/${userId}`;
 

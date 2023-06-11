@@ -1,15 +1,21 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import { Calendar, PartyPopper, Pin } from 'lucide-react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { revalidateTag } from 'next/cache';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import { updateAccountDetails } from '../../services/Account.service';
+import {
+  getAccoundDetails,
+  updateAccountDetails,
+} from '../../services/Account.service';
+import { GET_ACCOUNT_DETAILS_TAGS } from '../../services/Account.service';
 
 import Input from '@/components/common/Input';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { queryClient } from '@/components/context/Providers';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Dialog,
   DialogContent,
@@ -23,47 +29,48 @@ import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 import { formatLongDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
+import { type AccountDetails as AccountDetailsType } from '@/types/AccountDetails.type';
+
 const DEFAULT_DESCRIPTION = "This user doesn't have a description";
 
-export default function AccountDetails({
-  name,
-  email,
-  userId,
-  description,
-  image,
-  born,
+const ACCOUNT_DETAILS_KEY = ['accountDetails'];
 
-  location,
-  followersCount = 0,
-  backgroundImage = 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-  followingCount = 0,
+export default function AccountDetails({
+  initialAccountDetails,
 }: {
-  name: string;
-  email: string;
-  userId: string;
-  image: string;
-  description?: string | null;
-  backgroundImage?: string;
-  born?: Date;
-  location?: string;
-  followersCount?: number;
-  followingCount?: number;
+  initialAccountDetails: AccountDetailsType;
 }) {
   const { data: session } = useSession();
 
-  const [newName, setNewName] = useState(name);
-  const [newDescription, setNewDescription] = useState(description ?? '');
+  const { data: accountDetails } = useQuery({
+    queryFn: () => getAccoundDetails(initialAccountDetails.id),
+    queryKey: ACCOUNT_DETAILS_KEY,
+    initialData: initialAccountDetails,
+  });
+
+  const [newName, setNewName] = useState(accountDetails?.name ?? '');
+  const [newDescription, setNewDescription] = useState(
+    accountDetails?.description ?? ''
+  );
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const { mutate: updateUserInfo } = useMutation({
     mutationFn: async () =>
-      await updateAccountDetails(userId, { name: newName }),
+      await updateAccountDetails(initialAccountDetails.id, {
+        name: newName,
+        description: newDescription,
+      }),
     mutationKey: ['updateAccountDetails'],
+    onSuccess: () => {
+      queryClient.invalidateQueries(ACCOUNT_DETAILS_KEY);
+
+      setEditModalOpen(false);
+    },
   });
 
-  const isCurrentUsersPage = session?.user.id === userId;
+  const isCurrentUsersPage = session?.user.id === accountDetails?.id;
 
-  const showSubInfoTags = born || location;
+  const showSubInfoTags = !!accountDetails?.born || !!accountDetails?.location;
 
   return (
     <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
@@ -96,7 +103,9 @@ export default function AccountDetails({
       <div className="flex flex-col">
         <div className="aspect-[3/1] w-full relative">
           <Image
-            src={backgroundImage}
+            src={
+              'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+            }
             fill={true}
             className="object-cover "
             alt={'background image of a user'}
@@ -109,7 +118,10 @@ export default function AccountDetails({
             <div />
             <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
               <Avatar className="w-full h-full">
-                <AvatarImage src={image} />
+                <AvatarImage src={accountDetails?.image ?? ''} />
+                <AvatarFallback className="text-xl">
+                  {accountDetails?.name?.[0]}
+                </AvatarFallback>
               </Avatar>
             </div>
             <div className="flex flex-row gap-2">
@@ -127,23 +139,29 @@ export default function AccountDetails({
           </div>
 
           <div className={'flex flex-col text-lg leading-[22px]'}>
-            <h5 className="whitespace-nowrap font-bold text-xl">{name}</h5>
+            <h5 className="whitespace-nowrap font-bold text-xl">
+              {accountDetails?.name}
+            </h5>
 
-            <span className="truncate text-gray-400 text-sm">{`@${email}`}</span>
+            <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
           </div>
-          <p className="text-base">{description ?? DEFAULT_DESCRIPTION}</p>
+          <p className="text-base">
+            {accountDetails?.description ?? DEFAULT_DESCRIPTION}
+          </p>
 
           {showSubInfoTags && (
             <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
-              {location && (
+              {accountDetails?.location && (
                 <AccountSubInfo
-                  text={location}
+                  text={accountDetails?.location ?? ''}
                   icon={<Pin className="w-full h-full" />}
                 />
               )}
-              {born && (
+              {accountDetails?.born && (
                 <AccountSubInfo
-                  text={`Born ${formatLongDate(born)}`}
+                  text={`Born ${formatLongDate(
+                    new Date(accountDetails?.born ?? '')
+                  )}`}
                   icon={<PartyPopper className="w-full h-full" />}
                 />
               )}
@@ -153,13 +171,17 @@ export default function AccountDetails({
           <div className="flex gap-3">
             <p className="text-sm text-gray-400">
               <span className="text-white font-semibold">
-                {`${formatNumberToCompact(followingCount)} `}
+                {`${formatNumberToCompact(
+                  accountDetails?.followingCount ?? 0
+                )} `}
               </span>{' '}
               Following
             </p>
             <p className="text-sm text-gray-400">
               <span className="text-white font-semibold">
-                {`${formatNumberToCompact(followersCount)} `}
+                {`${formatNumberToCompact(
+                  accountDetails?.followersCount ?? 0
+                )} `}
               </span>
               Followers
             </p>

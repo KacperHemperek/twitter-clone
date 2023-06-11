@@ -11,17 +11,5 @@ export default async function AccountPage({
 }) {
   const user = await getAccoundDetails(params.userId);
 
-  return (
-    <AccountDetails
-      name={user.name ?? ''}
-      description={user.description}
-      image={user.image ?? ''}
-      email={user.email ?? ''}
-      userId={params.userId}
-      followersCount={user.followingCount}
-      followingCount={user.followingCount}
-      born={user.born ? new Date(user.born) : undefined}
-      location={user.location ?? undefined}
-    />
-  );
+  return <AccountDetails initialAccountDetails={user} />;
 }
