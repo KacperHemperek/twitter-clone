@@ -3,7 +3,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { revalidateTag } from 'next/cache';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -11,7 +10,6 @@ import {
   getAccoundDetails,
   updateAccountDetails,
 } from '../../services/Account.service';
-import { GET_ACCOUNT_DETAILS_TAGS } from '../../services/Account.service';
 
 import Input from '@/components/common/Input';
 import { queryClient } from '@/components/context/Providers';
