@@ -26,7 +26,7 @@ export default function Input({
 
   return (
     <label
-      className="group  border-2 rounded-md border-gray-700 focus-within:border-sky-500 transition-colors duration-200"
+      className="group border-2 rounded-md border-gray-700 focus-within:border-sky-500 transition-colors duration-200"
       htmlFor={name}
     >
       <div className="my-2 mx-3 flex flex-col">

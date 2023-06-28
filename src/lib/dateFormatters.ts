@@ -27,3 +27,18 @@ export function formatLongDate(date: Date) {
 
   return hourFormatter.format(date) + ' · ' + dateFormatter.format(date);
 }
+
+export function formatShortDate(date: Date) {
+  return Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  }).format(date);
+}
+
+export function getMonthName(monthNumber: number) {
+  const date = new Date();
+  date.setMonth(monthNumber);
+
+  return date.toLocaleString('en-US', { month: 'long' });
+}

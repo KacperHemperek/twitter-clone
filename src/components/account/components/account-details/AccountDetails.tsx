@@ -1,10 +1,11 @@
 'use client';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { PartyPopper, Pin } from 'lucide-react';
+import { getMonth, setYear } from 'date-fns';
+import { CalendarIcon, PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import {
   getAccoundDetails,
@@ -21,10 +22,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 
-import { formatLongDate } from '@/lib/dateFormatters';
+import { formatTweetDate, getMonthName } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 import { type AccountDetails as AccountDetailsType } from '@/types/AccountDetails.type';
@@ -32,6 +40,16 @@ import { type AccountDetails as AccountDetailsType } from '@/types/AccountDetail
 const DEFAULT_DESCRIPTION = "This user doesn't have a description";
 
 const ACCOUNT_DETAILS_KEY = ['accountDetails'];
+
+const getInitialBirthdayState = (birthday: Date) => {
+  const bithdayDate = new Date(birthday);
+
+  const day = bithdayDate.getDate();
+  const month = bithdayDate.getMonth();
+  const year = bithdayDate.getFullYear();
+
+  return { day, month, year };
+};
 
 export default function AccountDetails({
   initialAccountDetails,
@@ -51,6 +69,20 @@ export default function AccountDetails({
     accountDetails?.description ?? ''
   );
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [newBirthday, setNewBirthday] = useState<{
+    day: number;
+    month: number;
+    year: number;
+  }>(
+    accountDetails.born
+      ? getInitialBirthdayState(accountDetails.born)
+      : { day: 0, month: 0, year: new Date().getFullYear() }
+  );
+
+  const currentDaysInMonth = useMemo(
+    () => new Date(newBirthday.year, newBirthday.month + 1, 0).getDate(),
+    [newBirthday.year, newBirthday.month]
+  );
 
   const { mutate: updateUserInfo, isLoading: updatingUser } = useMutation({
     mutationFn: async () =>
@@ -91,6 +123,73 @@ export default function AccountDetails({
           placeholder="Description"
           type="textarea"
         />
+
+        <div className="flex items-center gap-4">
+          <Select
+            onValueChange={(month) =>
+              setNewBirthday((prevDate) => ({
+                ...prevDate,
+                month: Number(month),
+              }))
+            }
+            value={String(newBirthday.month)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Month" />
+            </SelectTrigger>
+            <SelectContent className="max-h-40 overflow-y-scroll">
+              {[...Array(12)].map((_, index) => (
+                <SelectItem key={index} value={String(index)}>
+                  {getMonthName(index)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            onValueChange={(day) =>
+              setNewBirthday((prevDate) => ({
+                ...prevDate,
+                day: Number(day),
+              }))
+            }
+            value={String(newBirthday.day)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Day" />
+            </SelectTrigger>
+            <SelectContent className="max-h-40 overflow-y-scroll">
+              {[...Array(currentDaysInMonth)].map((_, index) => (
+                <SelectItem key={index} value={String(index)}>
+                  {index + 1}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            onValueChange={(year) =>
+              setNewBirthday((prevDate) => ({
+                ...prevDate,
+                year: Number(year),
+              }))
+            }
+            value={String(newBirthday.year)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Year" />
+            </SelectTrigger>
+            <SelectContent className="max-h-40 overflow-y-scroll">
+              {[...Array(110)].map((_, index) => (
+                <SelectItem
+                  key={index}
+                  value={String(new Date().getFullYear() - index)}
+                >
+                  {String(new Date().getFullYear() - index)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <button
           onClick={() => updateUserInfo()}
           className={
@@ -162,8 +261,8 @@ export default function AccountDetails({
               )}
               {accountDetails?.born && (
                 <AccountSubInfo
-                  text={`Born ${formatLongDate(
-                    new Date(accountDetails?.born ?? '')
+                  text={`Born ${formatTweetDate(
+                    new Date(accountDetails.born)
                   )}`}
                   icon={<PartyPopper className="w-full h-full" />}
                 />
