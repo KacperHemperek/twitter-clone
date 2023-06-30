@@ -90,6 +90,7 @@ export default function AccountDetails({
         name: newName,
         description: newDescription,
         born: new Date(dateValues.year, dateValues.month, dateValues.day),
+        location: newLocation,
       }),
     mutationKey: ['updateAccountDetails'],
     onSuccess: () => {
@@ -98,15 +99,16 @@ export default function AccountDetails({
     },
   });
 
-  const [newName, setNewName] = useState(accountDetails?.name ?? '');
+  const [newName, setNewName] = useState(accountDetails.name ?? '');
   const [newDescription, setNewDescription] = useState(
     accountDetails?.description ?? ''
   );
-  const [editModalOpen, setEditModalOpen] = useState(false);
-
   const [dateValues, setDateValues] = useState<DateValues>(
     getInitialBirthdayState(accountDetails.born)
   );
+  const [newLocation, setNewLocation] = useState(accountDetails.location ?? '');
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const daysInMonth = useMemo<number>(
     () => getDaysInMonth(new Date(dateValues.year, dateValues.month)),
@@ -144,6 +146,12 @@ export default function AccountDetails({
           name="description"
           placeholder="Description"
           type="textarea"
+        />
+        <Input
+          value={newLocation}
+          setValue={setNewLocation}
+          name="location"
+          placeholder="Location"
         />
         <SelectDate
           date={dateValues}
