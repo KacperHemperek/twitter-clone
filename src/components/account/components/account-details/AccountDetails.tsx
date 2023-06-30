@@ -57,6 +57,20 @@ const getInitialBirthdayState = (birthday?: Date | null) => {
   return { day, month, year };
 };
 
+const setPointerEventsOnBody = (val: boolean) => {
+  // workaround for closing select and dialog at the same time
+  // https://github.com/radix-ui/primitives/issues/1241
+  if (!val) {
+    setTimeout(() => {
+      document.body.style.pointerEvents = 'auto';
+      console.log(
+        'setting pointer event to auto',
+        document.body.style.pointerEvents
+      );
+    }, 1);
+  }
+};
+
 export default function AccountDetails({
   initialAccountDetails,
 }: {
@@ -109,6 +123,7 @@ export default function AccountDetails({
       onOpenChange={(val) => {
         setDateValues(getInitialBirthdayState(accountDetails.born));
         setEditModalOpen(val);
+        setPointerEventsOnBody(val);
       }}
     >
       <DialogContent className="h-full flex flex-col sm:h-min">

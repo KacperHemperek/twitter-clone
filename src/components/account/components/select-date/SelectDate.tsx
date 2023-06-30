@@ -26,7 +26,6 @@ export default function SelectDate({
     <div className="flex items-center gap-4">
       <Select
         onValueChange={(month) => {
-          console.log('closing dropdown');
           setDate((prevDate) => ({
             ...prevDate,
             month: Number(month),
@@ -47,7 +46,6 @@ export default function SelectDate({
       </Select>
       <Select
         onValueChange={(day) => {
-          console.log('closing dropdown');
           setDate((prevDate) => ({
             ...prevDate,
             day: Number(day),
