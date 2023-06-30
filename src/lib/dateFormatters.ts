@@ -37,8 +37,6 @@ export function formatShortDate(date: Date) {
 }
 
 export function getMonthName(monthNumber: number) {
-  const date = new Date();
-  date.setMonth(monthNumber);
-
+  const date = new Date(new Date().getFullYear(), monthNumber + 1, 0);
   return date.toLocaleString('en-US', { month: 'long' });
 }
