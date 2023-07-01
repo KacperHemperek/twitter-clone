@@ -222,7 +222,11 @@ export default function AccountDetails({
                 </DialogTrigger>
               )}
               {!isCurrentUsersPage && (
-                <button className="bg-white active:bg-white/80 text-background px-4 py-1.5 rounded-full font-bold border-2 border-white">
+                //enable when follow functionality is added
+                <button
+                  disabled={true}
+                  className="bg-white active:bg-white/80 text-background px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-700"
+                >
                   Follow
                 </button>
               )}
