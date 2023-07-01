@@ -102,11 +102,13 @@ export default function AccountDetails({
       queryClient.invalidateQueries(ACCOUNT_DETAILS_KEY);
       setEditModalOpen(false);
     },
-    onError: () => {
+    onError: (err: any) => {
       toast({
         variant: 'destructive',
         title: 'Oh no!',
-        description: `We couldn't update your profile. Please try again later.`,
+        description:
+          err?.message ??
+          `We couldn't update your profile. Please try again later.`,
       });
     },
   });

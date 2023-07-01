@@ -1,5 +1,7 @@
 import { Prisma } from '@prisma/client';
 
+import { UpdateAccountDetailsBody } from '@/app/api/user/(routes)/[userId]/(controllers)/updateAccountDetails.controller';
+
 import { AccountDetails } from '@/types/AccountDetails.type';
 
 export const GET_ACCOUNT_DETAILS_TAGS = ['accountDetails'];
@@ -19,16 +21,19 @@ export async function getAccoundDetails(
 
 export async function updateAccountDetails(
   userId: string,
-  data: Prisma.UserUpdateInput
+  data: UpdateAccountDetailsBody
 ) {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/user/${userId}`;
 
   const res = await fetch(url, { method: 'PUT', body: JSON.stringify(data) });
 
-  if (!res.ok)
-    throw new Error('Error occured while updating user information', {
-      cause: res.statusText,
-    });
-
-  return res.json();
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(
+      error?.message ?? 'Error occured while updating user information',
+      {
+        cause: res.statusText,
+      }
+    );
+  }
 }
