@@ -6,8 +6,8 @@ import React, { useState } from 'react';
 import { Oval } from 'react-loader-spinner';
 
 import { queryClient } from '../../context/Providers';
-import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 import { useToast } from '../../ui/use-toast';
+import TweetAvatar from '../TweetAvatar';
 
 import { cn } from '@/lib/cn';
 import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
@@ -76,10 +76,11 @@ export default function NewTweetForm({
         wrapperClassname
       )}
     >
-      <Avatar>
-        <AvatarImage src={session?.user.image ?? undefined} />
-        <AvatarFallback>{session?.user.name?.[0] ?? ''}</AvatarFallback>
-      </Avatar>
+      <TweetAvatar
+        image={session?.user.image ?? null}
+        authorName={session?.user.name ?? null}
+        authorId={session?.user.id ?? null}
+      />
       <div className="flex flex-grow flex-col">
         <textarea
           value={newTweet}

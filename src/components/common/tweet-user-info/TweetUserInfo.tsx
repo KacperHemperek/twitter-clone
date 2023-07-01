@@ -9,18 +9,21 @@ export default function TweetUserInfo({
   createdAt,
   showDate = true,
   alwaysShowShowInColumn = false,
+  className,
 }: {
   authorName?: string | null;
   authorEmail?: string | null;
   createdAt?: Date | null;
   showDate?: boolean;
   alwaysShowShowInColumn?: boolean;
+  className?: string;
 }) {
   return (
     <div
       className={cn(
+        'flex flex-col gap-0.5 text-sm',
         !alwaysShowShowInColumn && 'xl:flex-row xl:gap-1',
-        'flex flex-col gap-0.5 text-sm'
+        className
       )}
     >
       <h5 className="whitespace-nowrap font-bold">{authorName} </h5>

@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from 'react';
 import { type Post as PostType } from '@/types/Post.type';
 
 export default function Feed({
-  posts: initialPosts,
+  posts,
   fetchNextPage,
   hasNextPage,
   feedQueryKey,
@@ -37,16 +37,16 @@ export default function Feed({
         lastItemRef.current &&
         observer.current.unobserve(lastItemRef.current);
     };
-  }, [lastItemRef.current, observer.current, hasNextPage, fetchNextPage]);
+  }, [fetchNextPage, hasNextPage, lastItemRef, observer]);
 
   return (
     <>
-      {initialPosts.map((post) => (
+      {posts.map((post) => (
         <Tweet key={post.id} post={post} feedQueryKey={feedQueryKey} />
       ))}
       {hasNextPage && (
         <div className="p-3 text-center" ref={lastItemRef}>
-          Loading more posts...
+          Loading more tweets...
         </div>
       )}{' '}
       {!hasNextPage && (

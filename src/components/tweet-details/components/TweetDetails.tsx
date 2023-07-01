@@ -5,12 +5,12 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
-import { addComment, getTweetDetails } from '../services/TweetDetails.service';
+import { addComment } from '../services/Comments.service';
+import { getTweetDetails } from '../services/TweetDetails.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
-
-import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
+import TweetAvatar from '@/components/feed/TweetAvatar';
 
 import { formatLongDate } from '@/lib/dateFormatters';
 
@@ -43,10 +43,11 @@ export default function TweetDetails({
       <>
         <div className="flex flex-col p-4">
           <div className="flex gap-2">
-            <Avatar>
-              <AvatarImage src={tweetDetails?.author.image ?? undefined} />
-              <AvatarFallback></AvatarFallback>
-            </Avatar>
+            <TweetAvatar
+              authorId={tweetDetails?.author.id ?? null}
+              authorName={tweetDetails?.author.name ?? null}
+              image={tweetDetails?.author.image ?? null}
+            />
             <TweetUserInfo
               authorName={tweetDetails?.author.name}
               authorEmail={tweetDetails?.author.email}

@@ -49,13 +49,14 @@ function Form() {
     useContext(AddCommentModalContext);
 
   return (
-    <DialogContent className="border-0 gap-2 h-full sm:h-min">
+    <DialogContent className="border-0 gap-2 h-[100dvh] sm:h-min">
       <div className="flex flex-col">
         <div className="flex gap-3">
           <div className="flex flex-col items-center">
             <TweetAvatar
-              authorName={tweet?.author.name || null}
-              image={tweet?.author.image || null}
+              authorName={tweet?.author.name ?? null}
+              image={tweet?.author.image ?? null}
+              authorId={tweet?.author.id ?? null}
             />
             <div className="h-full w-0.5 bg-gray-400 my-2" />
           </div>
@@ -71,7 +72,7 @@ function Form() {
               Replying to{' '}
               <Link
                 className="text-sky-500"
-                href={`/account/${tweet?.author.id}`}
+                href={`/account/${tweet?.author.id}/tweets`}
               >
                 {tweet?.author.email}
               </Link>

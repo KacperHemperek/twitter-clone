@@ -19,7 +19,7 @@ export default function HeaderNavigation() {
           <h2
             className={cn(
               isHomeFeed ? 'font-bold' : 'text-gray-500',
-              'w-fit pb-3 pt-4'
+              'w-fit pb-2 pt-3 mb:pb-3 mb:pt-4'
             )}
           >
             Home
@@ -40,7 +40,7 @@ export default function HeaderNavigation() {
           <h2
             className={cn(
               !isHomeFeed ? 'font-bold' : 'text-gray-500',
-              'w-fit pb-3 pt-4'
+              'w-fit pb-2 pt-3 mb:pb-3 mb:pt-4'
             )}
           >
             Followed
