@@ -1,6 +1,7 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { RefreshCcwIcon } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -44,10 +45,11 @@ export default function AccountOnlyFeed() {
       <div className="text-center flex flex-col gap-4 items-center py-20 px-6">
         Something went wrong while getting users tweets
         <button
-          className="px-4 py-2 rounded-full bg-sky-500 max-w-fit"
+          className="px-4 py-2 rounded-full bg-sky-500 max-w-fit flex items-center"
           onClick={() => refetch()}
         >
-          Try again
+          <RefreshCcwIcon className="w-4 h-4" />
+          <span>Try again</span>
         </button>
       </div>
     );

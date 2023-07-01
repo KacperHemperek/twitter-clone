@@ -37,9 +37,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
 
   const { mutate: likeTweet } = useMutation({
     mutationFn: async () =>
-      fetch(`/api/tweets/${post.id}/like`, { method: 'POST' }).then((res) =>
-        res.json()
-      ),
+      fetch(`/api/tweets/${post.id}/like`, { method: 'POST' }),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: feedQueryKey });
 

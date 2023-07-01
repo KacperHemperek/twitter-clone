@@ -1,14 +1,10 @@
-import MainFeed from './(components)/MainFeed';
+import MainFeed from '@/app/feed/main/(components)/MainFeed';
 import React from 'react';
 
-import { Post } from '@/types/Post.type';
-import { PaginatedResponse } from '@/types/api/pagination';
+import { getMainFeedTweets } from '@/components/feed/Feed.service';
 
-export default async function page() {
-  const posts: PaginatedResponse<Post> = await fetch(
-    process.env.NEXTAUTH_URL! + '/api/tweets',
-    { cache: 'no-cache' }
-  ).then((res) => res.json());
+export default async function MainFeedPage() {
+  const posts = await getMainFeedTweets();
 
   return (
     <>

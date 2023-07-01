@@ -5,9 +5,14 @@ export async function getTweetDetails(
 ): Promise<Post | undefined> {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/tweets/${tweetId}`;
 
-  const tweetDetailsRes = await fetch(url, { cache: 'no-cache' });
+  const res = await fetch(url, { cache: 'no-cache' });
 
-  const tweetDetails = await tweetDetailsRes.json();
+  if (!res.ok)
+    throw new Error('Error occured while fetching tweet details', {
+      cause: res.statusText,
+    });
+
+  const tweetDetails = await res.json();
 
   return tweetDetails;
 }
