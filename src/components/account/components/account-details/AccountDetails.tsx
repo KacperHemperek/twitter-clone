@@ -296,10 +296,10 @@ export default function AccountDetails({
         <FeedNavigation
           links={[
             {
-              href: `account/${params?.userId}/tweets`,
+              href: `/account/${params?.userId}/tweets`,
               label: 'Tweets',
             },
-            { href: `account/${params?.userId}/likes`, label: 'Likes' },
+            { href: `/account/${params?.userId}/likes`, label: 'Likes' },
           ]}
         />
       </div>
