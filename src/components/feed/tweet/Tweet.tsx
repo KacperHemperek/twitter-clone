@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
+import { likeTweet } from '@/components/common/CommonService.service';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 
 import { queryClient } from '../../context/Providers';
@@ -42,9 +43,8 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { mutate: likeTweet } = useMutation({
-    mutationFn: async () =>
-      fetch(`/api/tweets/${post.id}/like`, { method: 'POST' }),
+  const { mutate: likeTweetMutation } = useMutation({
+    mutationFn: async () => likeTweet(post.id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: feedQueryKey });
 
@@ -76,7 +76,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
 
   const onLikeTweet = (e: React.MouseEvent) => {
     e.stopPropagation();
-    likeTweet();
+    likeTweetMutation();
   };
 
   const goToTweetDetails = () => {

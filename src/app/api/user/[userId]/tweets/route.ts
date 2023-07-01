@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { getUserTweetsHandler } from '@/app/api/user/(routes)/[userId]/tweets/(controllers)/getUserTweets.controller';
+import { getUserTweetsHandler } from '@/app/api/user/[userId]/tweets/(controllers)/getUserTweets.controller';
 
 type AccountParams = {
   userId: string;

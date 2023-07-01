@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react';
 import React from 'react';
 import { uuid } from 'uuidv4';
 
+import { likeTweet } from '@/components/common/CommonService.service';
+
 import { queryClient } from '../../context/Providers';
 
 import { cn } from '@/lib/cn';
@@ -23,9 +25,8 @@ export default function LikeButtonDetails({
 }) {
   const { data: session } = useSession();
   // FIXME: Upadte likes on home feed
-  const { mutate: likeTweet } = useMutation({
-    mutationFn: async () =>
-      fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' }),
+  const { mutate: likeTweetMutation } = useMutation({
+    mutationFn: async () => likeTweet(tweetId),
     onMutate: async () => {
       const tweet = queryClient.getQueryData<Post>(tweetDetailsQueryKeys);
 
@@ -69,7 +70,7 @@ export default function LikeButtonDetails({
 
   return (
     <button
-      onClick={() => likeTweet()}
+      onClick={() => likeTweetMutation()}
       className={cn(
         tweetIsLiked && 'text-pink-600',
         'transition-all hover:text-pink-400'
