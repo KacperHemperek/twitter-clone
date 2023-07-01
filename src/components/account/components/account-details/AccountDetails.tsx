@@ -179,6 +179,7 @@ export default function AccountDetails({
         <Input
           value={newLocation}
           setValue={setNewLocation}
+          limitCharacters={LOCATION_CHAR_LIMIT}
           name="location"
           placeholder="Location"
         />
