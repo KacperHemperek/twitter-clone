@@ -23,7 +23,7 @@ export default function NavBarContainer() {
           <p className="text-xl md:mr-3 font-bold hidden md:inline">Home</p>
         </Link>
         <Link
-          href={`/account/${session.data?.user.id}`}
+          href={`/account/${session.data?.user.id}/tweets`}
           className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
         >
           <UserIcon className="h-6 w-6 md:h-8 md:w-8" />

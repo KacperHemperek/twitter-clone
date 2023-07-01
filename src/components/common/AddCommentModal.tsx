@@ -72,7 +72,7 @@ function Form() {
               Replying to{' '}
               <Link
                 className="text-sky-500"
-                href={`/account/${tweet?.author.id}`}
+                href={`/account/${tweet?.author.id}/tweets`}
               >
                 {tweet?.author.email}
               </Link>

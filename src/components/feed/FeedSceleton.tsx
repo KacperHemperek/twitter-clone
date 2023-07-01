@@ -1,10 +1,14 @@
 import { TweetSceleton } from './tweet/TweetSceleton';
 import React from 'react';
 
-export default function FeedLoading() {
+export default function FeedSceleton({
+  numberOfTweets = 15,
+}: {
+  numberOfTweets?: number;
+}) {
   return (
     <>
-      {[...Array(15)].map((_, idx) => (
+      {[...Array(numberOfTweets)].map((_, idx) => (
         <TweetSceleton key={idx} />
       ))}
     </>

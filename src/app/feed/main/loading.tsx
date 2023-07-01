@@ -1,5 +1,5 @@
-import FeedLoading from '@/components/feed/FeedSceleton';
+import FeedSceleton from '@/components/feed/FeedSceleton';
 
 export default function MainFeedLoading() {
-  return <FeedLoading />;
+  return <FeedSceleton />;
 }

@@ -5,6 +5,7 @@ import { getDaysInMonth } from 'date-fns';
 import { PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 
 import {
@@ -14,6 +15,7 @@ import {
 
 import SelectDate from '@/components/account/components/select-date/SelectDate';
 import Input from '@/components/common/Input';
+import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
 import { queryClient } from '@/components/context/Providers';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -77,6 +79,7 @@ export default function AccountDetails({
   initialAccountDetails: AccountDetailsType;
 }) {
   const { data: session } = useSession();
+  const params = useParams();
 
   const { data: accountDetails } = useQuery({
     queryFn: () => getAccoundDetails(initialAccountDetails.id),
@@ -172,7 +175,7 @@ export default function AccountDetails({
           Submit
         </button>
       </DialogContent>
-      <div className="flex flex-col">
+      <div className="flex flex-col border-b border-gray-600">
         <div className="aspect-[3/1] w-full relative">
           <Image
             src={
@@ -261,6 +264,15 @@ export default function AccountDetails({
             </p>
           </div>
         </div>
+        <FeedNavigation
+          links={[
+            {
+              href: `account/${params.userId}/tweets`,
+              label: 'Tweets',
+            },
+            { href: 'account/clhkm17o30000sfm7v7wgd1r7/likes', label: 'Likes' },
+          ]}
+        />
       </div>
     </Dialog>
   );

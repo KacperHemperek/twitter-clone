@@ -14,7 +14,7 @@ export default function TweetAvatar({
 }) {
   return (
     <Link
-      href={`/account/${authorId}`}
+      href={`/account/${authorId}/tweets`}
       className="w-min h-min"
       onClick={(e) => {
         e.stopPropagation();

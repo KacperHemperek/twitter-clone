@@ -43,7 +43,7 @@ export default function AvatarDropdown({
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end">
-        <Link href={`/account/${id}`}>
+        <Link href={`/account/${id}/tweets`}>
           <DropdownMenuItem className="flex items-center gap-2 p-3">
             <UserIcon className="h-4 w-4" />
             <span>Account</span>
