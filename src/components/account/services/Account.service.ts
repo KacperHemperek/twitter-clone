@@ -22,7 +22,7 @@ export async function updateAccountDetails(
   data: Prisma.UserUpdateInput
 ) {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/user/${userId}`;
-  throw new Error('Delete later');
+
   const res = await fetch(url, { method: 'PUT', body: JSON.stringify(data) });
 
   if (!res.ok)
