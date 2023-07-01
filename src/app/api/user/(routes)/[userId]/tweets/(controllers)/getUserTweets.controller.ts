@@ -14,7 +14,6 @@ export async function getUserTweetsHandler(req: Request, userId: string) {
   try {
     const tweets = await getUsersTweets(userId, pageNumber);
     const nextPage = tweets.length === 10 ? pageNumber + 1 : undefined;
-    throw new Error('lol error');
     return NextResponse.json({ data: tweets, nextPage });
   } catch (e) {
     if (e instanceof ServerError) {
