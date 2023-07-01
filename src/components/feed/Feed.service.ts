@@ -4,7 +4,7 @@ import { PaginatedResponse } from '@/types/api/pagination';
 export async function getMainFeedTweets(
   page?: number
 ): Promise<PaginatedResponse<Post>> {
-  const url = `${process.env.NEXTAUTH_URL}/api/tweets${
+  const url = `${process.env.NEXTAUTH_URL ?? ''}/api/tweets${
     page ? '?page=' + page : ''
   }`;
 
