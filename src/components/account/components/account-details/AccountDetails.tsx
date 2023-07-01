@@ -25,6 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useToast } from '@/components/ui/use-toast';
 
 import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 
@@ -84,6 +85,7 @@ export default function AccountDetails({
 }) {
   const { data: session } = useSession();
   const params = useParams();
+  const { toast } = useToast();
 
   const { data: accountDetails } = useQuery({
     queryFn: () => getAccoundDetails(initialAccountDetails.id),
@@ -103,6 +105,13 @@ export default function AccountDetails({
     onSuccess: () => {
       queryClient.invalidateQueries(ACCOUNT_DETAILS_KEY);
       setEditModalOpen(false);
+    },
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'Oh no!',
+        description: `We couldn't update your profile. Please try again later.`,
+      });
     },
   });
 
