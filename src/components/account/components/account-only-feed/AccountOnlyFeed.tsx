@@ -28,8 +28,9 @@ export default function AccountOnlyFeed() {
     isError,
     refetch,
     isLoading,
+    error,
   } = useInfiniteQuery({
-    queryFn: ({ pageParam }) => getUsersTweets(urlParams?.userId, pageParam),
+    queryFn: ({ pageParam }) => getUsersTweets(urlParams.userId, pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     queryKey: ACCOUNT_ONLY_FEED_QUERY_KEYS,
   });
@@ -38,7 +39,7 @@ export default function AccountOnlyFeed() {
     return <FeedSceleton numberOfTweets={4} />;
   }
 
-  if (isError) {
+  if (isError || error) {
     return (
       <div className="text-center flex flex-col gap-4 items-center">
         Something went wrong while getting users tweets

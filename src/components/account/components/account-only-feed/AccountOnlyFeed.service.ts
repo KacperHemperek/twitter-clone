@@ -7,8 +7,15 @@ export async function getUsersTweets(
   userId: string,
   page?: number
 ): Promise<PaginatedResponse<Post>> {
-  return {
-    data: [],
-    nextPage: undefined,
-  };
+  const url = `/api/user/${userId}/tweets${page ? `?page=${page}` : ''}`;
+
+  const res = await fetch(url, { method: 'GET', cache: 'no-cache' });
+
+  if (!res.ok) {
+    throw new Error('There was a problem retrieving feed data', {
+      cause: res.statusText,
+    });
+  }
+
+  return await res.json();
 }

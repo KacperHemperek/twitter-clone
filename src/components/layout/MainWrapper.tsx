@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { cn } from '@/lib/cn';
 
 type MainWrapperProps = PropsWithChildren & {
-  headerComponent: React.ReactNode;
+  headerComponent?: React.ReactNode;
   showBorder?: boolean;
 };
 

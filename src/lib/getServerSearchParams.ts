@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 type ArrayToObject<T extends string[]> = { [K in T[number]]: string | null };
 
 export function getServerSearchParams<T extends string[]>(
-  req: NextRequest,
+  req: NextRequest | Request,
   params: T
 ): ArrayToObject<T> {
   const { searchParams } = new URL(req.url);
@@ -17,4 +17,8 @@ export function getServerSearchParams<T extends string[]>(
   }
 
   return result;
+}
+
+export function getPageNumber(page: string | null) {
+  return !!Number(page) ? Number(page) : 1;
 }
