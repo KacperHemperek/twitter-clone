@@ -25,5 +25,10 @@ export async function updateAccountDetails(
 
   const res = await fetch(url, { method: 'PUT', body: JSON.stringify(data) });
 
+  if (!res.ok)
+    throw new Error('Error occured while updating user information', {
+      cause: res.statusText,
+    });
+
   return res.json();
 }

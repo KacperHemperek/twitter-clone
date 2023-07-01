@@ -20,7 +20,7 @@ export default function NavBarContainer() {
           className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
         >
           <HomeIcon className="h-6 w-6 md:h-8 md:w-8" />
-          <p className="text-xl md:mr-3 font-bold hidden md:inline">Home</p>
+          <p className="text-xl md:mr-3 hidden md:inline">Home</p>
         </Link>
         <Link
           href={`/account/${session.data?.user.id}/tweets`}

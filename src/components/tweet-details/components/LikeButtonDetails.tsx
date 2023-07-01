@@ -25,9 +25,7 @@ export default function LikeButtonDetails({
   // FIXME: Upadte likes on home feed
   const { mutate: likeTweet } = useMutation({
     mutationFn: async () =>
-      fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' }).then((res) =>
-        res.json()
-      ),
+      fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' }),
     onMutate: async () => {
       const tweet = queryClient.getQueryData<Post>(tweetDetailsQueryKeys);
 

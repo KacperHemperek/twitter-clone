@@ -15,5 +15,13 @@ export async function getComments(
   const url = `/api/tweets/${tweetId}/comments?page=${pageParam}`;
 
   const res = await fetch(url);
+
+  if (!res.ok)
+    throw new Error(
+      `Error occured while fetching comments for tweet with id: ${tweetId}`,
+      {
+        cause: res.statusText,
+      }
+    );
   return await res.json();
 }

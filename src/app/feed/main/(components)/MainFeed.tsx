@@ -4,20 +4,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
 import Feed from '@/components/feed/Feed';
+import { getMainFeedTweets } from '@/components/feed/Feed.service';
 import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';
 
 import { Post } from '@/types/Post.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
-
-async function getMainFeedTweets(
-  page?: number
-): Promise<PaginatedResponse<Post>> {
-  const url = `/api/tweets${page ? '?page=' + page : ''}`;
-
-  return fetch(url).then((res) => res.json());
-}
 
 async function postTweet(tweetBody: string) {
   await fetch('/api/tweets', {
