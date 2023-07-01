@@ -13,10 +13,15 @@ import { PaginatedResponse } from '@/types/api/pagination';
 export const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
 
 async function postTweet(tweetBody: string) {
-  await fetch('/api/tweets', {
+  const res = await fetch('/api/tweets', {
     method: 'POST',
     body: JSON.stringify({ tweetBody }),
   });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message);
+  }
 }
 
 export default function MainFeed({

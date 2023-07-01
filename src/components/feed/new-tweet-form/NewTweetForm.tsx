@@ -46,14 +46,13 @@ export default function NewTweetForm({
         }
       );
     },
-
-    onError: (e) => {
+    onError: (e: any) => {
       toast({
         variant: 'destructive',
         title: 'Oh no!',
-        description: 'Something went wrong while sending you tweet.',
+        description:
+          e?.message ?? 'Something went wrong while sending you tweet.',
       });
-      console.error({ e });
     },
     onSuccess: () => {
       queryClient.invalidateQueries(feedQueryKey);

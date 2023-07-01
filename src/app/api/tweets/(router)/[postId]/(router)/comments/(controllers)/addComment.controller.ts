@@ -1,4 +1,5 @@
 import { authOptions } from '@/utils/next-auth';
+import Filter from 'bad-words';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -6,6 +7,8 @@ import { createComment } from '../(services)/comments.services';
 
 import { getBody } from '@/lib/getBodyFromRequest';
 import { ServerError, handleServerError } from '@/lib/serverError';
+
+const BadWordFilter = new Filter();
 
 export async function addCommentHandler(req: NextRequest, tweetId: string) {
   try {
@@ -19,6 +22,13 @@ export async function addCommentHandler(req: NextRequest, tweetId: string) {
 
     if (!body.tweetBody) {
       throw new ServerError(400, 'Wrong tweetBody required');
+    }
+
+    if (BadWordFilter.isProfane(body.tweetBody)) {
+      throw new ServerError(
+        400,
+        "You kiss your mother with that mouth?! Don't use profanity!"
+      );
     }
 
     await createComment({

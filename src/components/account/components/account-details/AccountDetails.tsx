@@ -25,6 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useToast } from '@/components/ui/use-toast';
 
 import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 
@@ -43,7 +44,7 @@ export type DateValues = {
   year: number;
 };
 
-const NAME_CHAR_LIMIT = 20;
+const NAME_CHAR_LIMIT = 40;
 const DESCRIPTION_CHAR_LIMIT = 160;
 const LOCATION_CHAR_LIMIT = 30;
 
@@ -69,10 +70,6 @@ const setPointerEventsOnBody = (val: boolean) => {
   if (!val) {
     setTimeout(() => {
       document.body.style.pointerEvents = 'auto';
-      console.log(
-        'setting pointer event to auto',
-        document.body.style.pointerEvents
-      );
     }, 1);
   }
 };
@@ -84,6 +81,7 @@ export default function AccountDetails({
 }) {
   const { data: session } = useSession();
   const params = useParams();
+  const { toast } = useToast();
 
   const { data: accountDetails } = useQuery({
     queryFn: () => getAccoundDetails(initialAccountDetails.id),
@@ -103,6 +101,13 @@ export default function AccountDetails({
     onSuccess: () => {
       queryClient.invalidateQueries(ACCOUNT_DETAILS_KEY);
       setEditModalOpen(false);
+    },
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'Oh no!',
+        description: `We couldn't update your profile. Please try again later.`,
+      });
     },
   });
 
@@ -287,10 +292,10 @@ export default function AccountDetails({
         <FeedNavigation
           links={[
             {
-              href: `account/${params?.userId}/tweets`,
+              href: `/account/${params?.userId}/tweets`,
               label: 'Tweets',
             },
-            { href: `account/${params?.userId}/likes`, label: 'Likes' },
+            { href: `/account/${params?.userId}/likes`, label: 'Likes' },
           ]}
         />
       </div>
