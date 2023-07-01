@@ -41,7 +41,7 @@ export default function AccountOnlyFeed() {
 
   if (isError || error) {
     return (
-      <div className="text-center flex flex-col gap-4 items-center">
+      <div className="text-center flex flex-col gap-4 items-center py-20 px-6">
         Something went wrong while getting users tweets
         <button
           className="px-4 py-2 rounded-full bg-sky-500 max-w-fit"

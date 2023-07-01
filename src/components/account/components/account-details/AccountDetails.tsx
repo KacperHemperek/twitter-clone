@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getDaysInMonth } from 'date-fns';
+import { getDaysInMonth, isBefore } from 'date-fns';
 import { PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -42,6 +42,10 @@ export type DateValues = {
   month: number;
   year: number;
 };
+
+const NAME_CHAR_LIMIT = 20;
+const DESCRIPTION_CHAR_LIMIT = 160;
+const LOCATION_CHAR_LIMIT = 30;
 
 const getInitialBirthdayState = (birthday?: Date | null) => {
   const birthdayDate = new Date();
@@ -118,6 +122,18 @@ export default function AccountDetails({
     [dateValues.year, dateValues.month]
   );
 
+  const formIsInvalid = useMemo<boolean>(
+    () =>
+      newLocation.trim().length <= LOCATION_CHAR_LIMIT &&
+      newDescription.trim().length <= DESCRIPTION_CHAR_LIMIT &&
+      newName.trim().length <= NAME_CHAR_LIMIT &&
+      isBefore(
+        new Date(dateValues.year, dateValues.month, dateValues.day),
+        new Date()
+      ),
+    [newLocation, newDescription, newName, dateValues]
+  );
+
   const isCurrentUsersPage = session?.user.id === accountDetails?.id;
 
   const showSubInfoTags = !!accountDetails?.born || !!accountDetails?.location;
@@ -141,7 +157,7 @@ export default function AccountDetails({
         <Input
           value={newName}
           setValue={setNewName}
-          limitCharacters={50}
+          limitCharacters={NAME_CHAR_LIMIT}
           name="name"
           placeholder="Name"
         />
@@ -170,7 +186,7 @@ export default function AccountDetails({
           className={
             'bg-white text-background px-4 py-1.5 rounded-full font-bold transition-colors disabled:bg-white/50'
           }
-          disabled={updatingUser}
+          disabled={updatingUser || !formIsInvalid}
         >
           Submit
         </button>

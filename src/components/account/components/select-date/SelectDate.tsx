@@ -36,7 +36,7 @@ export default function SelectDate({
         <SelectTrigger>
           <SelectValue placeholder="Month" />
         </SelectTrigger>
-        <SelectContent className="max-h-40 overflow-y-scroll">
+        <SelectContent className="max-h-40 overflow-y-auto">
           {[...Array(12)].map((_, index) => (
             <SelectItem key={index} value={String(index)}>
               {getMonthName(index)}
@@ -56,7 +56,7 @@ export default function SelectDate({
         <SelectTrigger>
           <SelectValue placeholder="Day" />
         </SelectTrigger>
-        <SelectContent className="max-h-40 overflow-y-scroll">
+        <SelectContent className="max-h-40 overflow-y-auto">
           {[...Array(daysInMonth)].map((_, index) => (
             <SelectItem key={index} value={String(index + 1)}>
               {index + 1}
@@ -76,7 +76,7 @@ export default function SelectDate({
         <SelectTrigger>
           <SelectValue placeholder="Year" />
         </SelectTrigger>
-        <SelectContent className="max-h-40 overflow-y-scroll">
+        <SelectContent className="max-h-40 overflow-y-auto">
           {[...Array(110)].map((_, index) => (
             <SelectItem
               key={index}
