@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-import { UpdateAccountDetailsBody } from '@/app/api/user/(routes)/[userId]/(controllers)/updateAccountDetails.controller';
+import { UpdateAccountDetailsBody } from '@/app/api/user/[userId]/(controllers)/updateAccountDetails.controller';
 
 import { AccountDetails } from '@/types/AccountDetails.type';
 

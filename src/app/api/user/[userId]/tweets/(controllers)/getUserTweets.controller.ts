@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getUsersTweets } from '@/app/api/user/(routes)/[userId]/tweets/(services)/userTweets.service';
+import { getUsersTweets } from '@/app/api/user/[userId]/tweets/(services)/userTweets.service';
 
 import {
   getPageNumber,
