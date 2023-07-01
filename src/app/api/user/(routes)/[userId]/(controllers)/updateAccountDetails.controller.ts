@@ -1,12 +1,23 @@
 import { authOptions } from '@/utils/next-auth';
+import { Prisma } from '@prisma/client';
+import Filter from 'bad-words';
 import { getServerSession } from 'next-auth';
-import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { updateAccountDetailsById } from '../(services)/account.service';
-import { GET_ACCOUNT_DETAILS_TAGS } from '@/components/account/services/Account.service';
 
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+import {
+  ThrowProfanityError,
+  handleServerError,
+  nextServerErrorFactory,
+} from '@/lib/serverError';
+
+const BadWordsFilter = new Filter();
+
+export type UpdateAccountDetailsBody = Pick<
+  Prisma.UserUpdateInput,
+  'born' | 'description' | 'image' | 'location' | 'name'
+>;
 
 export async function updateAccountDetailsControllerHandler(
   req: NextRequest,
@@ -22,18 +33,23 @@ export async function updateAccountDetailsControllerHandler(
   }
 
   try {
-    const body: { name?: string } = await req.json();
+    const body: UpdateAccountDetailsBody = await req.json();
 
-    const newUser = await updateAccountDetailsById(userId, body);
-    revalidateTag(GET_ACCOUNT_DETAILS_TAGS[0]);
+    if (
+      Object.values(body).some(
+        (value) => typeof value === 'string' && BadWordsFilter.isProfane(value)
+      )
+    ) {
+      ThrowProfanityError();
+    }
+
+    const updatedUser = await updateAccountDetailsById(userId, body);
+
     return NextResponse.json({
       message: 'User updated succesfully',
-      data: { user: newUser },
+      data: { user: updatedUser },
     });
   } catch (e) {
-    if (e instanceof ServerError) {
-      return nextServerErrorFactory(e.code, e.message);
-    }
-    return nextServerErrorFactory(500);
+    return handleServerError(e);
   }
 }

@@ -8,6 +8,7 @@ import { createTweet } from '../(services)/tweet.service';
 import { getBody } from '@/lib/getBodyFromRequest';
 import {
   ServerError,
+  ThrowProfanityError,
   handleServerError,
   nextServerErrorFactory,
 } from '@/lib/serverError';
@@ -30,10 +31,7 @@ export async function createPostController(req: NextRequest) {
     }
 
     if (BadWordFilter.isProfane(body.tweetBody)) {
-      throw new ServerError(
-        400,
-        "You kiss your mother with that mouth?! Don't use profanity!"
-      );
+      ThrowProfanityError();
     }
 
     const newTweet = await createTweet(body.tweetBody, userId);

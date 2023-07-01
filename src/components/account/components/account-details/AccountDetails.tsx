@@ -102,11 +102,13 @@ export default function AccountDetails({
       queryClient.invalidateQueries(ACCOUNT_DETAILS_KEY);
       setEditModalOpen(false);
     },
-    onError: () => {
+    onError: (err: any) => {
       toast({
         variant: 'destructive',
         title: 'Oh no!',
-        description: `We couldn't update your profile. Please try again later.`,
+        description:
+          err?.message ??
+          `We couldn't update your profile. Please try again later.`,
       });
     },
   });
@@ -169,7 +171,7 @@ export default function AccountDetails({
         <Input
           value={newDescription}
           setValue={setNewDescription}
-          limitCharacters={160}
+          limitCharacters={DESCRIPTION_CHAR_LIMIT}
           name="description"
           placeholder="Description"
           type="textarea"
@@ -177,6 +179,7 @@ export default function AccountDetails({
         <Input
           value={newLocation}
           setValue={setNewLocation}
+          limitCharacters={LOCATION_CHAR_LIMIT}
           name="location"
           placeholder="Location"
         />

@@ -6,7 +6,7 @@ import {
   getPageNumber,
   getServerSearchParams,
 } from '@/lib/getServerSearchParams';
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+import { handleServerError } from '@/lib/serverError';
 
 export async function getUserTweetsHandler(req: Request, userId: string) {
   const { page } = getServerSearchParams<['page']>(req, ['page']);
@@ -16,9 +16,6 @@ export async function getUserTweetsHandler(req: Request, userId: string) {
     const nextPage = tweets.length === 10 ? pageNumber + 1 : undefined;
     return NextResponse.json({ data: tweets, nextPage });
   } catch (e) {
-    if (e instanceof ServerError) {
-      return nextServerErrorFactory(e.code, e.message);
-    }
-    return nextServerErrorFactory(500);
+    return handleServerError(e);
   }
 }

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getAccountDetailsById } from '../(services)/account.service';
 
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+import { handleServerError } from '@/lib/serverError';
 
 export async function getAccountDetailsController(
   req: NextRequest,
@@ -13,9 +13,6 @@ export async function getAccountDetailsController(
 
     return NextResponse.json({ data: accountDetails });
   } catch (e) {
-    if (e instanceof ServerError) {
-      return nextServerErrorFactory(e.code, e.message);
-    }
-    return nextServerErrorFactory(500);
+    return handleServerError(e);
   }
 }

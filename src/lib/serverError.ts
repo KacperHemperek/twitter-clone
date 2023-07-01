@@ -24,10 +24,16 @@ export function nextServerErrorFactory(
   );
 }
 
+export function ThrowProfanityError() {
+  throw new ServerError(
+    400,
+    "You kiss your mother with that mouth?! Don't use profanity!"
+  );
+}
+
 export function handleServerError(e: any) {
   if (e instanceof ServerError) {
     return nextServerErrorFactory(e.code, e.message);
   }
-
   return nextServerErrorFactory(500, e?.message);
 }
