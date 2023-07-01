@@ -171,7 +171,7 @@ export default function AccountDetails({
         <Input
           value={newDescription}
           setValue={setNewDescription}
-          limitCharacters={160}
+          limitCharacters={DESCRIPTION_CHAR_LIMIT}
           name="description"
           placeholder="Description"
           type="textarea"
