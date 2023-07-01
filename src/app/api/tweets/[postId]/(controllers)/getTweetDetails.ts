@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getTweetDetails } from '../../../(services)/tweet.service';
+import { getTweetDetails } from '../../(services)/tweet.service';
 
 import {
   ServerError,
