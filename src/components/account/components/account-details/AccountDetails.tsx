@@ -44,7 +44,7 @@ export type DateValues = {
   year: number;
 };
 
-const NAME_CHAR_LIMIT = 20;
+const NAME_CHAR_LIMIT = 40;
 const DESCRIPTION_CHAR_LIMIT = 160;
 const LOCATION_CHAR_LIMIT = 30;
 
