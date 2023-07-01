@@ -6,7 +6,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createComment } from '../(services)/comments.services';
 
 import { getBody } from '@/lib/getBodyFromRequest';
-import { ServerError, handleServerError } from '@/lib/serverError';
+import {
+  ServerError,
+  ThrowProfanityError,
+  handleServerError,
+} from '@/lib/serverError';
 
 const BadWordFilter = new Filter();
 
@@ -25,10 +29,7 @@ export async function addCommentHandler(req: NextRequest, tweetId: string) {
     }
 
     if (BadWordFilter.isProfane(body.tweetBody)) {
-      throw new ServerError(
-        400,
-        "You kiss your mother with that mouth?! Don't use profanity!"
-      );
+      ThrowProfanityError();
     }
 
     await createComment({
