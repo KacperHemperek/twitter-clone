@@ -124,6 +124,9 @@ export default function AccountDetails({
       open={editModalOpen}
       onOpenChange={(val) => {
         setDateValues(getInitialBirthdayState(accountDetails.born));
+        setNewName(accountDetails.name ?? '');
+        setNewDescription(accountDetails?.description ?? '');
+        setNewLocation(accountDetails.location ?? '');
         setEditModalOpen(val);
         setPointerEventsOnBody(val);
       }}
