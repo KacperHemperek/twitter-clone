@@ -35,6 +35,5 @@ export function handleServerError(e: any) {
   if (e instanceof ServerError) {
     return nextServerErrorFactory(e.code, e.message);
   }
-
   return nextServerErrorFactory(500, e?.message);
 }
