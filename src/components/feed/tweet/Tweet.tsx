@@ -25,10 +25,17 @@ import { type Post } from '@/types/Post.type';
 async function commentTweet(tweetBody: string, tweetId?: string) {
   const url = `/api/tweets/${tweetId}/comments`;
 
-  await fetch(url, {
+  const res = await fetch(url, {
     method: 'POST',
     body: JSON.stringify({ tweetBody }),
   });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(
+      data?.message ?? 'Something went wrong while commenting on tweet'
+    );
+  }
 }
 
 function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {

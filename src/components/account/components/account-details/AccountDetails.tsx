@@ -70,10 +70,6 @@ const setPointerEventsOnBody = (val: boolean) => {
   if (!val) {
     setTimeout(() => {
       document.body.style.pointerEvents = 'auto';
-      console.log(
-        'setting pointer event to auto',
-        document.body.style.pointerEvents
-      );
     }, 1);
   }
 };
