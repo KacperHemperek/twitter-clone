@@ -284,7 +284,7 @@ export default function AccountDetails({
             <p className="text-sm text-gray-400">
               <span className="text-white font-semibold">
                 {`${formatNumberToCompact(
-                  accountDetails?.following.length ?? 0
+                  accountDetails?.following?.length ?? 0
                 )} `}
               </span>{' '}
               Following
@@ -292,7 +292,7 @@ export default function AccountDetails({
             <p className="text-sm text-gray-400">
               <span className="text-white font-semibold">
                 {`${formatNumberToCompact(
-                  accountDetails?.followers.length ?? 0
+                  accountDetails?.followers?.length ?? 0
                 )} `}
               </span>
               Followers
