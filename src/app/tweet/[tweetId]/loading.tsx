@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { TweetSceleton } from '@/components/feed/tweet/TweetSceleton';
-import TweetDetailsSceleton from '@/components/tweet-details/components/TweetDetailsSceleton';
+import TweetDetailsSceleton from '@/components/tweet-details/TweetDetailsSceleton';
 
 export default function LoadingTweetDetails() {
   return (

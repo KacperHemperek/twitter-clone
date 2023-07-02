@@ -3,7 +3,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
-import { addComment, getComments } from '../services/Comments.service';
+import { commentTweet, getComments } from '@/services/Tweets.service';
 
 import Feed from '@/components/feed/Feed';
 import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';
@@ -41,7 +41,7 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
     <>
       <NewTweetForm
         feedQueryKey={queryKey}
-        createTweet={addComment}
+        createTweet={commentTweet}
         tweetId={tweetId}
       />
       {isLoading &&

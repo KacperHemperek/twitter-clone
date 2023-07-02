@@ -5,8 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
-import { addComment } from '../services/Comments.service';
-import { getTweetDetails } from '../services/TweetDetails.service';
+import { commentTweet, getTweetDetails } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
@@ -36,7 +35,7 @@ export default function TweetDetails({
 
   return (
     <AddCommentModal
-      addComment={addComment}
+      addComment={commentTweet}
       feedQueryKey={['comments']}
       tweet={tweetDetails}
     >

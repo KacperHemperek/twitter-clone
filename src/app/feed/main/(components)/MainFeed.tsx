@@ -3,7 +3,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
-import { getMainFeedTweets } from '@/services/Feed.service';
+import { getMainFeedTweets } from '@/services/Tweets.service';
 
 import Feed from '@/components/feed/Feed';
 import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';

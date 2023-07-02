@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
-import { likeTweet } from '@/services/Common.service';
+import { commentTweet, likeTweet } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
@@ -23,22 +23,6 @@ import {
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 import { type Tweet } from '@/types/Tweet.type';
-
-async function commentTweet(tweetBody: string, tweetId: string) {
-  const url = `/api/tweets/${tweetId}/comments`;
-
-  const res = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({ tweetBody }),
-  });
-
-  if (!res.ok) {
-    const data = await res.json();
-    throw new Error(
-      data?.message ?? 'Something went wrong while commenting on tweet'
-    );
-  }
-}
 
 function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();

@@ -8,9 +8,9 @@ import { useSession } from 'next-auth/react';
 import React from 'react';
 import { uuid } from 'uuidv4';
 
-import { likeTweet } from '@/services/Common.service';
+import { likeTweet } from '@/services/Tweets.service';
 
-import { queryClient } from '../../context/Providers';
+import { queryClient } from '@/components/context/Providers';
 
 import { cn } from '@/lib/cn';
 
