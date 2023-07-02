@@ -13,11 +13,14 @@ export async function getAccoundDetails(
 ): Promise<AccountDetails> {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/user/${userId}`;
   const res = await fetch(url, { next: { tags: GET_ACCOUNT_DETAILS_TAGS } });
-  const data: { data: AccountDetails } = await res.json();
   if (!res.ok) {
-    throw new Error("Couldn't get user information");
+    const error = await res.json();
+    throw new Error(error?.message ?? "Couldn't get user information", {
+      cause: res.statusText,
+    });
   }
 
+  const data = await res.json();
   return data.data;
 }
 
@@ -49,9 +52,13 @@ export async function getUsersTweets(
   const res = await fetch(url, { method: 'GET', cache: 'no-cache' });
 
   if (!res.ok) {
-    throw new Error('There was a problem retrieving feed data', {
-      cause: res.statusText,
-    });
+    const error = await res.json();
+    throw new Error(
+      error?.message ?? 'There was a problem retrieving feed data',
+      {
+        cause: res.statusText,
+      }
+    );
   }
 
   return await res.json();

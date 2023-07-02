@@ -19,7 +19,9 @@ export async function getComments(
   pageParam: number,
   tweetId: string
 ): Promise<PaginatedResponse<Tweet>> {
-  const url = `/api/tweets/${tweetId}/comments?page=${pageParam}`;
+  const url = `/api/tweets/${tweetId}/comments?${
+    pageParam ? `page=${pageParam}` : ''
+  }`;
 
   const res = await fetch(url);
 
