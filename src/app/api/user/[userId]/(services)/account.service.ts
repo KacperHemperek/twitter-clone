@@ -21,7 +21,12 @@ export async function getAccountDetailsById(
         id: true,
         location: true,
         image: true,
-        _count: { select: { followers: true, following: true } },
+        followers: {
+          select: { id: true },
+        },
+        following: {
+          select: { id: true },
+        },
       },
     });
 
@@ -31,8 +36,8 @@ export async function getAccountDetailsById(
 
     const formatedAccountDetails: AccountDetails = {
       ...accountDetails,
-      followersCount: accountDetails._count.followers,
-      followingCount: accountDetails._count.following,
+      followers: accountDetails.followers.map((follower) => follower.id),
+      following: accountDetails.following.map((following) => following.id),
     };
 
     return formatedAccountDetails;
