@@ -11,7 +11,7 @@ export async function getAccountDetailsController(
   try {
     const accountDetails = await getAccountDetailsById(userId);
 
-    return NextResponse.json({ data: accountDetails });
+    return NextResponse.json(accountDetails);
   } catch (e) {
     return handleServerError(e);
   }

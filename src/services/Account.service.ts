@@ -21,7 +21,7 @@ export async function getAccoundDetails(
   }
 
   const data = await res.json();
-  return data.data;
+  return data;
 }
 
 export async function updateAccountDetails(
