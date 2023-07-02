@@ -64,6 +64,27 @@ export async function getUsersTweets(
   return await res.json();
 }
 
+export async function getUsersLikedTweets(
+  userId: string,
+  page?: number
+): Promise<PaginatedResponse<Tweet>> {
+  const url = `/api/user/${userId}/likes${page ? `?page=${page}` : ''}`;
+
+  const res = await fetch(url, { method: 'GET', cache: 'no-cache' });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(
+      error?.message ?? 'There was a problem retrieving feed data',
+      {
+        cause: res.statusText,
+      }
+    );
+  }
+
+  return await res.json();
+}
+
 export async function followUser(userId: string) {
   const url = `/api/user/${userId}/follow`;
 
