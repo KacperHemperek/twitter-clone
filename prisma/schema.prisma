@@ -59,7 +59,7 @@ model User {
   sessions  Session[]
   likes     Like[]
   posts     Post[]
-  Retweet   Retweet[]
+  retweets  Retweet[]
 
   @@index([id, email])
 }
@@ -106,7 +106,7 @@ model Post {
   comments Post[]    @relation("Comments")
   parent   Post?     @relation("Comments", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   parentId String?
-  Retweet  Retweet[]
+  retweets Retweet[]
 
   @@index([authorId])
   @@index([parentId])
