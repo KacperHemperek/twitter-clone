@@ -29,7 +29,6 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 
-import { cn } from '@/lib/cn';
 import { formatShortDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
@@ -37,7 +36,10 @@ import { type AccountDetails as AccountDetailsType } from '@/types/AccountDetail
 
 const DEFAULT_DESCRIPTION = "This user doesn't have a description";
 
-const ACCOUNT_DETAILS_KEY = ['accountDetails'];
+const getAccountDetailsQueryKey = (userId: string) => [
+  'accountDetails',
+  userId,
+];
 
 export type DateValues = {
   day: number;
@@ -86,7 +88,7 @@ export default function AccountDetails({
 
   const { data: accountDetails } = useQuery({
     queryFn: () => getAccoundDetails(initialAccountDetails.id),
-    queryKey: ACCOUNT_DETAILS_KEY,
+    queryKey: getAccountDetailsQueryKey(initialAccountDetails.id),
     initialData: initialAccountDetails,
   });
 
@@ -100,7 +102,9 @@ export default function AccountDetails({
       }),
     mutationKey: ['updateAccountDetails'],
     onSuccess: () => {
-      queryClient.invalidateQueries(ACCOUNT_DETAILS_KEY);
+      queryClient.invalidateQueries(
+        getAccountDetailsQueryKey(initialAccountDetails.id)
+      );
       setEditModalOpen(false);
     },
     onError: (err: any) => {
@@ -240,7 +244,7 @@ export default function AccountDetails({
               {!isCurrentUsersPage && (
                 <FollowButton
                   isFollowing={isFollowing}
-                  queryKey={ACCOUNT_DETAILS_KEY}
+                  queryKey={getAccountDetailsQueryKey(initialAccountDetails.id)}
                   userId={accountDetails.id}
                   username={accountDetails.name!}
                 />

@@ -10,7 +10,10 @@ import Feed from '@/components/feed/Feed';
 import FeedSceleton from '@/components/feed/FeedSceleton';
 import { toast } from '@/components/ui/use-toast';
 
-const LIKED_USER_FEED_QUERY_KEY = ['likeUsersTweets'];
+const getLikedUserFeedQueryKey = (userId: string) => [
+  'likeUsersTweets',
+  userId,
+];
 
 export default function UserLikesPage({
   params,
@@ -27,7 +30,7 @@ export default function UserLikesPage({
     error,
   } = useInfiniteQuery({
     queryFn: ({ pageParam }) => getUsersLikedTweets(params.userId, pageParam),
-    queryKey: LIKED_USER_FEED_QUERY_KEY,
+    queryKey: getLikedUserFeedQueryKey(params.userId),
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
@@ -67,7 +70,7 @@ export default function UserLikesPage({
   return (
     <>
       <Feed
-        feedQueryKey={LIKED_USER_FEED_QUERY_KEY}
+        feedQueryKey={getLikedUserFeedQueryKey(params.userId)}
         posts={feedData?.pages.map((page) => page.data).flat() ?? []}
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
