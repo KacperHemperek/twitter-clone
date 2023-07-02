@@ -1,5 +1,6 @@
 'use client';
 
+import NewTweetForm from './new-tweet-form/NewTweetForm';
 import TweetUserInfo from './tweet-user-info/TweetUserInfo';
 import Link from 'next/link';
 import React, { createContext, useContext, useState } from 'react';
@@ -7,7 +8,6 @@ import React, { createContext, useContext, useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 import TweetAvatar from '../feed/TweetAvatar';
-import NewTweetForm from '../feed/new-tweet-form/NewTweetForm';
 
 import { Tweet } from '@/types/Tweet.type';
 

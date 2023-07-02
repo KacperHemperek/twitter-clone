@@ -21,6 +21,18 @@ export async function getMainFeedTweets(
   return tweets;
 }
 
+export async function createTweet(tweetBody: string) {
+  const res = await fetch('/api/tweets', {
+    method: 'POST',
+    body: JSON.stringify({ tweetBody }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message, { cause: res.statusText });
+  }
+}
+
 export async function likeTweet(tweetId: string) {
   const res = await fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' });
 
@@ -84,4 +96,23 @@ export async function commentTweet(tweetBody: string, tweetId?: string) {
       { cause: res.statusText }
     );
   }
+}
+
+export async function getTweetsFromFollowedUsers(
+  nextPage?: number
+): Promise<PaginatedResponse<Tweet>> {
+  const res = await fetch(
+    `/api/tweets/followed${nextPage ? `?page=${nextPage}` : ''}`,
+    { method: 'GET', cache: 'no-cache' }
+  );
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(
+      data?.message ?? 'Something went wrong while fetching tweets',
+      { cause: res.statusText }
+    );
+  }
+
+  return await res.json();
 }

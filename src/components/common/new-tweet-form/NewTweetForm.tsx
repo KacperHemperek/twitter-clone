@@ -6,13 +6,26 @@ import React, { useState } from 'react';
 import { Oval } from 'react-loader-spinner';
 
 import { queryClient } from '../../context/Providers';
+import TweetAvatar from '../../feed/TweetAvatar';
 import { useToast } from '../../ui/use-toast';
-import TweetAvatar from '../TweetAvatar';
 
 import { cn } from '@/lib/cn';
 import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
 
 import { Tweet } from '@/types/Tweet.type';
+
+type NewTweetFormProps = {
+  feedQueryKey: string[];
+  createTweet: (tweetBody: string, tweetId?: string) => Promise<void>;
+  onSuccessCallback?: () => void;
+  wrapperClassname?: string;
+  /*
+   * this is required when you want to add a reply to a
+   * tweet instead of a new tweet
+   */
+  tweetId?: string;
+  placeholder?: string;
+};
 
 export default function NewTweetForm({
   feedQueryKey,
@@ -21,14 +34,7 @@ export default function NewTweetForm({
   onSuccessCallback,
   wrapperClassname = '',
   placeholder = 'What is happening?!',
-}: {
-  feedQueryKey: string[];
-  createTweet: (tweetBody: string, tweetId?: string) => Promise<void>;
-  onSuccessCallback?: () => void;
-  wrapperClassname?: string;
-  tweetId?: string;
-  placeholder?: string;
-}) {
+}: NewTweetFormProps) {
   const { toast } = useToast();
 
   const { mutate: postTweet, isLoading } = useMutation({

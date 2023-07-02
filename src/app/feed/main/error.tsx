@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertOctagonIcon, ArrowLeftIcon, RefreshCcwIcon } from 'lucide-react';
+import { AlertOctagonIcon, RefreshCcwIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
@@ -15,8 +15,8 @@ export default function MainAndFollowedFeedErrorPage() {
         href="/"
         className="px-4 py-1 rounded-full bg-sky-500 max-w-fit flex gap-2 items-center"
       >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span>Go to homepage</span>
+        <RefreshCcwIcon className="w-4 h-4" />
+        <span>Try again</span>
       </Link>
     </div>
   );

@@ -3,27 +3,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
-import { getMainFeedTweets } from '@/services/Tweets.service';
+import { createTweet, getMainFeedTweets } from '@/services/Tweets.service';
 
+import NewTweetForm from '@/components/common/new-tweet-form/NewTweetForm';
 import Feed from '@/components/feed/Feed';
-import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';
 
 import { Tweet } from '@/types/Tweet.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
-
-async function postTweet(tweetBody: string) {
-  const res = await fetch('/api/tweets', {
-    method: 'POST',
-    body: JSON.stringify({ tweetBody }),
-  });
-
-  if (!res.ok) {
-    const data = await res.json();
-    throw new Error(data.message);
-  }
-}
 
 export default function MainFeed({
   initialData,
@@ -65,7 +53,7 @@ export default function MainFeed({
     <>
       <NewTweetForm
         feedQueryKey={MAIN_FEED_QUERY_KEYS}
-        createTweet={postTweet}
+        createTweet={createTweet}
       />
       <Feed
         posts={arrayOfReducedTweets}
