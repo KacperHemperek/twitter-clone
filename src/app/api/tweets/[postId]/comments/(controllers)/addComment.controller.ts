@@ -3,7 +3,7 @@ import Filter from 'bad-words';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { createComment } from '../(services)/comments.services';
+import { createComment } from '../(services)/comments.service';
 
 import { getBody } from '@/lib/getBodyFromRequest';
 import {

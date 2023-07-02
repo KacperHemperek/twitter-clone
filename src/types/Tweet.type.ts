@@ -9,4 +9,8 @@ export type Tweet = {
   comments?: {
     id: string;
   }[];
+  retweets: {
+    id: string;
+    userId: string;
+  }[];
 };

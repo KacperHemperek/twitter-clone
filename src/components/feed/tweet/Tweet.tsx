@@ -72,7 +72,9 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
     (like) => like.userId === session?.user.id
   );
 
-  const tweetIsRetweeted = false;
+  const tweetIsRetweeted = post.retweets.some(
+    (retweet) => retweet.userId === session?.user.id
+  );
 
   return (
     <AddCommentModal
@@ -117,13 +119,17 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
               </div>
               <div>
                 <button
+                  onClick ={(e) => {
+                    e.stopPropagation(); 
+                    console.log('todo: retweet')
+                  }}
                   className={cn(
                     tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
                     'group flex cursor-pointer items-center transition-all hover:text-green-400'
                   )}
                 >
                   <RefreshCwIcon className="mr-4  h-4 w-4" />
-                  {formatNumberToCompact(13)}
+                  {formatNumberToCompact(post.retweets.length)}
                 </button>
               </div>
               <div>

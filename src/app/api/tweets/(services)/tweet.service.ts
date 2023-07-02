@@ -6,7 +6,7 @@ import { prisma } from '@/db/prisma';
 
 const MAIN_FEED_LIMIT = 10;
 
-export async function getMainFeedTweets(page: number) {
+export async function getMainFeedTweets(page: number): Promise<Tweet[]> {
   try {
     const posts = await prisma.post.findMany({
       where: {
@@ -19,6 +19,7 @@ export async function getMainFeedTweets(page: number) {
         message: true,
         likes: true,
         comments: { select: { id: true } },
+        retweets: { select: { id: true, userId: true } },
       },
       take: MAIN_FEED_LIMIT,
       skip: (page - 1) * MAIN_FEED_LIMIT,
@@ -53,7 +54,8 @@ export async function getTweetDetails(tweetId: string): Promise<Tweet | null> {
         likes: true,
         message: true,
         createdAt: true,
-        comments: true,
+        comments: { select: { id: true } },
+        retweets: { select: { id: true, userId: true } },
       },
     });
 
