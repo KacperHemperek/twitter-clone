@@ -80,7 +80,7 @@ export default function FollowButton({
       >
         {isFollowing ? (hover ? 'Unfollow' : 'Following') : 'Follow'}
       </button>
-      {/* </DialogTrigger> */}
+
       {dialogOpen && (
         <DialogContent className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit">
           <DialogHeader>
@@ -101,8 +101,9 @@ export default function FollowButton({
               Unfollow
             </button>
             <button
+              disabled={followingUserLoading}
               onClick={() => setDialogOpen(false)}
-              className="py-3 border-2 font-semibold m-0 rounded-full border-white"
+              className="py-3 border-2 font-semibold m-0 rounded-full border-white disabled:border-gray-600 disabled:text-gray-600"
             >
               Cancel
             </button>

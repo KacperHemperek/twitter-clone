@@ -43,9 +43,6 @@ export async function getUserFollowersIds(userId: string): Promise<string[]> {
 
     return user.followers.map((follower) => follower.id);
   } catch (err: any) {
-    throw new ServerError(
-      err?.code ?? 500,
-      err?.message ?? `Couldn't get user followers`
-    );
+    throw new ServerError(err?.code ?? 500, `Couldn't get user followers`);
   }
 }
