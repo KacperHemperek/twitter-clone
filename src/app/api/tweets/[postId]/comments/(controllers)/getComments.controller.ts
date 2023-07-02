@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getComments } from '../(services)/comments.services';
+import { getComments } from '../(services)/comments.service';
 
 import { getServerSearchParams } from '@/lib/getServerSearchParams';
 import { handleServerError } from '@/lib/serverError';
