@@ -9,14 +9,14 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import TweetAvatar from '../feed/TweetAvatar';
 import NewTweetForm from '../feed/new-tweet-form/NewTweetForm';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 type AddCommentModalContextType = {
   addComment: (...args: any) => Promise<void>;
   feedQueryKey: string[];
   setDialogIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   onSuccess?: (...args: any) => void;
-  tweet?: Post;
+  tweet?: Tweet;
 };
 
 const AddCommentModalContext = createContext<AddCommentModalContextType>({

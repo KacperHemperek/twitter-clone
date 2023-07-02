@@ -1,6 +1,6 @@
 import { ServerError } from '@/lib/serverError';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 import { prisma } from '@/db/prisma';
 
@@ -43,7 +43,7 @@ export async function createTweet(tweetBody: string, userId: string) {
   }
 }
 
-export async function getTweetDetails(tweetId: string): Promise<Post | null> {
+export async function getTweetDetails(tweetId: string): Promise<Tweet | null> {
   try {
     const tweetDetails = await prisma.post.findUnique({
       where: { id: tweetId },

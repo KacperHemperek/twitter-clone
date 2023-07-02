@@ -3,7 +3,7 @@
 import Tweet from './tweet/Tweet';
 import React, { useEffect, useRef } from 'react';
 
-import { type Post as PostType } from '@/types/Post.type';
+import { type Tweet as PostType } from '@/types/Tweet.type';
 
 export default function Feed({
   posts,

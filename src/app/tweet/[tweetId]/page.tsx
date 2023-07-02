@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { getTweetDetails } from '@/components/tweet-details/services/TweetDetails.service';
+import { getTweetDetails } from '@/services/Tweets.service';
 
-import TweetComments from '@/components/tweet-details/components/TweetComments';
-import TweetDetails from '@/components/tweet-details/components/TweetDetails';
+import TweetComments from '@/components/tweet-details/TweetComments';
+import TweetDetails from '@/components/tweet-details/TweetDetails';
 
 export default async function TweetDetailsPage({
   params,

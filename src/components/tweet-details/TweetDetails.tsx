@@ -5,8 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import React from 'react';
 
-import { addComment } from '../services/Comments.service';
-import { getTweetDetails } from '../services/TweetDetails.service';
+import { commentTweet, getTweetDetails } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
@@ -14,7 +13,7 @@ import TweetAvatar from '@/components/feed/TweetAvatar';
 
 import { formatLongDate } from '@/lib/dateFormatters';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 export const getTweetDetailsQueryKey = (tweetId: string) => [
   'tweetDetails',
@@ -26,7 +25,7 @@ export default function TweetDetails({
   initialtweetDetails,
 }: {
   tweetId: string;
-  initialtweetDetails?: Post;
+  initialtweetDetails?: Tweet;
 }) {
   const { data: tweetDetails } = useQuery({
     queryKey: getTweetDetailsQueryKey(tweetId),
@@ -36,7 +35,7 @@ export default function TweetDetails({
 
   return (
     <AddCommentModal
-      addComment={addComment}
+      addComment={commentTweet}
       feedQueryKey={['comments']}
       tweet={tweetDetails}
     >

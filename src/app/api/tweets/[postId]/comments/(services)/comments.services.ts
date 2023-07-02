@@ -1,6 +1,6 @@
 import { ServerError } from '@/lib/serverError';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 import { prisma } from '@/db/prisma';
 
@@ -9,7 +9,7 @@ const LIMIT_COMMENT_AMMOUNT = 10;
 export async function getComments(
   tweetId: string,
   page: number
-): Promise<Post[]> {
+): Promise<Tweet[]> {
   try {
     const comments = prisma.post.findMany({
       where: {

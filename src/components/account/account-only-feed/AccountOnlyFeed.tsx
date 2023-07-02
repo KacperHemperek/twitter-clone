@@ -2,19 +2,19 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { RefreshCcwIcon } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React from 'react';
 
-import { getUsersTweets } from '@/components/account/components/account-only-feed/AccountOnlyFeed.service';
-import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
+import { getUsersTweets } from '@/services/Account.service';
+
 import Feed from '@/components/feed/Feed';
 import FeedSceleton from '@/components/feed/FeedSceleton';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 type AccountOnlyFeedProps = {
-  initialFeedData: PaginatedResponse<Post>;
+  initialFeedData: PaginatedResponse<Tweet>;
 };
 
 const ACCOUNT_ONLY_FEED_QUERY_KEYS = ['accountOnlyTweets'];

@@ -7,8 +7,9 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
+import { commentTweet, likeTweet } from '@/services/Tweets.service';
+
 import AddCommentModal from '@/components/common/AddCommentModal';
-import { likeTweet } from '@/components/common/CommonService.service';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 
 import { queryClient } from '../../context/Providers';
@@ -21,25 +22,9 @@ import {
 } from '@/lib/infiniteQueryHelpers';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
-import { type Post } from '@/types/Post.type';
+import { type Tweet } from '@/types/Tweet.type';
 
-async function commentTweet(tweetBody: string, tweetId?: string) {
-  const url = `/api/tweets/${tweetId}/comments`;
-
-  const res = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({ tweetBody }),
-  });
-
-  if (!res.ok) {
-    const data = await res.json();
-    throw new Error(
-      data?.message ?? 'Something went wrong while commenting on tweet'
-    );
-  }
-}
-
-function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
+function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -49,7 +34,7 @@ function Tweet({ post, feedQueryKey }: { post: Post; feedQueryKey: string[] }) {
       await queryClient.cancelQueries({ queryKey: feedQueryKey });
 
       const feed =
-        queryClient.getQueryData<InfiniteQueryData<Post>>(feedQueryKey);
+        queryClient.getQueryData<InfiniteQueryData<Tweet>>(feedQueryKey);
 
       if (!feed || !session?.user.id) {
         return { feed };

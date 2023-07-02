@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 
 import MainWrapper from '@/components/layout/MainWrapper';
-import TweetDetailsHeader from '@/components/tweet-details/components/TweetDetailsHeader';
+import TweetDetailsHeader from '@/components/tweet-details/TweetDetailsHeader';
 
 export default function TweetDetailsLayout({ children }: PropsWithChildren) {
   return (
