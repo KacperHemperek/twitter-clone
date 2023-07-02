@@ -14,7 +14,7 @@ import TweetAvatar from '@/components/feed/TweetAvatar';
 
 import { formatLongDate } from '@/lib/dateFormatters';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 export const getTweetDetailsQueryKey = (tweetId: string) => [
   'tweetDetails',
@@ -26,7 +26,7 @@ export default function TweetDetails({
   initialtweetDetails,
 }: {
   tweetId: string;
-  initialtweetDetails?: Post;
+  initialtweetDetails?: Tweet;
 }) {
   const { data: tweetDetails } = useQuery({
     queryKey: getTweetDetailsQueryKey(tweetId),

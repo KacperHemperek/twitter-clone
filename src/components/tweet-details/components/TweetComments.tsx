@@ -9,7 +9,7 @@ import Feed from '@/components/feed/Feed';
 import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';
 import { TweetSceleton } from '@/components/feed/tweet/TweetSceleton';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 export default function TweetComments({ tweetId }: { tweetId: string }) {
   const queryKey = ['comments', tweetId];
@@ -26,7 +26,7 @@ export default function TweetComments({ tweetId }: { tweetId: string }) {
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
-  const arrayOfReducedTweets = useMemo<Post[]>(() => {
+  const arrayOfReducedTweets = useMemo<Tweet[]>(() => {
     return (
       comments?.pages
         .map((page) => page.data)

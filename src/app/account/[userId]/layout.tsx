@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 
-import { getAccoundDetails } from '@/components/account/services/Account.service';
+import { getAccoundDetails } from '@/services/Account.service';
 
-import AccountHeader from '@/components/account/components/AccountHeader';
-import AccountDetails from '@/components/account/components/account-details/AccountDetails';
+import AccountHeader from '@/components/account/AccountHeader';
+import AccountDetails from '@/components/account/account-details/AccountDetails';
 import MainWrapper from '@/components/layout/MainWrapper';
 
 type AccountLayoutProps = PropsWithChildren & {

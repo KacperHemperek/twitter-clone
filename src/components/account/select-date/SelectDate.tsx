@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DateValues } from '@/components/account/components/account-details/AccountDetails';
+import { DateValues } from '@/components/account/account-details/AccountDetails';
 import {
   Select,
   SelectContent,

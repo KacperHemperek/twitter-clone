@@ -1,8 +1,8 @@
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 export async function getTweetDetails(
   tweetId: string
-): Promise<Post | undefined> {
+): Promise<Tweet | undefined> {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/tweets/${tweetId}`;
 
   const res = await fetch(url, { cache: 'no-cache' });

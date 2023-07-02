@@ -1,17 +1,24 @@
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export async function addComment(tweetBody: string, tweetId?: string) {
-  await fetch(`/api/tweets/${tweetId}/comments`, {
+  const res = await fetch(`/api/tweets/${tweetId}/comments`, {
     method: 'POST',
     body: JSON.stringify({ tweetBody }),
   });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(
+      error?.message ?? 'Something went wrong while adding your comment'
+    );
+  }
 }
 
 export async function getComments(
   pageParam: number,
   tweetId: string
-): Promise<PaginatedResponse<Post>> {
+): Promise<PaginatedResponse<Tweet>> {
   const url = `/api/tweets/${tweetId}/comments?page=${pageParam}`;
 
   const res = await fetch(url);

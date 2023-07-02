@@ -3,11 +3,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 
+import { getMainFeedTweets } from '@/services/Feed.service';
+
 import Feed from '@/components/feed/Feed';
-import { getMainFeedTweets } from '@/components/feed/Feed.service';
 import NewTweetForm from '@/components/feed/new-tweet-form/NewTweetForm';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export const MAIN_FEED_QUERY_KEYS = ['mainTweets'];
@@ -27,7 +28,7 @@ async function postTweet(tweetBody: string) {
 export default function MainFeed({
   initialData,
 }: {
-  initialData: PaginatedResponse<Post>;
+  initialData: PaginatedResponse<Tweet>;
 }) {
   const {
     data: tweets,
@@ -45,7 +46,7 @@ export default function MainFeed({
     getNextPageParam: (lastPage) => lastPage.nextPage,
     refetchOnMount: false,
   });
-  const arrayOfReducedTweets = useMemo<Post[]>(() => {
+  const arrayOfReducedTweets = useMemo<Tweet[]>(() => {
     return (
       tweets?.pages
         .map((page) => page.data)

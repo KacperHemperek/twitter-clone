@@ -1,6 +1,6 @@
 import { uuid } from 'uuidv4';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export type InfiniteQueryData<T> = {
@@ -17,11 +17,11 @@ export function reduceDataFromInfiniteQuery<T>(
 }
 
 export function getUpdatedFeedWithNewLike(
-  data: InfiniteQueryData<Post>,
-  tweetToUpdate: Post,
+  data: InfiniteQueryData<Tweet>,
+  tweetToUpdate: Tweet,
   tweetIsLiked: boolean,
   userId: string
-): InfiniteQueryData<Post> {
+): InfiniteQueryData<Tweet> {
   return {
     pages: data.pages.map((page) => {
       return {

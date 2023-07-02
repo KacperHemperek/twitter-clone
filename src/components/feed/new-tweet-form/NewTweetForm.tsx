@@ -12,7 +12,7 @@ import TweetAvatar from '../TweetAvatar';
 import { cn } from '@/lib/cn';
 import { InfiniteQueryData } from '@/lib/infiniteQueryHelpers';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 export default function NewTweetForm({
   feedQueryKey,
@@ -36,7 +36,7 @@ export default function NewTweetForm({
     onMutate: () => {
       queryClient.setQueryData(
         feedQueryKey,
-        (old?: InfiniteQueryData<Post>) => {
+        (old?: InfiniteQueryData<Tweet>) => {
           if (old) {
             return {
               pages: [old.pages[0]],

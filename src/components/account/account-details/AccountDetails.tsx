@@ -11,9 +11,10 @@ import React, { useMemo, useState } from 'react';
 import {
   getAccoundDetails,
   updateAccountDetails,
-} from '../../services/Account.service';
+} from '@/services/Account.service';
 
-import SelectDate from '@/components/account/components/select-date/SelectDate';
+import AccountSubInfo from '@/components/account/account-sub-info/AccountSubInfo';
+import SelectDate from '@/components/account/select-date/SelectDate';
 import Input from '@/components/common/Input';
 import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
 import { queryClient } from '@/components/context/Providers';
@@ -26,8 +27,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-
-import AccountSubInfo from '../account-sub-info/AccountSubInfo';
 
 import { formatShortDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';

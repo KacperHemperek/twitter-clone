@@ -1,9 +1,9 @@
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export async function getMainFeedTweets(
   page?: number
-): Promise<PaginatedResponse<Post>> {
+): Promise<PaginatedResponse<Tweet>> {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/tweets${
     page ? '?page=' + page : ''
   }`;

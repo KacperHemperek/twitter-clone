@@ -1,6 +1,6 @@
 import { Like, User } from '@prisma/client';
 
-export type Post = {
+export type Tweet = {
   message: string;
   author: User;
   createdAt: Date;

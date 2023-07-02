@@ -8,13 +8,13 @@ import { useSession } from 'next-auth/react';
 import React from 'react';
 import { uuid } from 'uuidv4';
 
-import { likeTweet } from '@/components/common/CommonService.service';
+import { likeTweet } from '@/services/Common.service';
 
 import { queryClient } from '../../context/Providers';
 
 import { cn } from '@/lib/cn';
 
-import { Post } from '@/types/Post.type';
+import { Tweet } from '@/types/Tweet.type';
 
 export default function LikeButtonDetails({
   tweetId,
@@ -28,7 +28,7 @@ export default function LikeButtonDetails({
   const { mutate: likeTweetMutation } = useMutation({
     mutationFn: async () => likeTweet(tweetId),
     onMutate: async () => {
-      const tweet = queryClient.getQueryData<Post>(tweetDetailsQueryKeys);
+      const tweet = queryClient.getQueryData<Tweet>(tweetDetailsQueryKeys);
 
       const userId = session?.user.id;
 
@@ -38,7 +38,7 @@ export default function LikeButtonDetails({
 
       const isLiked = tweet.likes.some((like) => like.userId === userId);
 
-      const updatedTweet: Post = isLiked
+      const updatedTweet: Tweet = isLiked
         ? {
             ...tweet,
             likes: tweet.likes.filter((like) => like.userId !== userId),
