@@ -14,6 +14,7 @@ import {
 } from '@/services/Account.service';
 
 import AccountSubInfo from '@/components/account/account-sub-info/AccountSubInfo';
+import FollowButton from '@/components/account/follow-button/FollowButton';
 import SelectDate from '@/components/account/select-date/SelectDate';
 import Input from '@/components/common/Input';
 import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
@@ -28,6 +29,7 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 
+import { cn } from '@/lib/cn';
 import { formatShortDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
@@ -140,6 +142,13 @@ export default function AccountDetails({
     [newLocation, newDescription, newName, dateValues]
   );
 
+  const isFollowing = useMemo(
+    () =>
+      !!session?.user.id &&
+      accountDetails?.followers.includes(session?.user.id),
+    [session?.user.id, accountDetails?.followers]
+  );
+
   const isCurrentUsersPage = session?.user.id === accountDetails?.id;
 
   const showSubInfoTags = !!accountDetails?.born || !!accountDetails?.location;
@@ -229,13 +238,12 @@ export default function AccountDetails({
                 </DialogTrigger>
               )}
               {!isCurrentUsersPage && (
-                //enable when follow functionality is added
-                <button
-                  disabled={true}
-                  className="bg-white active:bg-white/80 text-background px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-700"
-                >
-                  Follow
-                </button>
+                <FollowButton
+                  isFollowing={isFollowing}
+                  queryKey={ACCOUNT_DETAILS_KEY}
+                  userId={accountDetails.id}
+                  username={accountDetails.name!}
+                />
               )}
             </div>
           </div>
@@ -276,7 +284,7 @@ export default function AccountDetails({
             <p className="text-sm text-gray-400">
               <span className="text-white font-semibold">
                 {`${formatNumberToCompact(
-                  accountDetails?.followingCount ?? 0
+                  accountDetails?.following.length ?? 0
                 )} `}
               </span>{' '}
               Following
@@ -284,7 +292,7 @@ export default function AccountDetails({
             <p className="text-sm text-gray-400">
               <span className="text-white font-semibold">
                 {`${formatNumberToCompact(
-                  accountDetails?.followersCount ?? 0
+                  accountDetails?.followers.length ?? 0
                 )} `}
               </span>
               Followers

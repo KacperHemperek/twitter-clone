@@ -63,3 +63,16 @@ export async function getUsersTweets(
 
   return await res.json();
 }
+
+export async function followUser(userId: string) {
+  const url = `/api/user/${userId}/follow`;
+
+  const res = await fetch(url, { method: 'POST' });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error?.message ?? 'There was a problem following user', {
+      cause: res.statusText,
+    });
+  }
+}
