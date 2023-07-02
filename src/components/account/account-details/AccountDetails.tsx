@@ -145,7 +145,7 @@ export default function AccountDetails({
   const isFollowing = useMemo(
     () =>
       !!session?.user.id &&
-      accountDetails?.followers.includes(session?.user.id),
+      accountDetails?.followers?.includes(session?.user.id),
     [session?.user.id, accountDetails?.followers]
   );
 

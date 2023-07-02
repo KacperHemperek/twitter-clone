@@ -80,7 +80,6 @@ export default function FollowButton({
       >
         {isFollowing ? (hover ? 'Unfollow' : 'Following') : 'Follow'}
       </button>
-
       {dialogOpen && (
         <DialogContent className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit">
           <DialogHeader>
