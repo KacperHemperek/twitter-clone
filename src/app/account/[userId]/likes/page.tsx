@@ -2,7 +2,6 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AlertOctagonIcon, RefreshCcwIcon } from 'lucide-react';
-import { useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 import { getUsersLikedTweets } from '@/services/Account.service';
