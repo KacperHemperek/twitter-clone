@@ -2,7 +2,7 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AlertOctagonIcon, RefreshCcwIcon } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 import { getUsersLikedTweets } from '@/services/Account.service';
@@ -39,8 +39,6 @@ export default function UserLikesPage() {
           `We couldn't update your profile. Please try again later.`,
       });
   }, [error, isError]);
-
-  const router = useRouter();
 
   if (isLoading) {
     return <FeedSceleton numberOfTweets={10} />;
