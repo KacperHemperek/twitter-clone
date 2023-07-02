@@ -13,8 +13,11 @@ import { toast } from '@/components/ui/use-toast';
 
 const LIKED_USER_FEED_QUERY_KEY = ['likeUsersTweets'];
 
-export default function UserLikesPage() {
-  const params = useParams();
+export default function UserLikesPage({
+  params,
+}: {
+  params: { userId: string };
+}) {
   const {
     data: feedData,
     isLoading,
