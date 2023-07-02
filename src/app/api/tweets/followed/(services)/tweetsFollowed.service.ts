@@ -22,6 +22,7 @@ export async function getTweetsFromFollowedUsers(page: number, userId: string) {
         message: true,
         likes: true,
         comments: { select: { id: true } },
+        retweets: { select: { id: true, userId: true } },
       },
       take: FEED_LIMIT,
       skip: (page - 1) * FEED_LIMIT,

@@ -18,6 +18,7 @@ export async function getLikedTweets(userId: string, page: number) {
         message: true,
         likes: true,
         comments: { select: { id: true } },
+        retweets: { select: { id: true, userId: true } },
       },
       take: TWEET_LIMIT,
       skip: (page - 1) * TWEET_LIMIT,
