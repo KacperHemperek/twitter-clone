@@ -14,4 +14,5 @@ export type Tweet = {
     userId: string;
     postId: string;
   }[];
+  retweetedBy?: string;
 };

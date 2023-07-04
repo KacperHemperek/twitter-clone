@@ -8,8 +8,15 @@ export async function getUsersTweets(userId: string, page: number) {
   try {
     const posts = await prisma.post.findMany({
       where: {
-        parentId: null,
-        authorId: userId,
+        OR: [
+          {
+            parentId: null,
+            authorId: userId,
+          },
+          {
+            retweets: { some: { userId } },
+          },
+        ],
       },
       select: {
         author: true,
@@ -18,14 +25,41 @@ export async function getUsersTweets(userId: string, page: number) {
         message: true,
         likes: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: true,
       },
       take: TWEET_LIMIT,
       skip: (page - 1) * TWEET_LIMIT,
       orderBy: { createdAt: 'desc' },
     });
 
-    return posts;
+    const postsWithRetweetedByPromises = posts.map(async (post) => {
+      const retweetedById = post.retweets.find(
+        (retweet) => retweet.userId === userId
+      )?.userId;
+
+      if (!retweetedById) {
+        return post;
+      }
+
+      const retweetedBy = await prisma.user.findUnique({
+        where: { id: retweetedById },
+        select: { name: true },
+      });
+
+      if (retweetedBy) {
+        console.dir({
+          ...post,
+          retweetedBy: retweetedBy.name ?? undefined,
+        });
+      }
+      return { ...post, retweetedBy: undefined };
+    });
+
+    const postsWithRetweetedBy = await Promise.all(
+      postsWithRetweetedByPromises
+    );
+
+    return postsWithRetweetedBy;
   } catch (e) {
     throw new ServerError(500, 'There was a problem retrieving feed data');
   }
