@@ -15,4 +15,5 @@ export type Tweet = {
     postId: string;
   }[];
   retweetedBy?: string;
+  retweetedAt?: Date;
 };

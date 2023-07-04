@@ -29,7 +29,6 @@ export async function getUsersTweets(userId: string, page: number) {
       },
       take: TWEET_LIMIT,
       skip: (page - 1) * TWEET_LIMIT,
-      orderBy: { createdAt: 'desc' },
     });
 
     const postsWithRetweetedByPromises = posts.map(async (post) => {
@@ -41,18 +40,19 @@ export async function getUsersTweets(userId: string, page: number) {
         return post;
       }
 
-      const retweetedBy = await prisma.user.findUnique({
-        where: { id: retweetedById },
-        select: { name: true },
+      const retweetedBy = await prisma.retweet.findFirst({
+        where: { userId: retweetedById },
+        select: { user: { select: { name: true } }, retweetedAt: true },
       });
 
       if (retweetedBy) {
-        console.dir({
+        return {
           ...post,
-          retweetedBy: retweetedBy.name ?? undefined,
-        });
+          retweetedBy: retweetedBy.user.name ?? undefined,
+          retweetedAt: retweetedBy.retweetedAt ?? undefined,
+        };
       }
-      return { ...post, retweetedBy: undefined };
+      return { ...post, retweetedBy: undefined, retweetedAt: undefined };
     });
 
     const postsWithRetweetedBy = await Promise.all(

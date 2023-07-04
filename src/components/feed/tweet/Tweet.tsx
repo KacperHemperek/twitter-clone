@@ -135,6 +135,11 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             authorId={post.author.id}
           />
           <div className="flex-grow space-y-2">
+            {!!post.retweetedBy && <div className='text-gray-600 text-sm mb-2 flex items-center'>
+              <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
+              Retweeted by{' '}
+              {post.retweetedBy}
+            </div>}
             <TweetUserInfo
               authorEmail={post.author.email}
               authorName={post.author.name}
