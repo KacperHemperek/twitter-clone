@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
-import { commentTweet, likeTweet } from '@/services/Tweets.service';
+import { commentTweet, likeTweet, retweet } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
@@ -19,6 +19,7 @@ import { cn } from '@/lib/cn';
 import {
   InfiniteQueryData,
   getUpdatedFeedWithNewLike,
+  getUpdatedFeedWithNewRetweet,
 } from '@/lib/infiniteQueryHelpers';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
@@ -28,7 +29,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { mutate: likeTweetMutation } = useMutation({
+  const { mutate: likeTweetMutation, isLoading: likingTweet } = useMutation({
     mutationFn: async () => likeTweet(post.id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: feedQueryKey });
@@ -51,13 +52,42 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
 
       return { feed };
     },
-
     onError: (_error, _vars, context) => {
       if (context?.feed) {
         queryClient.setQueryData(feedQueryKey, context.feed);
       }
     },
   });
+
+  const {mutate: retweetMutation, isLoading: retweeting} = useMutation({
+    mutationFn: async () => retweet(post.id),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: feedQueryKey });
+
+      const feed =
+        queryClient.getQueryData<InfiniteQueryData<Tweet>>(feedQueryKey);
+
+      if (!feed || !session?.user.id) {
+        return { feed };
+      }
+
+      const updatedFeed = getUpdatedFeedWithNewRetweet(
+        feed,
+        post,
+        tweetIsRetweeted,
+        session.user.id
+      );
+
+      queryClient.setQueryData<InfiniteQueryData<Tweet>>(feedQueryKey, { pageParams: feed.pageParams, pages: updatedFeed });
+
+      return { feed };
+    },
+    onError: (_error, _vars, context) => {
+      if (context?.feed) {
+        queryClient.setQueryData(feedQueryKey, context.feed);
+      }
+    },
+  })
 
   const onLikeTweet = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -107,6 +137,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             <div className="grid grid-cols-3">
               <div>
                 <button
+                  disabled={likingTweet}
                   className={cn(
                     tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
                     'group flex cursor-pointer items-center transition-all hover:text-pink-400'
@@ -121,8 +152,9 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                 <button
                   onClick ={(e) => {
                     e.stopPropagation(); 
-                    console.log('todo: retweet')
+                    retweetMutation();
                   }}
+                  disabled={retweeting}
                   className={cn(
                     tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
                     'group flex cursor-pointer items-center transition-all hover:text-green-400'

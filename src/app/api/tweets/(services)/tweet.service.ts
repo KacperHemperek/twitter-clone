@@ -19,7 +19,7 @@ export async function getMainFeedTweets(page: number): Promise<Tweet[]> {
         message: true,
         likes: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: true,
       },
       take: MAIN_FEED_LIMIT,
       skip: (page - 1) * MAIN_FEED_LIMIT,
@@ -55,7 +55,7 @@ export async function getTweetDetails(tweetId: string): Promise<Tweet | null> {
         message: true,
         createdAt: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: true,
       },
     });
 

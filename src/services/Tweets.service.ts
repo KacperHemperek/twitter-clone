@@ -116,3 +116,18 @@ export async function getTweetsFromFollowedUsers(
 
   return await res.json();
 }
+
+export async function retweet(tweetId: string) {
+  const res = await fetch(`/api/tweets/${tweetId}/retweet`, {
+    method: 'POST',
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data?.message ?? 'Something went wrong while retweeting', {
+      cause: res.statusText,
+    });
+  }
+
+  console.log('retweet response', await res.json());
+}

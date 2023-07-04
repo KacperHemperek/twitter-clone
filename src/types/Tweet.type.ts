@@ -12,5 +12,6 @@ export type Tweet = {
   retweets: {
     id: string;
     userId: string;
+    postId: string;
   }[];
 };
