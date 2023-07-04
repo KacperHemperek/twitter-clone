@@ -15,7 +15,6 @@ export async function retweetHandler(req: NextRequest, tweetId: string) {
 
   try {
     await retweetTweet(tweetId, session.user.id);
-
     return NextResponse.json({
       message: 'retweeted tweet with id: ' + tweetId,
     });

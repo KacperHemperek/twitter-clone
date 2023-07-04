@@ -24,6 +24,7 @@ import {
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 import { type Tweet } from '@/types/Tweet.type';
+import { toast } from '@/components/ui/use-toast';
 
 function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -82,7 +83,14 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
 
       return { feed };
     },
-    onError: (_error, _vars, context) => {
+    onError: (error: any, _vars, context) => {
+      toast({
+        variant: 'destructive',
+        title: 'Oh no!',
+        description:
+          error?.message ??
+          `We couldn't retweet this tweet. Please try again later.`,
+      });
       if (context?.feed) {
         queryClient.setQueryData(feedQueryKey, context.feed);
       }

@@ -128,6 +128,4 @@ export async function retweet(tweetId: string) {
       cause: res.statusText,
     });
   }
-
-  console.log('retweet response', await res.json());
 }
