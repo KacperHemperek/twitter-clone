@@ -15,7 +15,8 @@ export async function getUserTweetsHandler(req: Request, userId: string) {
     const tweets = await getUsersTweets(userId, pageNumber);
     const nextPage = tweets.length === 10 ? pageNumber + 1 : undefined;
     return NextResponse.json({ data: tweets, nextPage });
-  } catch (e) {
+  } catch (e: any) {
+    console.error(e.message);
     return handleServerError(e);
   }
 }

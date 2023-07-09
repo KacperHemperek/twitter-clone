@@ -12,7 +12,6 @@ export async function getTweetDetailsController(tweetId: string) {
   if (!tweetId) {
     return nextServerErrorFactory(400, "Didn't find id in request");
   }
-
   try {
     const tweetDetails = await getTweetDetails(tweetId);
 
