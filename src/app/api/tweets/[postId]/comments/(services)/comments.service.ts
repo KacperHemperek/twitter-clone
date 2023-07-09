@@ -22,7 +22,7 @@ export async function getComments(
         createdAt: true,
         id: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: { select: { id: true, userId: true, postId: true } },
       },
       take: LIMIT_COMMENT_AMMOUNT,
       skip: (page - 1) * LIMIT_COMMENT_AMMOUNT,
