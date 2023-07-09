@@ -1,19 +1,15 @@
-import { Like, User } from '@prisma/client';
+import { Like, Retweet, User } from '@prisma/client';
 
 export type Tweet = {
   message: string;
-  author: User;
+  author: Pick<User, 'email' | 'name' | 'id' | 'image'>;
   createdAt: Date;
   id: string;
-  likes: Like[];
+  likes: Pick<Like, 'id' | 'userId'>[];
   comments?: {
     id: string;
   }[];
-  retweets: {
-    id: string;
-    userId: string;
-    postId: string;
-  }[];
+  retweets: Pick<Retweet, 'id' | 'userId'>[];
   retweetedBy?: string;
-  retweetedAt?: Date;
+  tweetedAt?: Date;
 };
