@@ -1,3 +1,4 @@
+import { Retweet } from '@prisma/client';
 import { uuid } from 'uuidv4';
 
 import { Tweet } from '@/types/Tweet.type';
@@ -63,11 +64,7 @@ export function getUpdatedFeedWithNewRetweet(
         return tweet;
       }
 
-      let retweets: {
-        id: string;
-        userId: string;
-        postId: string;
-      }[];
+      let retweets: Pick<Retweet, 'id' | 'userId'>[];
 
       if (tweetIsRetweeted) {
         retweets = tweet.retweets.filter(
@@ -78,7 +75,6 @@ export function getUpdatedFeedWithNewRetweet(
           ...tweet.retweets,
           {
             id: uuid(),
-            postId: tweetToUpdate.id,
             userId,
           },
         ];
