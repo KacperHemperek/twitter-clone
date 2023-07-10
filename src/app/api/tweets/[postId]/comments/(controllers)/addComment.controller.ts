@@ -1,3 +1,4 @@
+import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
 import { authOptions } from '@/utils/next-auth';
 import Filter from 'bad-words';
 import { getServerSession } from 'next-auth';
@@ -6,40 +7,40 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createComment } from '../(services)/comments.service';
 
 import { getBody } from '@/lib/getBodyFromRequest';
-import {
-  ServerError,
-  ThrowProfanityError,
-  handleServerError,
-} from '@/lib/serverError';
+import { ServerError, ThrowProfanityError } from '@/lib/serverError';
 
 const BadWordFilter = new Filter();
 
-export async function addCommentHandler(req: NextRequest, tweetId: string) {
-  try {
-    const session = await getServerSession(authOptions);
+export async function addCommentHandler(
+  req: NextRequest,
+  params: TweetDetailsParams
+) {
+  const { postId: tweetId } = params;
 
-    if (!session) {
-      throw new ServerError(403, 'User is not authenticated');
-    }
+  const session = await getServerSession(authOptions);
 
-    const body: { tweetBody?: string } = await getBody(req);
-
-    if (!body.tweetBody) {
-      throw new ServerError(400, 'Wrong tweetBody required');
-    }
-
-    if (BadWordFilter.isProfane(body.tweetBody)) {
-      ThrowProfanityError();
-    }
-
-    await createComment({
-      authorId: session.user.id,
-      message: body.tweetBody,
-      parentId: tweetId,
+  if (!session) {
+    throw new ServerError({
+      code: 403,
+      message: 'User is not authenticated',
     });
-
-    return NextResponse.json({ message: 'Comment createed succesfully' });
-  } catch (e) {
-    handleServerError(e);
   }
+
+  const body: { tweetBody?: string } = await getBody(req);
+
+  if (!body.tweetBody) {
+    throw new ServerError({ code: 400, message: 'Wrong tweetBody required' });
+  }
+
+  if (BadWordFilter.isProfane(body.tweetBody)) {
+    ThrowProfanityError();
+  }
+
+  await createComment({
+    authorId: session.user.id,
+    message: body.tweetBody,
+    parentId: tweetId,
+  });
+
+  return NextResponse.json({ message: 'Comment createed succesfully' });
 }

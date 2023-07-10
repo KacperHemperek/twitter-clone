@@ -30,9 +30,9 @@ export async function getTweetsFromFollowedUsers(page: number, userId: string) {
     });
     return tweets;
   } catch (err: any) {
-    throw new ServerError(
-      err?.code ?? 500,
-      'There was a problem retrieving feed data'
-    );
+    throw new ServerError({
+      code: 500,
+      message: 'There was a problem retrieving feed data',
+    });
   }
 }

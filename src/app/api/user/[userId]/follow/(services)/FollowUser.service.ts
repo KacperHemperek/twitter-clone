@@ -9,10 +9,10 @@ export async function followUser(userId: string, userToFollowId: string) {
       data: { followers: { connect: [{ id: userId }] } },
     });
   } catch (error: any) {
-    throw new ServerError(
-      error?.code ?? 500,
-      error?.message ?? `Cound't follow user with id: ${userToFollowId}`
-    );
+    throw new ServerError({
+      code: 500,
+      message: `Cound't follow user with id: ${userToFollowId}`,
+    });
   }
 }
 
@@ -23,10 +23,10 @@ export async function unfollowUser(userId: string, userToUnfollowId: string) {
       data: { followers: { disconnect: [{ id: userId }] } },
     });
   } catch (error: any) {
-    throw new ServerError(
-      error?.code ?? 500,
-      error?.message ?? `Cound't unfollow user with id: ${userToUnfollowId}`
-    );
+    throw new ServerError({
+      code: 500,
+      message: `Cound't unfollow user with id: ${userToUnfollowId}`,
+    });
   }
 }
 
@@ -38,11 +38,17 @@ export async function getUserFollowersIds(userId: string): Promise<string[]> {
     });
 
     if (!user) {
-      throw new ServerError(404, `User with id: ${userId} not found`);
+      throw new ServerError({
+        code: 404,
+        message: `User with id: ${userId} not found`,
+      });
     }
 
     return user.followers.map((follower) => follower.id);
   } catch (err: any) {
-    throw new ServerError(err?.code ?? 500, `Couldn't get user followers`);
+    throw new ServerError({
+      code: 500,
+      message: `Couldn't get user followers`,
+    });
   }
 }

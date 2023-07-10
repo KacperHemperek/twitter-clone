@@ -5,6 +5,9 @@ export async function getBody(req: NextRequest | Request) {
   try {
     return await req.json();
   } catch (e) {
-    throw new ServerError(400, "Couldn't retrive body from request");
+    throw new ServerError({
+      code: 400,
+      message: "Couldn't retrive body from request",
+    });
   }
 }

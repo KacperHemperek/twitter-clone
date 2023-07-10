@@ -11,7 +11,7 @@ export async function getRetweets(postId: string) {
 
     return tweet?.retweets?.map((retweet) => retweet.userId) ?? [];
   } catch (err) {
-    throw new ServerError(500, `Couldn't get retweets`);
+    throw new ServerError({ code: 500, message: `Couldn't get retweets` });
   }
 }
 
@@ -21,7 +21,10 @@ export async function retweetTweet(postId: string, userId: string) {
       data: { postId, userId },
     });
   } catch (err) {
-    throw new ServerError(500, `Couldn't retweet your tweet`);
+    throw new ServerError({
+      code: 500,
+      message: `Couldn't retweet your tweet`,
+    });
   }
 }
 
@@ -31,6 +34,6 @@ export async function removeRetweet(postId: string, userId: string) {
       where: { userId, postId },
     });
   } catch (err) {
-    throw new ServerError(500, `Couldn't remove retweet`);
+    throw new ServerError({ code: 500, message: `Couldn't remove retweet` });
   }
 }

@@ -27,6 +27,9 @@ export async function getLikedTweets(userId: string, page: number) {
 
     return tweets;
   } catch (e) {
-    throw new ServerError(500, 'There was a problem retrieving feed data');
+    throw new ServerError({
+      code: 500,
+      message: 'There was a problem retrieving feed data',
+    });
   }
 }

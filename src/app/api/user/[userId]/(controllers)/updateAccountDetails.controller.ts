@@ -1,3 +1,4 @@
+import { AccountParams } from '@/app/api/user/[userId]/tweets/route';
 import { authOptions } from '@/utils/next-auth';
 import { Prisma } from '@prisma/client';
 import Filter from 'bad-words';
@@ -6,11 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { updateAccountDetailsById } from '../(services)/account.service';
 
-import {
-  ThrowProfanityError,
-  handleServerError,
-  nextServerErrorFactory,
-} from '@/lib/serverError';
+import { ThrowProfanityError, nextServerErrorFactory } from '@/lib/serverError';
 
 const BadWordsFilter = new Filter();
 
@@ -21,8 +18,10 @@ export type UpdateAccountDetailsBody = Pick<
 
 export async function updateAccountDetailsControllerHandler(
   req: NextRequest,
-  userId: string
+  params: AccountParams
 ) {
+  const { userId } = params;
+
   const session = await getServerSession(authOptions);
 
   if (!session?.user || userId !== session.user.id) {
@@ -32,24 +31,20 @@ export async function updateAccountDetailsControllerHandler(
     );
   }
 
-  try {
-    const body: UpdateAccountDetailsBody = await req.json();
+  const body: UpdateAccountDetailsBody = await req.json();
 
-    if (
-      Object.values(body).some(
-        (value) => typeof value === 'string' && BadWordsFilter.isProfane(value)
-      )
-    ) {
-      ThrowProfanityError();
-    }
-
-    const updatedUser = await updateAccountDetailsById(userId, body);
-
-    return NextResponse.json({
-      message: 'User updated succesfully',
-      data: { user: updatedUser },
-    });
-  } catch (e) {
-    return handleServerError(e);
+  if (
+    Object.values(body).some(
+      (value) => typeof value === 'string' && BadWordsFilter.isProfane(value)
+    )
+  ) {
+    ThrowProfanityError();
   }
+
+  const updatedUser = await updateAccountDetailsById(userId, body);
+
+  return NextResponse.json({
+    message: 'User updated succesfully',
+    data: { user: updatedUser },
+  });
 }
