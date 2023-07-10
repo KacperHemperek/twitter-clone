@@ -62,27 +62,27 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
 
   const {mutate: retweetMutation, isLoading: retweeting} = useMutation({
     mutationFn: async () => retweet(post.id),
-    // onMutate: async () => {
-    //   await queryClient.cancelQueries({ queryKey: feedQueryKey });
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: feedQueryKey });
 
-    //   const feed =
-    //     queryClient.getQueryData<InfiniteQueryData<Tweet>>(feedQueryKey);
+      const feed =
+        queryClient.getQueryData<InfiniteQueryData<Tweet>>(feedQueryKey);
 
-    //   if (!feed || !session?.user.id) {
-    //     return { feed };
-    //   }
+      if (!feed || !session?.user.id) {
+        return { feed };
+      }
 
-    //   const updatedFeed = getUpdatedFeedWithNewRetweet(
-    //     feed,
-    //     post,
-    //     tweetIsRetweeted,
-    //     session.user.id
-    //   );
+      const updatedFeed = getUpdatedFeedWithNewRetweet(
+        feed,
+        post,
+        tweetIsRetweeted,
+        session.user.id
+      );
 
-    //   queryClient.setQueryData<InfiniteQueryData<Tweet>>(feedQueryKey, { pageParams: feed.pageParams, pages: updatedFeed });
+      queryClient.setQueryData<InfiniteQueryData<Tweet>>(feedQueryKey, { pageParams: feed.pageParams, pages: updatedFeed });
 
-    //   return { feed };
-    // },
+      return { feed };
+    },
     onError: (error: any, _vars, context) => {
       toast({
         variant: 'destructive',
@@ -91,9 +91,9 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
           error?.message ??
           `We couldn't retweet this tweet. Please try again later.`,
       });
-      // if (context?.feed) {
-      //   queryClient.setQueryData(feedQueryKey, context.feed);
-      // }
+      if (context?.feed) {
+        queryClient.setQueryData(feedQueryKey, context.feed);
+      }
     },
   })
 
@@ -110,10 +110,10 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
     (like) => like.userId === session?.user.id
   );
 
-  // const tweetIsRetweeted = post.retweets.some(
-  //   (retweet) => retweet.userId === session?.user.id
-  // );
-  const tweetIsRetweeted = false;
+  const tweetIsRetweeted = post.retweets.some(
+    (retweet) => retweet.userId === session?.user.id
+  );
+
 
   return (
     <AddCommentModal
@@ -139,7 +139,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             {!!post.retweetedBy && <div className='text-gray-600 text-sm mb-2 flex items-center'>
               <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
               Retweeted by{' '}
-              {post.retweetedBy}
+              {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
             </div>}
             <TweetUserInfo
               authorEmail={post.author.email}
@@ -175,8 +175,8 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                   )}
                 >
                   <RefreshCwIcon className="mr-4  h-4 w-4" />
-                  {/* {formatNumberToCompact(post.retweets.length)} */}
-                  0
+                  {formatNumberToCompact(post.retweets.length)}
+                  
                 </button>
               </div>
               <div>

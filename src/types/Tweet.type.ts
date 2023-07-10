@@ -10,6 +10,6 @@ export type Tweet = {
     id: string;
   }[];
   retweets: Pick<Retweet, 'id' | 'userId'>[];
-  retweetedBy?: string;
+  retweetedBy: { name: string; userId: string } | null;
   tweetedAt?: Date;
 };
