@@ -33,7 +33,8 @@ export function ThrowProfanityError() {
 
 export function handleServerError(e: any) {
   if (e instanceof ServerError) {
-    console.error(e.message);
+    console.error(e?.cause ?? '');
+    console.error(e?.message ?? '');
     if (e.code === 400) {
       return nextServerErrorFactory(
         e.code,
@@ -58,7 +59,7 @@ export function handleServerError(e: any) {
       );
     }
 
-    return nextServerErrorFactory(e.code, 'Internal Server Error', e.message);
+    return nextServerErrorFactory(500, 'Internal Server Error', e.message);
   }
   return nextServerErrorFactory(500, e?.message);
 }

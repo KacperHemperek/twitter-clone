@@ -82,5 +82,10 @@ export async function getUserTweetsNew(userId: string, page: number) {
       OFFSET ${(page - 1) * TWEET_LIMIT};
     `;
     return posts;
-  } catch (e) {}
+  } catch (e) {
+    throw new ServerError({
+      code: 404,
+      message: "Couldn't retrieve tweets for user",
+    });
+  }
 }
