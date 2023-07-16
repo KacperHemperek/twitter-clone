@@ -17,6 +17,7 @@ import AccountSubInfo from '@/components/account/account-sub-info/AccountSubInfo
 import FollowButton from '@/components/account/follow-button/FollowButton';
 import SelectDate from '@/components/account/select-date/SelectDate';
 import Input from '@/components/common/Input';
+import { TextWithLinks } from '@/components/common/TextWithLinks';
 import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
 import { queryClient } from '@/components/context/Providers';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -259,11 +260,14 @@ export default function AccountDetails({
 
             <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
           </div>
-          <p className="text-base">
-            {accountDetails?.description || !!accountDetails.description?.length
-              ? accountDetails.description
-              : DEFAULT_DESCRIPTION}
-          </p>
+          <TextWithLinks>
+            <p className="text-base overflow-break whitespace-pre-line">
+              {accountDetails?.description ||
+              !!accountDetails.description?.length
+                ? accountDetails.description
+                : DEFAULT_DESCRIPTION}
+            </p>
+          </TextWithLinks>
 
           {showSubInfoTags && (
             <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
