@@ -31,6 +31,13 @@ export async function getUserTweetsNew(userId: string, page: number) {
               ),
               JSON_ARRAY()
             ) as retweets,
+            COALESCE(
+              (
+                SELECT JSON_ARRAYAGG(JSON_OBJECT('id', Comment.id))
+                FROM Post AS Comment
+                WHERE Comment.parentId = Post.id
+              )
+            ) as comments,
             Post.id as id,
             Post.message as message,
             NULL as retweetedBy,
@@ -65,6 +72,13 @@ export async function getUserTweetsNew(userId: string, page: number) {
               ),
               JSON_ARRAY()
             ) as retweets,
+            COALESCE(
+              (
+                SELECT JSON_ARRAYAGG(JSON_OBJECT('id', Comment.id))
+                FROM Post AS Comment
+                WHERE Comment.parentId = Post.id
+              )
+            ) as comments,
             Post.id as id,
             Post.message as message,
             JSON_OBJECT('name',RetweetUser.name, 'userId', RetweetUser.id) as retweetedBy,
