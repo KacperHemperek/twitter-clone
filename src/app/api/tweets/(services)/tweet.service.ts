@@ -1,7 +1,5 @@
 import { ServerError } from '@/lib/serverError';
 
-import { Tweet } from '@/types/Tweet.type';
-
 import { prisma } from '@/db/prisma';
 
 const MAIN_FEED_LIMIT = 10;
@@ -19,7 +17,7 @@ export async function getMainFeedTweets(page: number) {
         message: true,
         likes: true,
         comments: { select: { id: true } },
-        retweets: true,
+        retweets: { select: { id: true, userId: true } },
       },
       take: MAIN_FEED_LIMIT,
       skip: (page - 1) * MAIN_FEED_LIMIT,

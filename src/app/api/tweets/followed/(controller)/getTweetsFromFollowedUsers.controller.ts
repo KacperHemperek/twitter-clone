@@ -20,8 +20,6 @@ export async function getTweetsFromFollowedUsersHandler(req: NextRequest) {
   const { page } = getServerSearchParams<['page']>(req, ['page']);
   const pageNumber = getPageNumber(page);
 
-  console.log({ userId: session.user.id, pageNumber });
-
   const tweets = await getTweetsFromFollowedUsers(pageNumber, session.user.id);
 
   const nextPage = tweets.length === 10 ? pageNumber + 1 : undefined;
