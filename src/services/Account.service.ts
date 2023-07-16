@@ -13,7 +13,7 @@ export async function getAccountDetails(
   userId: string
 ): Promise<AccountDetails> {
   const url = `${process.env.NEXTAUTH_URL ?? ''}/api/user/${userId}`;
-  const res = await fetch(url, { next: { tags: GET_ACCOUNT_DETAILS_TAGS } });
+  const res = await fetch(url, { next: { revalidate: 60 } });
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
     throw new Error(error.message, {
@@ -25,6 +25,7 @@ export async function getAccountDetails(
   }
 
   const data = await res.json();
+
   return data;
 }
 
