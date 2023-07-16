@@ -261,7 +261,7 @@ export default function AccountDetails({
             <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
           </div>
           <TextWithLinks>
-            <p className="text-base">
+            <p className="text-base overflow-break">
               {accountDetails?.description ||
               !!accountDetails.description?.length
                 ? accountDetails.description

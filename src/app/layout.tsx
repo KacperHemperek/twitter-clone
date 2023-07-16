@@ -3,7 +3,7 @@ import { authOptions } from '@/utils/next-auth';
 import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 
-import { SignInButton } from '@/components/common/UserHadnlingButtons';
+import { SignInButton } from '@/components/common/UserHandlingButtons';
 import Providers from '@/components/context/Providers';
 import NavBarContainer from '@/components/navbar/NavBarContainer';
 
@@ -26,7 +26,7 @@ export default async function RootLayout({
         className="dark overflow-auto overscroll-none bg-background text-white"
       >
         <Providers session={session}>
-          <main className="relative mx-auto flex min-h-[100dvh] xl:max-w-5xl ">
+          <main className="relative mx-auto flex min-h-[100dvh] xl:max-w-5xl">
             {!!session?.user && (
               <>
                 <NavBarContainer />
