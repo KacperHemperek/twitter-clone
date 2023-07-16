@@ -151,7 +151,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             />
 
             <TextWithLinks>
-              <p className='overflow-break'>{post.message}</p>
+              <p className='overflow-break whitespace-pre-line'>{post.message}</p>
             </TextWithLinks>
             <div className="grid grid-cols-3">
               <div>

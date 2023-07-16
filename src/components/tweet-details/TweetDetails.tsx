@@ -57,7 +57,9 @@ export default function TweetDetails({
           </div>
           <div className="space-y-4 border-b border-gray-700 py-3.5">
             <TextWithLinks>
-              <p className="text-lg overflow-break">{tweetDetails?.message}</p>
+              <p className="text-lg overflow-break whitespace-pre-line">
+                {tweetDetails?.message}
+              </p>
             </TextWithLinks>
             <p className=" text-gray-400">
               {formatLongDate(new Date(tweetDetails?.createdAt ?? ''))}
