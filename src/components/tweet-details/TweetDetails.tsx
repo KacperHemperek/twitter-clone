@@ -8,6 +8,7 @@ import React from 'react';
 import { commentTweet, getTweetDetails } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
+import { TextWithLinks } from '@/components/common/TextWithLinks';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import TweetAvatar from '@/components/feed/TweetAvatar';
 
@@ -55,7 +56,9 @@ export default function TweetDetails({
             />
           </div>
           <div className="space-y-4 border-b border-gray-700 py-3.5">
-            <p className="text-lg">{tweetDetails?.message}</p>
+            <TextWithLinks>
+              <p className="text-lg">{tweetDetails?.message}</p>
+            </TextWithLinks>
             <p className=" text-gray-400">
               {formatLongDate(new Date(tweetDetails?.createdAt ?? ''))}
             </p>

@@ -25,6 +25,7 @@ import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 import { type Tweet } from '@/types/Tweet.type';
 import { toast } from '@/components/ui/use-toast';
+import { TextWithLinks } from '@/components/common/TextWithLinks';
 
 function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -136,18 +137,22 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             authorId={post.author.id}
           />
           <div className="flex-grow space-y-2">
-            {!!post.retweetedBy && <div className='text-gray-600 text-sm mb-2 flex items-center'>
-              <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
-              Retweeted by{' '}
-              {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
-            </div>}
+            {!!post.retweetedBy && 
+              <div className='text-gray-600 text-sm mb-2 flex items-center'>
+                <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
+                Retweeted by{' '}
+                {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
+              </div>
+            }
             <TweetUserInfo
               authorEmail={post.author.email}
               authorName={post.author.name}
               createdAt={post.createdAt}
             />
 
-            <p>{post.message}</p>
+            <TextWithLinks>
+              <p>{post.message}</p>
+            </TextWithLinks>
             <div className="grid grid-cols-3">
               <div>
                 <button
