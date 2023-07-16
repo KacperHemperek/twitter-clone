@@ -2,17 +2,17 @@ import { NextRequest } from 'next/server';
 
 import { getUserTweetsHandler } from '@/app/api/user/[userId]/tweets/(controllers)/getUserTweets.controller';
 
-type AccountParams = {
+import { apiHandler } from '@/lib/serverError';
+
+export type AccountParams = {
   userId: string;
 };
 
 export function GET(
   req: NextRequest,
-  {
-    params,
-  }: {
+  params: {
     params: AccountParams;
   }
 ) {
-  return getUserTweetsHandler(req, params.userId);
+  return apiHandler(getUserTweetsHandler, req, params);
 }

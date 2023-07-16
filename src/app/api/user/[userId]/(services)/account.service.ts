@@ -31,7 +31,10 @@ export async function getAccountDetailsById(
     });
 
     if (!accountDetails) {
-      throw new ServerError(404, "Couldn't find user with id: " + userId);
+      throw new ServerError({
+        code: 404,
+        message: "Couldn't find user with id: " + userId,
+      });
     }
 
     const formatedAccountDetails: AccountDetails = {
@@ -42,7 +45,10 @@ export async function getAccountDetailsById(
 
     return formatedAccountDetails;
   } catch (e) {
-    throw new ServerError(404, "Couldn't find user with id: " + userId);
+    throw new ServerError({
+      code: 404,
+      message: "Couldn't find user with id: " + userId,
+    });
   }
 }
 
@@ -55,6 +61,9 @@ export async function updateAccountDetailsById(
 
     return newUser;
   } catch (e) {
-    throw new ServerError(500, "Couldn't update users profile");
+    throw new ServerError({
+      code: 500,
+      message: "Couldn't update users profile",
+    });
   }
 }

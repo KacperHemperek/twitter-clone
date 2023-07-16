@@ -1,3 +1,4 @@
+import { Retweet } from '@prisma/client';
 import { uuid } from 'uuidv4';
 
 import { Tweet } from '@/types/Tweet.type';
@@ -49,4 +50,41 @@ export function getUpdatedFeedWithNewLike(
     }),
     pageParams: data.pageParams,
   };
+}
+
+export function getUpdatedFeedWithNewRetweet(
+  data: InfiniteQueryData<Tweet>,
+  tweetToUpdate: Tweet,
+  tweetIsRetweeted: boolean,
+  userId: string
+) {
+  const queryData = data.pages.map((page) => {
+    const updatedPageData = page.data.map((tweet): Tweet => {
+      if (tweet.id !== tweetToUpdate.id) {
+        return tweet;
+      }
+
+      let retweets: Pick<Retweet, 'id' | 'userId'>[];
+
+      if (tweetIsRetweeted) {
+        retweets = tweet.retweets.filter(
+          (retweet) => retweet.userId !== userId
+        );
+      } else {
+        retweets = [
+          ...tweet.retweets,
+          {
+            id: uuid(),
+            userId,
+          },
+        ];
+      }
+
+      return { ...tweet, retweets };
+    });
+
+    return { ...page, data: updatedPageData };
+  });
+
+  return queryData;
 }

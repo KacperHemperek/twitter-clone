@@ -14,7 +14,7 @@ export async function getLikeByTweetIdAndUserId(
 
     return like;
   } catch (e) {
-    throw new ServerError(500, "Couldn't like tweet");
+    throw new ServerError({ code: 500, message: "Couldn't like tweet" });
   }
 }
 
@@ -24,7 +24,7 @@ export async function likeTweet(userId: string, tweetId: string) {
       data: { userId: userId, postId: tweetId },
     });
   } catch (_) {
-    throw new ServerError(500, "Couldn't like tweet");
+    throw new ServerError({ code: 500, message: "Couldn't like tweet" });
   }
 }
 
@@ -32,6 +32,6 @@ export async function dislikeTweet(likeId: string) {
   try {
     await prisma.like.delete({ where: { id: likeId } });
   } catch (_) {
-    throw new ServerError(500, "Couldn't dislike tweet");
+    throw new ServerError({ code: 500, message: "Couldn't dislike tweet" });
   }
 }

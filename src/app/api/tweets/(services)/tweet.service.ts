@@ -6,7 +6,7 @@ import { prisma } from '@/db/prisma';
 
 const MAIN_FEED_LIMIT = 10;
 
-export async function getMainFeedTweets(page: number): Promise<Tweet[]> {
+export async function getMainFeedTweets(page: number) {
   try {
     const posts = await prisma.post.findMany({
       where: {
@@ -19,7 +19,7 @@ export async function getMainFeedTweets(page: number): Promise<Tweet[]> {
         message: true,
         likes: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: true,
       },
       take: MAIN_FEED_LIMIT,
       skip: (page - 1) * MAIN_FEED_LIMIT,
@@ -28,7 +28,10 @@ export async function getMainFeedTweets(page: number): Promise<Tweet[]> {
 
     return posts;
   } catch (e) {
-    throw new ServerError(500, 'There was a problem retrieving feed data');
+    throw new ServerError({
+      code: 500,
+      message: 'There was a problem retrieving feed data',
+    });
   }
 }
 
@@ -40,11 +43,11 @@ export async function createTweet(tweetBody: string, userId: string) {
 
     return newTweet;
   } catch (e) {
-    throw new ServerError(500, "Couldn't create tweet");
+    throw new ServerError({ code: 500, message: "Couldn't create tweet" });
   }
 }
 
-export async function getTweetDetails(tweetId: string): Promise<Tweet | null> {
+export async function getTweetDetails(tweetId: string) {
   try {
     const tweetDetails = await prisma.post.findUnique({
       where: { id: tweetId },
@@ -55,12 +58,15 @@ export async function getTweetDetails(tweetId: string): Promise<Tweet | null> {
         message: true,
         createdAt: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: true,
       },
     });
 
     return tweetDetails;
   } catch (e) {
-    throw new ServerError(404, "Couldn't find tweet with given id");
+    throw new ServerError({
+      code: 404,
+      message: "Couldn't find tweet with given id",
+    });
   }
 }

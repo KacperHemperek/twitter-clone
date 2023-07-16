@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 
-import { getAccoundDetails } from '@/services/Account.service';
+import { getAccountDetails } from '@/services/Account.service';
 
 import AccountHeader from '@/components/account/AccountHeader';
 import AccountDetails from '@/components/account/account-details/AccountDetails';
@@ -14,7 +14,7 @@ export default async function AccountDetailsLayout({
   children,
   params,
 }: AccountLayoutProps) {
-  const user = await getAccoundDetails(params.userId);
+  const user = await getAccountDetails(params.userId);
   return (
     <MainWrapper
       headerComponent={<AccountHeader accountName="Account" />}

@@ -2,13 +2,13 @@ import { NextRequest } from 'next/server';
 
 import { likeTweetController } from './(controllers)/likeTweetController';
 
+import { apiHandler } from '@/lib/serverError';
+
 export async function POST(
-  _: NextRequest,
-  {
-    params,
-  }: {
+  req: NextRequest,
+  params: {
     params: { postId: string };
   }
 ) {
-  return likeTweetController(params.postId);
+  return apiHandler(likeTweetController, req, params);
 }

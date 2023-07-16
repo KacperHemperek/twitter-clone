@@ -6,10 +6,7 @@ import { prisma } from '@/db/prisma';
 
 const LIMIT_COMMENT_AMMOUNT = 10;
 
-export async function getComments(
-  tweetId: string,
-  page: number
-): Promise<Tweet[]> {
+export async function getComments(tweetId: string, page: number) {
   try {
     const comments = prisma.post.findMany({
       where: {
@@ -22,7 +19,7 @@ export async function getComments(
         createdAt: true,
         id: true,
         comments: { select: { id: true } },
-        retweets: { select: { id: true, userId: true } },
+        retweets: { select: { id: true, userId: true, postId: true } },
       },
       take: LIMIT_COMMENT_AMMOUNT,
       skip: (page - 1) * LIMIT_COMMENT_AMMOUNT,
@@ -31,7 +28,10 @@ export async function getComments(
 
     return comments;
   } catch (e) {
-    throw new ServerError(500, "Couldn't retrieve comments for tweet ");
+    throw new ServerError({
+      code: 500,
+      message: "Couldn't retrieve comments for tweet ",
+    });
   }
 }
 
@@ -55,6 +55,6 @@ export async function createComment({
 
     return newComment;
   } catch (e) {
-    throw new ServerError(500, "Couldn't add comment");
+    throw new ServerError({ code: 500, message: "Couldn't add comment" });
   }
 }

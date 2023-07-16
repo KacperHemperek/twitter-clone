@@ -21,7 +21,7 @@ export default function LikeButtonDetails({
   likes,
 }: {
   tweetId: string;
-  likes: Like[];
+  likes: Omit<Like, 'postId'>[];
 }) {
   const { data: session } = useSession();
   // FIXME: Upadte likes on home feed
@@ -45,7 +45,7 @@ export default function LikeButtonDetails({
           }
         : {
             ...tweet,
-            likes: [...tweet.likes, { userId, id: uuid(), postId: tweet.id }],
+            likes: [...tweet.likes, { userId, id: uuid() }],
           };
 
       queryClient.setQueryData(tweetDetailsQueryKeys, updatedTweet);

@@ -41,8 +41,8 @@ export default function Feed({
 
   return (
     <>
-      {posts.map((post) => (
-        <Tweet key={post.id} post={post} feedQueryKey={feedQueryKey} />
+      {posts.map((post, idx) => (
+        <Tweet key={post.id + idx} post={post} feedQueryKey={feedQueryKey} />
       ))}
       {hasNextPage && (
         <div className="p-3 text-center" ref={lastItemRef}>

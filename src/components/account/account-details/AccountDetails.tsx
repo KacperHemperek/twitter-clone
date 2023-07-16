@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 
 import {
-  getAccoundDetails,
+  getAccountDetails,
   updateAccountDetails,
 } from '@/services/Account.service';
 
@@ -87,7 +87,7 @@ export default function AccountDetails({
   const { toast } = useToast();
 
   const { data: accountDetails } = useQuery({
-    queryFn: () => getAccoundDetails(initialAccountDetails.id),
+    queryFn: () => getAccountDetails(initialAccountDetails.id),
     queryKey: getAccountDetailsQueryKey(initialAccountDetails.id),
     initialData: initialAccountDetails,
   });

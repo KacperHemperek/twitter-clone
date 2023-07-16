@@ -90,6 +90,8 @@ model Retweet {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
+  retweetedAt DateTime @default(now())
+
   @@index([postId])
   @@index([userId])
 }

@@ -1,4 +1,5 @@
 import { Tweet } from '@/types/Tweet.type';
+import { ErrorResponse } from '@/types/api/error';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export async function getMainFeedTweets(
@@ -11,8 +12,13 @@ export async function getMainFeedTweets(
   const res = await fetch(url, { cache: 'no-cache' });
 
   if (!res.ok) {
-    throw new Error('Error occured while fetching tweets', {
-      cause: res.statusText,
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
     });
   }
 
@@ -28,8 +34,14 @@ export async function createTweet(tweetBody: string) {
   });
 
   if (!res.ok) {
-    const data = await res.json();
-    throw new Error(data.message, { cause: res.statusText });
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
   }
 }
 
@@ -37,10 +49,14 @@ export async function likeTweet(tweetId: string) {
   const res = await fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' });
 
   if (!res.ok) {
-    const error = await res.json();
-    throw new Error(
-      error?.message ?? 'Something went wrong while liking tweet'
-    );
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
   }
 }
 
@@ -51,10 +67,16 @@ export async function getTweetDetails(
 
   const res = await fetch(url, { cache: 'no-cache' });
 
-  if (!res.ok)
-    throw new Error('Error occured while fetching tweet details', {
-      cause: res.statusText,
+  if (!res.ok) {
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
     });
+  }
 
   const tweetDetails = await res.json();
 
@@ -71,13 +93,16 @@ export async function getComments(
 
   const res = await fetch(url);
 
-  if (!res.ok)
-    throw new Error(
-      `Error occured while fetching comments for tweet with id: ${tweetId}`,
-      {
-        cause: res.statusText,
-      }
-    );
+  if (!res.ok) {
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
+  }
   return await res.json();
 }
 
@@ -90,11 +115,14 @@ export async function commentTweet(tweetBody: string, tweetId?: string) {
   });
 
   if (!res.ok) {
-    const data = await res.json();
-    throw new Error(
-      data?.message ?? 'Something went wrong while commenting on tweet',
-      { cause: res.statusText }
-    );
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
   }
 }
 
@@ -107,12 +135,32 @@ export async function getTweetsFromFollowedUsers(
   );
 
   if (!res.ok) {
-    const data = await res.json();
-    throw new Error(
-      data?.message ?? 'Something went wrong while fetching tweets',
-      { cause: res.statusText }
-    );
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
   }
 
   return await res.json();
+}
+
+export async function retweet(tweetId: string) {
+  const res = await fetch(`/api/tweets/${tweetId}/retweet`, {
+    method: 'POST',
+  });
+
+  if (!res.ok) {
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
+  }
 }
