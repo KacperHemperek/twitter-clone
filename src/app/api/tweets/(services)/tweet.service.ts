@@ -52,11 +52,11 @@ export async function getTweetDetails(tweetId: string) {
       select: {
         author: true,
         id: true,
-        likes: true,
+        likes: { select: { id: true, userId: true } },
         message: true,
         createdAt: true,
         comments: { select: { id: true } },
-        retweets: true,
+        retweets: { select: { id: true, userId: true } },
       },
     });
 
