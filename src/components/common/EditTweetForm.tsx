@@ -24,7 +24,7 @@ export function EditTweetForm({
 }: {
   id: string;
   initialMessage: string;
-  queryKey: string[];
+  queryKey?: string[];
   closeDialog: () => void;
 }) {
   const [tweetMessage, setTweetMessage] = useState(initialMessage);
@@ -39,8 +39,9 @@ export function EditTweetForm({
   const { mutate: editTweetMutation, isLoading } = useMutation({
     mutationFn: async () => editTweet({ message: tweetMessage, id }),
     onSuccess: () => {
-      queryClient.invalidateQueries(queryKey);
+      queryKey && queryClient.invalidateQueries(queryKey);
       queryClient.invalidateQueries(getTweetDetailsQueryKey(id));
+      closeDialog();
       router.push(`/tweet/${id}`);
     },
     onError: (error: any) => {

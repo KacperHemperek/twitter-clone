@@ -18,9 +18,9 @@ export default function TweetActions({
   authorId,
 }: {
   id: string;
-  queryKey: string[];
   tweetBody: string;
   authorId: string;
+  queryKey?: string[];
 }) {
   const { data: session } = useSession();
 
