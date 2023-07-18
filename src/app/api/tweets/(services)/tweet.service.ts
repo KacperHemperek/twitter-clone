@@ -68,3 +68,19 @@ export async function getTweetDetails(tweetId: string) {
     });
   }
 }
+
+export async function updateTweet(tweetId: string, message: string) {
+  try {
+    const updatedTweet = await prisma.post.update({
+      where: { id: tweetId },
+      data: { message },
+    });
+
+    return updatedTweet;
+  } catch (e) {
+    throw new ServerError({
+      code: 500,
+      message: "Couldn't update tweet with given id",
+    });
+  }
+}

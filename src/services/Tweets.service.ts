@@ -164,3 +164,27 @@ export async function retweet(tweetId: string) {
     });
   }
 }
+
+export async function editTweet({
+  message,
+  id,
+}: {
+  message: string;
+  id: string;
+}) {
+  const res = await fetch(`/api/tweets/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ message }),
+  });
+
+  if (!res.ok) {
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message, {
+      cause: {
+        status: res.status,
+        cause: error.cause,
+      },
+    });
+  }
+}

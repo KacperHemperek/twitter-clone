@@ -26,6 +26,7 @@ import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 import { type Tweet } from '@/types/Tweet.type';
 import { toast } from '@/components/ui/use-toast';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
+import TweetActions from '@/components/feed/TweetActions';
 
 function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -129,7 +130,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
       <>
         <div
           onClick={goToTweetDetails}
-          className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm"
+          className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm group"
         >
           <TweetAvatar
             image={post.author.image}
@@ -137,18 +138,29 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             authorId={post.author.id}
           />
           <div className="flex-grow space-y-2">
-            {!!post.retweetedBy && 
-              <div className='text-gray-600 text-sm mb-2 flex items-center'>
-                <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
-                Retweeted by{' '}
-                {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
+            <div className='flex justify-between'>
+              <div>
+                {!!post.retweetedBy && 
+                  <div className='text-gray-600 text-sm mb-2 flex items-center'>
+                    <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
+                    Retweeted by{' '}
+                    {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
+                  </div>
+                }
+                <TweetUserInfo
+                  authorEmail={post.author.email}
+                  authorName={post.author.name}
+                  createdAt={post.createdAt}
+                />
               </div>
-            }
-            <TweetUserInfo
-              authorEmail={post.author.email}
-              authorName={post.author.name}
-              createdAt={post.createdAt}
-            />
+              <TweetActions 
+                id={post.id}
+                queryKey={feedQueryKey}
+                tweetBody={post.message}
+                authorId={post.author.id}
+              />
+            </div>
+
 
             <TextWithLinks>
               <p className='overflow-break whitespace-pre-line'>{post.message}</p>
