@@ -10,6 +10,7 @@ import { commentTweet, getTweetDetails } from '@/services/Tweets.service';
 import AddCommentModal from '@/components/common/AddCommentModal';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
+import TweetActions from '@/components/feed/TweetActions';
 import TweetAvatar from '@/components/feed/TweetAvatar';
 import { RetweetButtonDetails } from '@/components/tweet-details/RetweetButtonDetails';
 
@@ -43,17 +44,24 @@ export default function TweetDetails({
     >
       <>
         <div className="flex flex-col p-4">
-          <div className="flex gap-2">
-            <TweetAvatar
-              authorId={tweetDetails?.author.id ?? null}
-              authorName={tweetDetails?.author.name ?? null}
-              image={tweetDetails?.author.image ?? null}
-            />
-            <TweetUserInfo
-              authorName={tweetDetails?.author.name}
-              authorEmail={tweetDetails?.author.email}
-              showDate={false}
-              alwaysShowShowInColumn={true}
+          <div className="flex justify-between">
+            <div className="flex gap-2">
+              <TweetAvatar
+                authorId={tweetDetails?.author.id ?? null}
+                authorName={tweetDetails?.author.name ?? null}
+                image={tweetDetails?.author.image ?? null}
+              />
+              <TweetUserInfo
+                authorName={tweetDetails?.author.name}
+                authorEmail={tweetDetails?.author.email}
+                showDate={false}
+                alwaysShowShowInColumn={true}
+              />
+            </div>
+            <TweetActions
+              authorId={tweetDetails?.author.id!}
+              id={tweetDetails?.id!}
+              tweetBody={tweetDetails?.message!}
             />
           </div>
           <div className="space-y-4 border-b border-gray-700 py-3.5">
