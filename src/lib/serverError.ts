@@ -14,7 +14,7 @@ export class ServerError extends Error {
 export function nextServerErrorFactory(
   code: number,
   message: string = 'Unexpected Server Error',
-  cause: string = 'Unknown'
+  cause: string = 'Unknown error occurred. Sorry for the inconvenience.'
 ) {
   return NextResponse.json(
     { message, cause },

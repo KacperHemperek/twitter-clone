@@ -1,6 +1,7 @@
 'use client';
 
 import { getTweetDetailsQueryKey } from './TweetDetails';
+import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
 import { Like } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon } from 'lucide-react';
@@ -11,6 +12,7 @@ import { uuid } from 'uuidv4';
 import { likeTweet } from '@/services/Tweets.service';
 
 import { queryClient } from '@/components/context/Providers';
+import { toast } from '@/components/ui/use-toast';
 
 import { cn } from '@/lib/cn';
 
@@ -24,8 +26,7 @@ export default function LikeButtonDetails({
   likes: Omit<Like, 'postId'>[];
 }) {
   const { data: session } = useSession();
-  // FIXME: Upadte likes on home feed
-  const { mutate: likeTweetMutation } = useMutation({
+  const { mutate: likeTweetMutation, isLoading } = useMutation({
     mutationFn: async () => likeTweet(tweetId),
     onMutate: async () => {
       const tweet = queryClient.getQueryData<Tweet>(tweetDetailsQueryKeys);
@@ -53,14 +54,20 @@ export default function LikeButtonDetails({
       return { tweet };
     },
 
-    onError: (_error, _vars, context) => {
+    onError: (error: any, _vars, context) => {
+      toast({
+        variant: 'destructive',
+        title: 'Oh no!',
+        description:
+          error?.cause ??
+          `We couldn't like this tweet. Please try again later.`,
+      });
       if (context?.tweet) {
         queryClient.setQueryData(tweetDetailsQueryKeys, context.tweet);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['mainTweets']);
-      queryClient.invalidateQueries(tweetDetailsQueryKeys);
+      queryClient.invalidateQueries(MAIN_FEED_QUERY_KEYS);
     },
   });
 
@@ -71,6 +78,7 @@ export default function LikeButtonDetails({
   return (
     <button
       onClick={() => likeTweetMutation()}
+      disabled={isLoading}
       className={cn(
         tweetIsLiked && 'text-pink-600',
         'transition-all hover:text-pink-400'

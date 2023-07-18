@@ -11,6 +11,7 @@ import AddCommentModal from '@/components/common/AddCommentModal';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import TweetAvatar from '@/components/feed/TweetAvatar';
+import { RetweetButtonDetails } from '@/components/tweet-details/RetweetButtonDetails';
 
 import { formatLongDate } from '@/lib/dateFormatters';
 
@@ -71,7 +72,7 @@ export default function TweetDetails({
               <span className="text-gray-500">likes</span>
             </div>
             <div className="text-center">
-              <span className="font-bold">0</span>{' '}
+              <span className="font-bold">{tweetDetails?.retweets.length}</span>{' '}
               <span className="text-gray-500">retweets</span>
             </div>
             <div className="text-center">
@@ -89,9 +90,10 @@ export default function TweetDetails({
               />
             </div>
             <div className="flex justify-center">
-              <button className="transition-all hover:text-green-500">
-                <RefreshCwIcon className="h-5 w-5" />
-              </button>
+              <RetweetButtonDetails
+                retweets={tweetDetails?.retweets ?? []}
+                id={tweetDetails?.id ?? ''}
+              />
             </div>
             <div className="flex justify-center">
               <AddCommentModal.DialogTrigger className=" transition-all hover:text-sky-500">

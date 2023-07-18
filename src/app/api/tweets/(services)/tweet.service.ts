@@ -52,11 +52,11 @@ export async function getTweetDetails(tweetId: string) {
       select: {
         author: true,
         id: true,
-        likes: true,
+        likes: { select: { id: true, userId: true } },
         message: true,
         createdAt: true,
         comments: { select: { id: true } },
-        retweets: true,
+        retweets: { select: { id: true, userId: true } },
       },
     });
 
@@ -65,6 +65,22 @@ export async function getTweetDetails(tweetId: string) {
     throw new ServerError({
       code: 404,
       message: "Couldn't find tweet with given id",
+    });
+  }
+}
+
+export async function updateTweet(tweetId: string, message: string) {
+  try {
+    const updatedTweet = await prisma.post.update({
+      where: { id: tweetId },
+      data: { message },
+    });
+
+    return updatedTweet;
+  } catch (e) {
+    throw new ServerError({
+      code: 500,
+      message: "Couldn't update tweet with given id",
     });
   }
 }
