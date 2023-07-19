@@ -17,7 +17,7 @@ type AccountOnlyFeedProps = {
   initialFeedData: PaginatedResponse<Tweet>;
 };
 
-const getAccountOnlyFeedQueryKey = (userId: string) => [
+export const getAccountOnlyFeedQueryKey = (userId: string) => [
   'accountOnlyTweets',
   userId,
 ];
