@@ -49,7 +49,7 @@ export type DateValues = {
 };
 
 const NAME_CHAR_LIMIT = 40;
-const DESCRIPTION_CHAR_LIMIT = 160;
+const DESCRIPTION_CHAR_LIMIT = 220;
 const LOCATION_CHAR_LIMIT = 30;
 
 const getInitialBirthdayState = (birthday?: Date | null) => {
