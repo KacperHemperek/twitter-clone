@@ -1,3 +1,3 @@
 export default function AccountSearchPage() {
-  return <div>AccountSearchPage</div>;
+  return <div className="p-10 text-2xl text-center">Coming Soon...</div>;
 }
