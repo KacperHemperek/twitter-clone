@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 
 import { getAccountDetails } from '@/services/Account.service';
 
-import AccountHeader from '@/components/account/AccountHeader';
+import SectionHeader from '@/components/account/AccountHeader';
 import AccountDetails from '@/components/account/account-details/AccountDetails';
 import MainWrapper from '@/components/layout/MainWrapper';
 
@@ -17,7 +17,7 @@ export default async function AccountDetailsLayout({
   const user = await getAccountDetails(params.userId);
   return (
     <MainWrapper
-      headerComponent={<AccountHeader accountName="Account" />}
+      headerComponent={<SectionHeader title="Account" />}
       showBorder={false}
     >
       <AccountDetails initialAccountDetails={user} />

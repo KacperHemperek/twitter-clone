@@ -3,11 +3,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function AccountHeader({
-  accountName,
-}: {
-  accountName: string;
-}) {
+export default function SectionHeader({ title }: { title: string }) {
   const router = useRouter();
 
   return (
@@ -19,7 +15,7 @@ export default function AccountHeader({
         />
       </div>
       <h1 className="mt-0.5 text-xl font-bold md:text-[22px] truncate ">
-        {accountName}
+        {title}
       </h1>
     </div>
   );
