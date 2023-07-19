@@ -2,11 +2,12 @@ import { ServerError } from '@/lib/serverError';
 
 import { prisma } from '@/db/prisma';
 
-export async function searchTweets(searchQ: string) {
+const LIMIT = 10;
+
+export async function searchTweets(searchQ: string, page: number) {
   try {
     const results = await prisma.post.findMany({
       where: { message: { search: searchQ } },
-      orderBy: { createdAt: 'desc' },
       select: {
         message: true,
         author: {
@@ -37,6 +38,9 @@ export async function searchTweets(searchQ: string) {
           },
         },
       },
+      take: LIMIT,
+      skip: (page - 1) * LIMIT,
+      orderBy: { createdAt: 'desc' },
     });
 
     return results;
