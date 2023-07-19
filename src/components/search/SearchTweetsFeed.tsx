@@ -20,13 +20,7 @@ const searchTweets = async (searchParams: {
 
   const params = new URLSearchParams({ page, q });
 
-  console.log({ url: `/api/search/tweets?${params.toString()}` });
-
-  const searchUrl = new URL(
-    `http://localhost:3000/api/search/tweets?${params.toString()}`
-  );
-
-  const res = await fetch(searchUrl);
+  const res = await fetch(`/api/search/tweets?${params.toString()}`);
 
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
