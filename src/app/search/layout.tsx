@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ReactNode, useMemo, useRef, useState } from 'react';
 
 import SectionHeader from '@/components/account/AccountHeader';
@@ -12,6 +12,7 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
   const searchRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [links, setLinks] = useState<Array<{ href: string; label: string }>>([
     { href: '/search/tweets', label: 'Tweets' },
     {
@@ -38,7 +39,11 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
 
   return (
     <MainWrapper headerComponent={<SectionHeader title="Search" />}>
-      <SearchBar ref={searchRef} onSearch={onSearch} />
+      <SearchBar
+        ref={searchRef}
+        onSearch={onSearch}
+        initialValue={searchParams.get('q') ?? ''}
+      />
       <FeedNavigation links={links} borderBottom />
 
       {children}
