@@ -25,6 +25,10 @@ const getAccountOnlyFeedQueryKey = (userId: string) => [
 export default function AccountOnlyFeed() {
   const urlParams = useParams();
 
+  const userId: string = !Array.isArray(urlParams.userId)
+    ? urlParams.userId
+    : urlParams.userId[0];
+
   const {
     data: tweets,
     fetchNextPage,
@@ -34,9 +38,9 @@ export default function AccountOnlyFeed() {
     isLoading,
     error,
   } = useInfiniteQuery({
-    queryFn: ({ pageParam }) => getUsersTweets(urlParams.userId, pageParam),
+    queryFn: ({ pageParam }) => getUsersTweets(userId, pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
-    queryKey: getAccountOnlyFeedQueryKey(urlParams.userId),
+    queryKey: getAccountOnlyFeedQueryKey(userId),
   });
 
   if (isLoading) {
@@ -66,7 +70,7 @@ export default function AccountOnlyFeed() {
     <Feed
       fetchNextPage={fetchNextPage}
       posts={tweets.pages.map((page) => page.data).flat()}
-      feedQueryKey={getAccountOnlyFeedQueryKey(urlParams.userId)}
+      feedQueryKey={getAccountOnlyFeedQueryKey(userId)}
       hasNextPage={hasNextPage}
       noMoreTweetsText={`This user does not have any more tweets`}
     />
