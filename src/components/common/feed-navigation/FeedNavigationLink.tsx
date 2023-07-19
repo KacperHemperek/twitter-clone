@@ -14,7 +14,7 @@ export default function FeedNavigationLink({
   label,
 }: FeedNavigationLinkProps) {
   const pathname = usePathname();
-  const active = pathname.includes(href);
+  const active = href.includes(pathname);
 
   return (
     <Link

@@ -27,6 +27,7 @@ import { type Tweet } from '@/types/Tweet.type';
 import { toast } from '@/components/ui/use-toast';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
 import TweetActions from '@/components/feed/TweetActions';
+import { getAccountOnlyFeedQueryKey } from '@/components/account/account-only-feed/AccountOnlyFeed';
 
 function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -97,6 +98,9 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
         queryClient.setQueryData(feedQueryKey, context.feed);
       }
     },
+    onSuccess: () => {
+      session?.user.id && queryClient.invalidateQueries(getAccountOnlyFeedQueryKey(session.user.id))
+    }
   })
 
   const onLikeTweet = (e: React.MouseEvent) => {

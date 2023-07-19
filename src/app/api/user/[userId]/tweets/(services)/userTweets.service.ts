@@ -1,10 +1,15 @@
 import { ServerError } from '@/lib/serverError';
 
+import { Tweet } from '@/types/Tweet.type';
+
 import { prisma } from '@/db/prisma';
 
 const TWEET_LIMIT = 10;
 
-export async function getUserTweetsNew(userId: string, page: number) {
+export async function getUserTweetsNew(
+  userId: string,
+  page: number
+): Promise<Tweet[]> {
   try {
     const posts = await prisma.$queryRaw`
       SELECT * FROM (
@@ -95,7 +100,7 @@ export async function getUserTweetsNew(userId: string, page: number) {
       LIMIT ${TWEET_LIMIT}
       OFFSET ${(page - 1) * TWEET_LIMIT};
     `;
-    return posts;
+    return posts as Tweet[];
   } catch (e) {
     throw new ServerError({
       code: 404,

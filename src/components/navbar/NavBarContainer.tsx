@@ -1,7 +1,7 @@
 'use client';
 
 import AvatarDropdown from './AvatarDropdown';
-import { HomeIcon, TwitterIcon, UserIcon } from 'lucide-react';
+import { HomeIcon, SearchIcon, TwitterIcon, UserIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
@@ -28,6 +28,13 @@ export default function NavBarContainer() {
         >
           <UserIcon className="h-6 w-6 md:h-8 md:w-8" />
           <p className="text-xl md:mr-3 hidden md:inline">Profile</p>
+        </Link>
+        <Link
+          href={`/search/tweets`}
+          className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
+        >
+          <SearchIcon className="h-6 w-6 md:h-8 md:w-8" />
+          <p className="text-xl md:mr-3 hidden md:inline">Search</p>
         </Link>
       </div>
 
