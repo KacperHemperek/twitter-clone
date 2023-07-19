@@ -188,3 +188,22 @@ export async function editTweet({
     });
   }
 }
+
+export async function searchTweets(
+  query: string,
+  page?: number
+): Promise<PaginatedResponse<Tweet>> {
+  const params = new URLSearchParams({ query, page: page?.toString() || '1' });
+
+  console.log(params);
+
+  const res = await fetch(`/api/tweets/search?${params.toString()}`);
+
+  if (!res.ok) {
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new Error(error.message);
+  }
+
+  return await res.json();
+}

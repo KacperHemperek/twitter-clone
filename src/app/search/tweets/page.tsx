@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function SearchTweetsPage() {
-  return <div>SearchPage</div>;
+import SearchTweetsFeed from '@/components/search/SearchTweetsFeed';
+
+export default async function SearchTweetsPage() {
+  return <SearchTweetsFeed />;
 }
