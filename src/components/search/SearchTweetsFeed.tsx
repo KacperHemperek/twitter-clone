@@ -55,14 +55,13 @@ export default function SearchTweetsFeed() {
     enabled: !!searchQ,
   });
 
+  if (!searchQ) {
+    return <div className="text-center py-10 text-2xl">Search for tweets</div>;
+  }
+
   if (isLoading) {
     return <FeedSceleton numberOfTweets={4} />;
   }
-
-  if (!searchQ) {
-    return <div className="text-center py-3">Search for something</div>;
-  }
-
   return (
     <Feed
       feedQueryKey={getSearchTweetsQueryKey(searchQ)}
