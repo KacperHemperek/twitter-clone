@@ -4,14 +4,11 @@ import { Tweet } from '@/types/Tweet.type';
 
 import { prisma } from '@/db/prisma';
 
-const LIMIT_COMMENT_AMMOUNT = 10;
+const LIMIT_COMMENT_AMOUNT = 10;
 
 export async function getComments(tweetId: string, page: number) {
   try {
-    const comments = prisma.post.findMany({
-      where: {
-        parentId: tweetId,
-      },
+    const test = prisma.post.findUnique({ where: { id: tweetId } }).comments({
       select: {
         author: true,
         likes: true,
@@ -21,12 +18,12 @@ export async function getComments(tweetId: string, page: number) {
         comments: { select: { id: true } },
         retweets: { select: { id: true, userId: true, postId: true } },
       },
-      take: LIMIT_COMMENT_AMMOUNT,
-      skip: (page - 1) * LIMIT_COMMENT_AMMOUNT,
+      take: LIMIT_COMMENT_AMOUNT,
+      skip: (page - 1) * LIMIT_COMMENT_AMOUNT,
       orderBy: { createdAt: 'desc' },
     });
 
-    return comments;
+    return test;
   } catch (e) {
     throw new ServerError({
       code: 500,
