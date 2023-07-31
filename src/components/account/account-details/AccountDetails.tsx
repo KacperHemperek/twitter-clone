@@ -270,11 +270,11 @@ export default function AccountDetails({
           </TextWithLinks>
 
           {showSubInfoTags && (
-            <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
+            <div className="flex flex-wrap gap-x-3 gap-y-1.5">
               {accountDetails?.location && (
                 <AccountSubInfo
                   text={accountDetails?.location ?? ''}
-                  icon={<Pin className="w-full h-full" />}
+                  icon={<Pin />}
                 />
               )}
               {accountDetails?.born && (
@@ -282,7 +282,7 @@ export default function AccountDetails({
                   text={`Born ${formatShortDate(
                     new Date(accountDetails.born)
                   )}`}
-                  icon={<PartyPopper className="w-full h-full" />}
+                  icon={<PartyPopper />}
                 />
               )}
             </div>
