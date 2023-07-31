@@ -40,11 +40,47 @@ export async function searchTweets(searchQ: string, page: number) {
       },
       take: LIMIT,
       skip: (page - 1) * LIMIT,
-      orderBy: { createdAt: 'desc' },
     });
 
     return results;
   } catch (e) {
     throw new ServerError({ code: 500, message: "Couldn't search tweets" });
+  }
+}
+
+export async function searchAccounts(query: string, page: number) {
+  try {
+    const results = await prisma.user.findMany({
+      where: {
+        email: {
+          search: query,
+        },
+        name: {
+          search: query,
+        },
+      },
+      select: {
+        name: true,
+        description: true,
+        email: true,
+        id: true,
+        location: true,
+        image: true,
+        followers: {
+          select: {
+            id: true,
+          },
+        },
+      },
+      take: LIMIT,
+      skip: (page - 1) * LIMIT,
+    });
+
+    return results;
+  } catch (e) {
+    throw new ServerError({
+      code: 500,
+      message: 'Failed search for users',
+    });
   }
 }
