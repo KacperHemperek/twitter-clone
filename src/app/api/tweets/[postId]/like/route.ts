@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { likeTweetController } from './(controllers)/likeTweetController';
 
-import { apiHandler } from '@/lib/serverError';
+import { apiHandler } from '@/lib/server';
 
 export async function POST(
   req: NextRequest,

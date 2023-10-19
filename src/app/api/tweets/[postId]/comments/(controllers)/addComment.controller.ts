@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createComment } from '../(services)/comments.service';
 
 import { getBody } from '@/lib/getBodyFromRequest';
-import { ServerError, ThrowProfanityError } from '@/lib/serverError';
+import { ServerError, ThrowProfanityError } from '@/lib/server';
 
 const BadWordFilter = new Filter();
 

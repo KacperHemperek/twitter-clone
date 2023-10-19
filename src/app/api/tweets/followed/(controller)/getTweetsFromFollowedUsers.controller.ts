@@ -8,7 +8,7 @@ import {
   getPageNumber,
   getServerSearchParams,
 } from '@/lib/getServerSearchParams';
-import { nextServerErrorFactory } from '@/lib/serverError';
+import { nextServerErrorFactory } from '@/lib/server';
 
 export async function getTweetsFromFollowedUsersHandler(req: NextRequest) {
   const session = await getServerSession(authOptions);

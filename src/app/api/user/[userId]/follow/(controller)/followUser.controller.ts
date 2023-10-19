@@ -9,8 +9,8 @@ import {
   unfollowUser,
 } from '@/app/api/user/[userId]/follow/(services)/FollowUser.service';
 
-import '@/lib/serverError';
-import { ServerError } from '@/lib/serverError';
+import '@/lib/server';
+import { ServerError } from '@/lib/server';
 
 export async function follwoUserHandler(
   req: NextRequest,

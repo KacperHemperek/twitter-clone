@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { getAccountDetailsController } from './(controllers)/getAccountDetails.controller';
 import { updateAccountDetailsControllerHandler } from './(controllers)/updateAccountDetails.controller';
 
-import { apiHandler } from '@/lib/serverError';
+import { apiHandler } from '@/lib/server';
 
 type AccountParams = {
   userId: string;

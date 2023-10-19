@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getTweetDetails } from '../../(services)/tweet.service';
 
-import { ServerError, nextServerErrorFactory } from '@/lib/serverError';
+import { ServerError, nextServerErrorFactory } from '@/lib/server';
 
 export async function getTweetDetailsController(
   _req: NextRequest,

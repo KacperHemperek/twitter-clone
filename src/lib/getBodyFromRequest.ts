@@ -1,4 +1,4 @@
-import { ServerError } from './serverError';
+import { ServerError } from './server';
 import { NextRequest } from 'next/server';
 
 export async function getBody(req: NextRequest | Request) {

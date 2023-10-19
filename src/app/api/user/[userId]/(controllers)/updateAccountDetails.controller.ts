@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { updateAccountDetailsById } from '../(services)/account.service';
 
-import { ThrowProfanityError, nextServerErrorFactory } from '@/lib/serverError';
+import { ThrowProfanityError, nextServerErrorFactory } from '@/lib/server';
 
 const BadWordsFilter = new Filter();
 

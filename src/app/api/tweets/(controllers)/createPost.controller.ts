@@ -10,7 +10,7 @@ import {
   ServerError,
   ThrowProfanityError,
   nextServerErrorFactory,
-} from '@/lib/serverError';
+} from '@/lib/server';
 
 const BadWordFilter = new Filter();
 

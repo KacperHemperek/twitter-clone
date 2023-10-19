@@ -1,4 +1,4 @@
-import { ServerError } from '@/lib/serverError';
+import { ServerError } from '@/lib/server';
 
 import { prisma } from '@/db/prisma';
 

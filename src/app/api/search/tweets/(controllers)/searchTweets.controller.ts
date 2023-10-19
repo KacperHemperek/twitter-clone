@@ -2,7 +2,7 @@ import { searchTweets } from '@/app/api/search/search.service';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getPageNumber } from '@/lib/getServerSearchParams';
-import { ServerError } from '@/lib/serverError';
+import { ServerError } from '@/lib/server';
 
 export async function getSearchTweetsController(req: NextRequest) {
   const url = new URL(req.url);

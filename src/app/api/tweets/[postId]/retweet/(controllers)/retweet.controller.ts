@@ -9,7 +9,7 @@ import {
   retweetTweet,
 } from '@/app/api/tweets/[postId]/retweet/(services)/retweet.service';
 
-import { ServerError } from '@/lib/serverError';
+import { ServerError } from '@/lib/server';
 
 export async function retweetHandler(
   req: NextRequest,

@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { getUserTweetsHandler } from '@/app/api/user/[userId]/tweets/(controllers)/getUserTweets.controller';
 
-import { apiHandler } from '@/lib/serverError';
+import { apiHandler } from '@/lib/server';
 
 export type AccountParams = {
   userId: string;

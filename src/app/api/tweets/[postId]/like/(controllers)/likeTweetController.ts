@@ -9,7 +9,7 @@ import {
   likeTweet,
 } from '../(services)/like.service';
 
-import { ServerError } from '@/lib/serverError';
+import { ServerError } from '@/lib/server';
 
 export async function likeTweetController(
   req: NextRequest,
