@@ -27,15 +27,13 @@ export default async function RootLayout({
       >
         <Providers session={session}>
           <main className="relative mx-auto flex min-h-[100dvh] xl:max-w-5xl">
-            {!!session?.user && (
-              <>
-                <NavBarContainer />
-                <div className="w-[calc(100vw-64px)] flex md:w-[calc(100vw-288px)] xl:w-full">
-                  {children}
-                </div>
-              </>
-            )}
-            {!session?.user && (
+            <NavBarContainer />
+            <div className="w-[calc(100vw-64px)] flex md:w-[calc(100vw-288px)] xl:w-full">
+              {children}
+            </div>
+
+            {/* )} */}
+            {/* {!session?.user && (
               <div className="flex min-h-full w-full flex-col items-center justify-center gap-6 ">
                 <h1 className="max-w-[350px] text-center text-2xl font-bold">
                   <span>You are not logged in. </span>
@@ -43,7 +41,7 @@ export default async function RootLayout({
                 </h1>
                 <SignInButton />
               </div>
-            )}
+            )} */}
           </main>
         </Providers>
       </body>
