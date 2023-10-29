@@ -6,6 +6,42 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 
+import LoginDialog from '@/components/common/LoginDialog';
+
+function NavLink({
+  icon,
+  text,
+  href,
+}: {
+  icon: React.ReactNode;
+  text: string;
+  href: string;
+}) {
+  const { data: session } = useSession();
+
+  if (!session)
+    return (
+      <LoginDialog
+        trigger={
+          <button className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer">
+            {icon}
+            <p className="text-xl md:mr-3 hidden md:inline">{text}</p>
+          </button>
+        }
+      />
+    );
+
+  return (
+    <Link
+      href={href}
+      className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
+    >
+      {icon}
+      <p className="text-xl md:mr-3 hidden md:inline">{text}</p>
+    </Link>
+  );
+}
+
 export default function NavBarContainer() {
   const session = useSession();
 
@@ -15,27 +51,22 @@ export default function NavBarContainer() {
         <div className="p-3 rounded-full hover:bg-gray-600/30 transition-all max-w-fit md:mb-2">
           <TwitterIcon className="h-6 w-6 md:h-8 md:w-8" />
         </div>
-        <Link
-          href={'/feed/main'}
-          className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
-        >
-          <HomeIcon className="h-6 w-6 md:h-8 md:w-8" />
-          <p className="text-xl md:mr-3 hidden md:inline">Home</p>
-        </Link>
-        <Link
+        <NavLink
+          href="/feed/main"
+          icon={<HomeIcon className="h-6 w-6 md:h-8 md:w-8" />}
+          text="Home"
+        />
+        <NavLink
           href={`/account/${session.data?.user.id}/tweets`}
-          className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
-        >
-          <UserIcon className="h-6 w-6 md:h-8 md:w-8" />
-          <p className="text-xl md:mr-3 hidden md:inline">Profile</p>
-        </Link>
-        <Link
+          icon={<UserIcon className="h-6 w-6 md:h-8 md:w-8" />}
+          text="Profile"
+        />
+
+        <NavLink
           href={`/search/tweets`}
-          className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
-        >
-          <SearchIcon className="h-6 w-6 md:h-8 md:w-8" />
-          <p className="text-xl md:mr-3 hidden md:inline">Search</p>
-        </Link>
+          icon={<SearchIcon className="h-6 w-6 md:h-8 md:w-8" />}
+          text="Search"
+        />
       </div>
 
       <AvatarDropdown
