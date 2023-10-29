@@ -8,6 +8,7 @@ import { uuid } from 'uuidv4';
 
 import { retweet } from '@/services/Tweets.service';
 
+import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';
 import { getTweetDetailsQueryKey } from '@/components/tweet-details/TweetDetails';
 import { toast } from '@/components/ui/use-toast';
@@ -70,6 +71,17 @@ export function RetweetButtonDetails({
       queryClient.invalidateQueries(MAIN_FEED_QUERY_KEYS);
     },
   });
+
+  if (!session)
+    return (
+      <LoginDialog
+        trigger={
+          <button className="cursor-pointer transition-all hover:text-green-400">
+            <RefreshCwIcon className="h-5 w-5" />
+          </button>
+        }
+      />
+    );
 
   const tweetIsRetweeted = retweets.some(
     (retweet) => retweet.userId === session?.user.id

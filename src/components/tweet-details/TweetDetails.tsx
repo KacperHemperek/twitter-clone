@@ -1,13 +1,15 @@
 'use client';
 
-import LikeButtonDetails from './LikeButtonDetails';
+import LikeButton from './LikeButtonDetails';
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 
 import { commentTweet, getTweetDetails } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
+import LoginDialog from '@/components/common/LoginDialog';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
 import TweetActions from '@/components/feed/TweetActions';
@@ -25,16 +27,18 @@ export const getTweetDetailsQueryKey = (tweetId: string) => [
 
 export default function TweetDetails({
   tweetId,
-  initialtweetDetails,
+  initialTweetDetails,
 }: {
   tweetId: string;
-  initialtweetDetails?: Tweet;
+  initialTweetDetails?: Tweet;
 }) {
   const { data: tweetDetails } = useQuery({
     queryKey: getTweetDetailsQueryKey(tweetId),
     queryFn: async () => getTweetDetails(tweetId),
-    initialData: initialtweetDetails,
+    initialData: initialTweetDetails,
   });
+
+  const { data: session } = useSession();
 
   return (
     <AddCommentModal
@@ -92,10 +96,7 @@ export default function TweetDetails({
           </div>
           <div className="grid grid-cols-3 border-b border-gray-700 py-3.5">
             <div className="flex justify-center">
-              <LikeButtonDetails
-                likes={tweetDetails?.likes ?? []}
-                tweetId={tweetId}
-              />
+              <LikeButton likes={tweetDetails?.likes ?? []} tweetId={tweetId} />
             </div>
             <div className="flex justify-center">
               <RetweetButtonDetails
@@ -104,9 +105,19 @@ export default function TweetDetails({
               />
             </div>
             <div className="flex justify-center">
-              <AddCommentModal.DialogTrigger className=" transition-all hover:text-sky-500">
-                <MessageCircleIcon className="h-5 w-5" />
-              </AddCommentModal.DialogTrigger>
+              {session ? (
+                <AddCommentModal.DialogTrigger className=" transition-all hover:text-sky-500">
+                  <MessageCircleIcon className="h-5 w-5" />
+                </AddCommentModal.DialogTrigger>
+              ) : (
+                <LoginDialog
+                  trigger={
+                    <button className="transition-all hover:text-sky-500">
+                      <MessageCircleIcon className="h-5 w-5" />
+                    </button>
+                  }
+                />
+              )}
             </div>
           </div>
         </div>
