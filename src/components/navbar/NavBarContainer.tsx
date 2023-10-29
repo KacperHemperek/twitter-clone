@@ -12,14 +12,16 @@ function NavLink({
   icon,
   text,
   href,
+  needsLogin = false,
 }: {
   icon: React.ReactNode;
   text: string;
   href: string;
+  needsLogin?: boolean;
 }) {
   const { data: session } = useSession();
 
-  if (!session)
+  if (needsLogin && !session)
     return (
       <LoginDialog
         trigger={
@@ -60,12 +62,14 @@ export default function NavBarContainer() {
           href={`/account/${session.data?.user.id}/tweets`}
           icon={<UserIcon className="h-6 w-6 md:h-8 md:w-8" />}
           text="Profile"
+          needsLogin
         />
 
         <NavLink
           href={`/search/tweets`}
           icon={<SearchIcon className="h-6 w-6 md:h-8 md:w-8" />}
           text="Search"
+          needsLogin
         />
       </div>
 
