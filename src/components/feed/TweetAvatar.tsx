@@ -23,7 +23,7 @@ export default function TweetAvatar({
       <Avatar className="z-0 h-10 w-10">
         <AvatarImage src={image ?? undefined} />
         <AvatarFallback className="text-white">
-          {authorName?.[0] ?? 'A'}
+          {authorName?.[0] ?? ''}
         </AvatarFallback>
       </Avatar>
     </Link>
