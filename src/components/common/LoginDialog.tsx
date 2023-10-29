@@ -16,7 +16,10 @@ export default function LoginDialog({ trigger }: { trigger: React.ReactNode }) {
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
 
-      <DialogContent className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit">
+      <DialogContent
+        onClick={(e) => e.stopPropagation()}
+        className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit"
+      >
         <DialogHeader>
           <DialogTitle className="text-xl">Please Login</DialogTitle>
         </DialogHeader>

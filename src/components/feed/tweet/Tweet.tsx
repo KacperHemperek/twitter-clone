@@ -28,6 +28,8 @@ import { toast } from '@/components/ui/use-toast';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
 import TweetActions from '@/components/feed/TweetActions';
 import { getAccountOnlyFeedQueryKey } from '@/components/account/account-only-feed/AccountOnlyFeed';
+import LoginDialog from '@/components/common/LoginDialog';
+
 
 function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) {
   const router = useRouter();
@@ -171,47 +173,93 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             </TextWithLinks>
             <div className="grid grid-cols-3">
               <div>
-                <button
-                  disabled={likingTweet}
-                  className={cn(
-                    tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
-                    'group flex cursor-pointer items-center transition-all hover:text-pink-400'
-                  )}
-                  onClick={onLikeTweet}
-                >
-                  <HeartIcon className="mr-4  h-4 w-4" />
-                  {formatNumberToCompact(post.likes.length)}
-                </button>
+              {
+                  !session ? (
+                    <LoginDialog 
+                      trigger={
+                        <button
+                         onClick={e => e.stopPropagation()}
+                         className='text-gray-400 group flex cursor-pointer items-center transition-all hover:text-pink-400'
+                        >
+                          <HeartIcon className="mr-4  h-4 w-4" />
+                          {formatNumberToCompact(post.likes.length)}
+                        </button>
+                      } 
+                    />
+                  ) : (
+                    <button
+                      disabled={likingTweet}
+                      className={cn(
+                        tweetIsLiked ? 'text-pink-600' : 'text-gray-400',
+                        'group flex cursor-pointer items-center transition-all hover:text-pink-400'
+                      )}
+                      onClick={onLikeTweet}
+                    >
+                      <HeartIcon className="mr-4  h-4 w-4" />
+                      {formatNumberToCompact(post.likes.length)}
+                    </button>    
+                  )
+                }
+                
               </div>
               <div>
-                <button
-                  onClick ={(e) => {
-                    e.stopPropagation(); 
-                    retweetMutation();
-                  }}
-                  disabled={retweeting}
-                  className={cn(
-                    tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
-                    'group flex cursor-pointer items-center transition-all hover:text-green-400'
-                  )}
-                >
-                  <RefreshCwIcon className="mr-4  h-4 w-4" />
-                  {formatNumberToCompact(post.retweets.length)}
-                  
-                </button>
+                {
+                  !session ? (
+                    <LoginDialog 
+                      trigger={
+                        <button 
+                          onClick={e => e.stopPropagation()}
+                          className='text-gray-400 group flex cursor-pointer items-center transition-all hover:text-green-400' 
+                        >
+                          <RefreshCwIcon className="mr-4  h-4 w-4" />
+                          {formatNumberToCompact(post.retweets.length)}
+                        </button>
+                      } 
+                    />
+                  ) : (
+                    <button
+                      onClick ={(e) => {
+                        e.stopPropagation(); 
+                        retweetMutation();
+                      }}
+                      disabled={retweeting}
+                      className={cn(
+                        tweetIsRetweeted ? 'text-green-500' : 'text-gray-400',
+                        'group flex cursor-pointer items-center transition-all hover:text-green-400'
+                      )}
+                    >
+                      <RefreshCwIcon className="mr-4  h-4 w-4" />
+                      {formatNumberToCompact(post.retweets.length)}
+                    
+                    </button>
+                  )
+                }
+                
               </div>
               <div>
-                <AddCommentModal.DialogTrigger
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className={
-                    'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
-                  }
-                >
-                  <MessageCircleIcon className="mr-4  h-4 w-4" />
-                  {formatNumberToCompact(post.comments?.length ?? 0)}
-                </AddCommentModal.DialogTrigger>
+                {!session ? (
+                  <LoginDialog trigger={
+                    <button 
+                      onClick={(e) => e.stopPropagation()}
+                      className='group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
+                    >
+                      <MessageCircleIcon className="mr-4 h-4 w-4" />  
+                      {formatNumberToCompact(post.comments?.length ?? 0)}
+                    </button>
+                  }/>
+                ) : (
+                  <AddCommentModal.DialogTrigger
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    className={
+                      'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
+                    }
+                  >
+                    <MessageCircleIcon className="mr-4  h-4 w-4" />
+                    {formatNumberToCompact(post.comments?.length ?? 0)}
+                  </AddCommentModal.DialogTrigger>
+                )}
               </div>
             </div>
           </div>
