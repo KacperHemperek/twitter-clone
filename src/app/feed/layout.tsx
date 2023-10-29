@@ -1,7 +1,21 @@
 import React, { PropsWithChildren } from 'react';
 
-import HeaderNavigation from '@/components/feed/header-navigation/HeaderNavigation';
+import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
 import MainWrapper from '@/components/layout/MainWrapper';
+
+import { FeedNavigationLinkType } from '@/types/links.type';
+
+const links: FeedNavigationLinkType[] = [
+  {
+    href: '/feed/main',
+    label: 'Home',
+  },
+  {
+    href: '/feed/followed',
+    label: 'Followed',
+    needsLogin: true,
+  },
+];
 
 export default function layout({ children }: PropsWithChildren) {
   return (
@@ -10,7 +24,7 @@ export default function layout({ children }: PropsWithChildren) {
         headerComponent={
           <div className="flex w-full flex-col ">
             <h1 className="p-4 text-xl font-bold md:text-[24px]">Home</h1>
-            <HeaderNavigation />
+            <FeedNavigation links={links} />
           </div>
         }
       >

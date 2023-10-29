@@ -1,13 +1,13 @@
-import { Link } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import FeedNavigationLink from '@/components/common/feed-navigation/FeedNavigationLink';
 
 import { cn } from '@/lib/cn';
 
+import { FeedNavigationLinkType } from '@/types/links.type';
+
 type FeedNavigationProps = {
-  links: { label: string; href: string }[];
+  links: FeedNavigationLinkType[];
   borderBottom?: boolean;
 };
 
