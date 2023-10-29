@@ -88,6 +88,7 @@ export default function NewTweetForm({
       />
       <div className="flex flex-grow flex-col">
         <textarea
+          disabled={isLoading || !session}
           value={newTweet}
           onChange={(e) => setNewTweet(e.target.value)}
           rows={3}
@@ -106,7 +107,7 @@ export default function NewTweetForm({
               isLoading ? 'w-14' : 'w-20',
               'flex items-center justify-center rounded-full text-white bg-sky-500 py-1.5 font-bold transition-all duration-300 disabled:bg-gray-400 '
             )}
-            disabled={!tweetButtonNotDisabled || isLoading}
+            disabled={!tweetButtonNotDisabled || isLoading || !session}
             onClick={() => postTweet()}
           >
             {isLoading ? (
