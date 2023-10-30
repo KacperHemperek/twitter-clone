@@ -1,7 +1,13 @@
 'use client';
 
 import AvatarDropdown from './AvatarDropdown';
-import { HomeIcon, SearchIcon, TwitterIcon, UserIcon } from 'lucide-react';
+import {
+  Github,
+  HomeIcon,
+  SearchIcon,
+  TwitterIcon,
+  UserIcon,
+} from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
@@ -13,13 +19,28 @@ function NavLink({
   text,
   href,
   needsLogin = false,
+  outsideLink = false,
 }: {
   icon: React.ReactNode;
   text: string;
   href: string;
   needsLogin?: boolean;
+  outsideLink?: boolean;
 }) {
   const { data: session } = useSession();
+
+  if (outsideLink) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all max-w-fit cursor-pointer"
+      >
+        {icon}
+        <p className="text-xl md:mr-3 hidden md:inline">{text}</p>
+      </a>
+    );
+  }
 
   if (needsLogin && !session)
     return (
@@ -70,6 +91,12 @@ export default function NavBarContainer() {
           icon={<SearchIcon className="h-6 w-6 md:h-8 md:w-8" />}
           text="Search"
           needsLogin
+        />
+        <NavLink
+          href={`https://www.github.com/KacperHemperek/twitter-clone`}
+          icon={<Github className="h-6 w-6 md:h-8 md:w-8" />}
+          text="Source code"
+          outsideLink
         />
       </div>
 
