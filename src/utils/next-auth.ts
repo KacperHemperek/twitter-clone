@@ -28,7 +28,9 @@ export const authOptions: NextAuthOptions = {
       return baseUrl + '/feed/main';
     },
   },
-
+  pages: {
+    signIn: '/login',
+  },
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,

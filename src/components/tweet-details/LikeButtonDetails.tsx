@@ -11,6 +11,7 @@ import { uuid } from 'uuidv4';
 
 import { likeTweet } from '@/services/Tweets.service';
 
+import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';
 import { toast } from '@/components/ui/use-toast';
 
@@ -70,6 +71,17 @@ export default function LikeButtonDetails({
       queryClient.invalidateQueries(MAIN_FEED_QUERY_KEYS);
     },
   });
+
+  if (!session)
+    return (
+      <LoginDialog
+        trigger={
+          <button className="transition-all hover:text-pink-400">
+            <HeartIcon className="h-5 w-5" />
+          </button>
+        }
+      />
+    );
 
   const tweetDetailsQueryKeys = getTweetDetailsQueryKey(tweetId);
 

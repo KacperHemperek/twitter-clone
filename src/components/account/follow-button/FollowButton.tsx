@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import React, { useCallback, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import React, { useState } from 'react';
 
 import { followUser } from '@/services/Account.service';
 
+import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';
 import {
   Dialog,
@@ -11,7 +13,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 
@@ -55,21 +56,38 @@ export default function FollowButton({
 
   const [hover, setHover] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { data: session } = useSession();
 
-  const handleFollowUser = useCallback(async () => {
+  function openUnfollowModalOrFollowUser() {
     if (isFollowing) {
       setDialogOpen(true);
     } else {
       followUserMutation();
     }
-  }, [followUserMutation, isFollowing]);
+  }
+
+  if (!session) {
+    return (
+      <LoginDialog
+        trigger={
+          <button
+            className={cn(
+              'px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600'
+            )}
+          >
+            Follow
+          </button>
+        }
+      />
+    );
+  }
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       {/* <DialogTrigger asChild> */}
       <button
         disabled={followingUserLoading}
-        onClick={() => handleFollowUser()}
+        onClick={() => openUnfollowModalOrFollowUser()}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(

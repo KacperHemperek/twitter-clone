@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
 
+import LoginDialog from '@/components/common/LoginDialog';
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export default function TweetAvatar({
@@ -12,6 +14,17 @@ export default function TweetAvatar({
   authorName: string | null;
   authorId: string | null;
 }) {
+  if (!authorId)
+    return (
+      <LoginDialog
+        trigger={
+          <Avatar className="z-0 h-10 w-10 cursor-pointer">
+            <AvatarFallback />
+          </Avatar>
+        }
+      />
+    );
+
   return (
     <Link
       href={`/account/${authorId}/tweets`}
@@ -23,7 +36,7 @@ export default function TweetAvatar({
       <Avatar className="z-0 h-10 w-10">
         <AvatarImage src={image ?? undefined} />
         <AvatarFallback className="text-white">
-          {authorName?.[0] ?? 'A'}
+          {authorName?.[0] ?? ''}
         </AvatarFallback>
       </Avatar>
     </Link>

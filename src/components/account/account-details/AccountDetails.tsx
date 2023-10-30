@@ -232,7 +232,7 @@ export default function AccountDetails({
               <Avatar className="w-full h-full">
                 <AvatarImage src={accountDetails?.image ?? ''} />
                 <AvatarFallback className="text-xl">
-                  {accountDetails?.name?.[0]}
+                  {accountDetails?.name?.[0] || ''}
                 </AvatarFallback>
               </Avatar>
             </div>

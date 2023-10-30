@@ -16,7 +16,7 @@ export default async function TweetDetailsPage({
     <>
       <TweetDetails
         tweetId={params.tweetId}
-        initialtweetDetails={tweetDetails}
+        initialTweetDetails={tweetDetails}
       />
       <TweetComments tweetId={params.tweetId} />
     </>
