@@ -24,7 +24,7 @@ export default function FeedNavigation({
     >
       {links.map((link) => (
         <FeedNavigationLink {...link} key={link.href} />
-      ))}{' '}
+      ))}
     </div>
   );
 }
