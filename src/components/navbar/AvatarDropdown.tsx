@@ -28,7 +28,7 @@ export default function AvatarDropdown({
     return (
       <button
         onClick={() => signIn()}
-        className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all cursor-pointer w-full"
+        className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all cursor-pointer min-w-full"
       >
         <LogIn className="h-6 w-6 md:h-8 md:w-8" />
         <p className="text-xl md:mr-3 hidden md:inline">Login</p>
