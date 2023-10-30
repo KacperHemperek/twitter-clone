@@ -23,9 +23,9 @@ export default function LoginDialog({ trigger }: { trigger: React.ReactNode }) {
         <DialogHeader>
           <DialogTitle className="text-xl">Please Login</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="text-base text-gray-600 mb-4">
+        <DialogDescription className="text-base text-muted-foreground mb-4">
           You cannot use that function, If you wish to try that please login
-          with a discord account.
+          with any method available account.
         </DialogDescription>
         <DialogFooter className="flex w-full gap-4 flex-col sm:flex-col space-x-0 sm:space-x-0">
           <button
