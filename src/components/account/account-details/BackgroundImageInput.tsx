@@ -54,6 +54,7 @@ export default function BackgroundImageInput({
           id="background-image"
           className="hidden"
           onChange={handleImageChange}
+          accept="image/png, image/jpeg, image/jpg"
         />
       </label>
     </div>
