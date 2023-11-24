@@ -38,6 +38,11 @@ export default function useEditAccountDetailsFormController({
       queryClient.invalidateQueries(
         getAccountDetailsQueryKey(accountDetails.id)
       );
+      toast({
+        variant: 'default',
+        title: 'Success!',
+        description: `Your profile has been updated. If some changes are not reflected immediately, please wait a few minutes and refresh the page.`,
+      });
       setEditModalOpen(false);
     },
     onError: (err: any) => {
