@@ -163,7 +163,7 @@ export default function AccountDetails({
       </DialogContent>
       <div className="flex flex-col border-b border-gray-600">
         <ImagePreview image={accountDetails.background}>
-          <div className="aspect-[3/1] w-full relative">
+          <div className="aspect-[3/1] w-full relative cursor-pointer">
             <Image
               src={
                 accountDetails?.background ??
@@ -183,7 +183,7 @@ export default function AccountDetails({
           <div className="flex justify-between relative sm:mb-4">
             <div />
             <ImagePreview image={accountDetails.image ?? ''}>
-              <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
+              <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square cursor-pointer">
                 <Avatar className="w-full h-full">
                   <AvatarImage src={accountDetails?.image ?? ''} />
                   <AvatarFallback className="text-xl">
