@@ -33,7 +33,9 @@ export default function ImagePreview({
       <DialogPortal>
         <DialogContent className="fixed top-1/2 -translate-x-1/2 left-1/2 z-50 flex -translate-y-1/2 max-w-screen w-full max-h-[90vh] outline-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="object-contain" src={image} alt="Image preview" />
+          {image && (
+            <img className="object-contain" src={image} alt="Image preview" />
+          )}
         </DialogContent>
       </DialogPortal>
       <DialogTrigger asChild>{children}</DialogTrigger>
