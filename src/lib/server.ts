@@ -64,7 +64,7 @@ export function handleServerError(e: any) {
   return nextServerErrorFactory(500, e?.message);
 }
 export const apiHandler = async (
-  fn: (req: NextRequest, params: any) => Promise<NextResponse>,
+  fn: (req: NextRequest, params: any) => Promise<NextResponse | Response>,
   req: NextRequest,
   params?: { params: any }
 ) => {
