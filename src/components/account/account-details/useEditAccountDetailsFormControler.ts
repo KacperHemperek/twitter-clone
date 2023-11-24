@@ -9,12 +9,13 @@ import {
   getAccountDetailsQueryKey,
   getInitialBirthdayState,
 } from '@/components/account/account-details/AccountDetailsUtils';
+import {
+  DESCRIPTION_CHAR_LIMIT,
+  LOCATION_CHAR_LIMIT,
+  NAME_CHAR_LIMIT,
+} from '@/components/account/account-details/EditUserAccountConfig';
 import { queryClient } from '@/components/context/Providers';
 import { useToast } from '@/components/ui/use-toast';
-
-const NAME_CHAR_LIMIT = 40;
-const DESCRIPTION_CHAR_LIMIT = 220;
-const LOCATION_CHAR_LIMIT = 30;
 
 export default function useEditAccountDetailsFormController({
   accountDetails,
@@ -42,6 +43,7 @@ export default function useEditAccountDetailsFormController({
         variant: 'default',
         title: 'Success!',
         description: `Your profile has been updated. If some changes are not reflected immediately, please wait a few minutes and refresh the page.`,
+        duration: 3000,
       });
       setEditModalOpen(false);
     },

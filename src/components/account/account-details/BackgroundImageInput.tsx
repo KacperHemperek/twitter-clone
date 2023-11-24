@@ -2,6 +2,12 @@ import { UploadCloud } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
+import {
+  BACKGROUND_IMAGE_SIZE_MULTIPLAYER,
+  MAX_BACKGROUND_IMAGE_SIZE,
+} from '@/components/account/account-details/EditUserAccountConfig';
+import { useToast } from '@/components/ui/use-toast';
+
 export default function BackgroundImageInput({
   image,
   setImage,
@@ -13,19 +19,30 @@ export default function BackgroundImageInput({
   >;
   defaultImage: string | null;
 }) {
+  const { toast } = useToast();
+
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
+    if (!file) return;
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage({
-          data: e.target?.result as string,
-          contentType: file.type,
-        });
-      };
-      reader.readAsDataURL(file);
+    if (file.size > MAX_BACKGROUND_IMAGE_SIZE) {
+      toast({
+        variant: 'destructive',
+        title: 'File too large',
+        description: `Please upload a file smaller than ${BACKGROUND_IMAGE_SIZE_MULTIPLAYER}MB`,
+        duration: 5000,
+      });
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setImage({
+        data: e.target?.result as string,
+        contentType: file.type,
+      });
+    };
+    reader.readAsDataURL(file);
   }
 
   return (

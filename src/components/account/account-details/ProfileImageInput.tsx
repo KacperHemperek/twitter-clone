@@ -1,6 +1,12 @@
 import { UploadCloud } from 'lucide-react';
 import Image from 'next/image';
 
+import {
+  MAX_PROFILE_IMAGE_SIZE,
+  PROFILE_IMAGE_SIZE_MULTIPLAYER,
+} from '@/components/account/account-details/EditUserAccountConfig';
+import { useToast } from '@/components/ui/use-toast';
+
 export default function ProfileImageInput({
   image,
   setImage,
@@ -12,19 +18,31 @@ export default function ProfileImageInput({
   >;
   defaultImage: string | null;
 }) {
+  const { toast } = useToast();
+
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage({
-          data: e.target?.result as string,
-          contentType: file.type,
-        });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+      toast({
+        variant: 'destructive',
+        title: 'File too large',
+        description: `Please upload a file smaller than ${PROFILE_IMAGE_SIZE_MULTIPLAYER}MB`,
+        duration: 5000,
+      });
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setImage({
+        data: e.target?.result as string,
+        contentType: file.type,
+      });
+    };
+    reader.readAsDataURL(file);
   }
 
   return (
