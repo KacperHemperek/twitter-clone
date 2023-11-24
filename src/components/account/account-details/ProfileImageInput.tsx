@@ -52,6 +52,7 @@ export default function ProfileImageInput({
           name="profile-image"
           id="profile-image"
           className="hidden"
+          accept="image/png, image/jpeg, image/jpg"
           onChange={handleImageChange}
         />
       </label>

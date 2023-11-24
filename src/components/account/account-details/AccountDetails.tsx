@@ -1,17 +1,13 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getDaysInMonth, isBefore } from 'date-fns';
+import { useQuery } from '@tanstack/react-query';
 import { PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import {
-  getAccountDetails,
-  updateAccountDetails,
-} from '@/services/Account.service';
+import { getAccountDetails } from '@/services/Account.service';
 
 import {
   getAccountDetailsQueryKey,
@@ -24,10 +20,10 @@ import useEditAccountDetailsFormController from '@/components/account/account-de
 import AccountSubInfo from '@/components/account/account-sub-info/AccountSubInfo';
 import FollowButton from '@/components/account/follow-button/FollowButton';
 import SelectDate from '@/components/account/select-date/SelectDate';
+import ImagePreview from '@/components/common/ImagePreview';
 import Input from '@/components/common/Input';
 import { TextWithLinks } from '@/components/common/TextWithLinks';
 import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
-import { queryClient } from '@/components/context/Providers';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Dialog,
@@ -36,7 +32,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useToast } from '@/components/ui/use-toast';
 
 import { formatShortDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
@@ -167,30 +162,36 @@ export default function AccountDetails({
         </button>
       </DialogContent>
       <div className="flex flex-col border-b border-gray-600">
-        <div className="aspect-[3/1] w-full relative">
-          <Image
-            src={
-              accountDetails?.background ??
-              'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
-            }
-            fill={true}
-            className="object-cover"
-            alt={'background image of a user'}
-            placeholder="blur"
-            blurDataURL="https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-          />
-        </div>
+        <ImagePreview image={accountDetails.background}>
+          <div className="aspect-[3/1] w-full relative">
+            <Image
+              src={
+                accountDetails?.background ??
+                'https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+              }
+              fill={true}
+              className="object-cover"
+              alt={'background image of a user'}
+              placeholder="blur"
+              blurDataURL="https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+            />
+            I
+          </div>
+        </ImagePreview>
+
         <div className="flex flex-col gap-4 sm:gap-4 p-4">
           <div className="flex justify-between relative sm:mb-4">
             <div />
-            <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
-              <Avatar className="w-full h-full">
-                <AvatarImage src={accountDetails?.image ?? ''} />
-                <AvatarFallback className="text-xl">
-                  {accountDetails?.name?.[0] || ''}
-                </AvatarFallback>
-              </Avatar>
-            </div>
+            <ImagePreview image={accountDetails.image ?? ''}>
+              <div className="p-1 bg-background rounded-full absolute -translate-y-[60%] max-w-[128px] min-w-[84px] w-1/4 aspect-square">
+                <Avatar className="w-full h-full">
+                  <AvatarImage src={accountDetails?.image ?? ''} />
+                  <AvatarFallback className="text-xl">
+                    {accountDetails?.name?.[0] || ''}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            </ImagePreview>
             <div className="flex flex-row gap-2">
               {isCurrentUsersPage && (
                 <DialogTrigger className="bg-background text-white hover:bg-white/10 transition-all px-4 py-1.5 rounded-full font-bold border border-white">
