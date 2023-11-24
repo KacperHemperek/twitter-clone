@@ -50,7 +50,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  background    String?
+  background    String?   @default("https://twitter.kacperhemperek.com/images/background/bg-placeholder.jpg")
   description   String?
   born          DateTime?
   location      String?
