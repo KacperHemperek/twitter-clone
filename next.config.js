@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'twitter.kacperhemperek.com',
+        hostname: '**',
       },
       {
         protocol: 'http',
