@@ -21,6 +21,7 @@ export async function getAccountDetailsById(
         id: true,
         location: true,
         image: true,
+        background: true,
         followers: {
           select: { id: true },
         },
