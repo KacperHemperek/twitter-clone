@@ -1,38 +1,27 @@
-import { s3Client } from '@/utils/s3';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 
-import { ServerError } from '@/lib/server';
+import { NotFoundError, ServerError } from '@/lib/server';
+
+import { s3Client } from '@/utils/s3';
 
 export async function getImage(path: string) {
-  try {
-    const getObjCommand = new GetObjectCommand({
-      Bucket: 'twitter-khemperek',
-      Key: path,
-    });
+  const getObjCommand = new GetObjectCommand({
+    Bucket: 'twitter-khemperek',
+    Key: path,
+  });
 
-    const response = await s3Client.send(getObjCommand);
-    const body = await response.Body?.transformToByteArray();
+  const response = await s3Client.send(getObjCommand);
+  const body = await response.Body?.transformToByteArray();
 
-    if (!body) {
-      throw new ServerError({
-        code: 404,
-        message: `Image ${path} not found`,
-      });
-    }
-
-    const buffer = Buffer.from(body);
-    return {
-      buffer,
-      contentType: response.ContentType,
-    };
-  } catch (error) {
-    if (error instanceof ServerError) throw error;
-
-    throw new ServerError({
-      code: 500,
-      message: `Something went wrong when getting image ${path}`,
-    });
+  if (!body) {
+    throw new NotFoundError(`Image ${path} not found`);
   }
+
+  const buffer = Buffer.from(body);
+  return {
+    buffer,
+    contentType: response.ContentType,
+  };
 }
 
 export async function getBufferFromURL(
@@ -49,24 +38,15 @@ export async function uploadImage(
   image: string,
   type: string
 ): Promise<string> {
-  try {
-    const buffer = await getBufferFromURL(image);
+  const buffer = await getBufferFromURL(image);
 
-    await s3Client.send(
-      new PutObjectCommand({
-        Bucket: 'twitter-khemperek',
-        Key: path,
-        Body: buffer,
-        ContentType: type,
-      })
-    );
-    const url = `${process.env.NEXTAUTH_URL}/api/images/${path}`;
-
-    return url;
-  } catch (error) {
-    throw new ServerError({
-      code: 500,
-      message: `Something went wrong when uploading image ${path}`,
-    });
-  }
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: 'twitter-khemperek',
+      Key: path,
+      Body: buffer,
+      ContentType: type,
+    })
+  );
+  return `${process.env.NEXTAUTH_URL}/api/images/${path}`;
 }

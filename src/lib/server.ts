@@ -11,6 +11,12 @@ export class ServerError extends Error {
   }
 }
 
+export class NotFoundError extends ServerError {
+  constructor(message?: string) {
+    super({ message: message ?? 'Not Found', code: 404 });
+  }
+}
+
 export class UnauthorizedError extends ServerError {
   constructor() {
     super({ message: 'User is not authenticated', code: 403 });
