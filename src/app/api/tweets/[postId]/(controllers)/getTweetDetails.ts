@@ -1,9 +1,8 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
+import { TweetsService } from '@/server';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getTweetDetails } from '../../(services)/tweet.service';
-
-import { ServerError, nextServerErrorFactory } from '@/lib/server';
+import { ServerError } from '@/lib/server';
 
 export async function getTweetDetailsController(
   _req: NextRequest,
@@ -11,11 +10,7 @@ export async function getTweetDetailsController(
 ) {
   const { postId: tweetId } = params;
 
-  if (!tweetId) {
-    return nextServerErrorFactory(400, "Didn't find id in request");
-  }
-
-  const tweetDetails = await getTweetDetails(tweetId);
+  const tweetDetails = await TweetsService.getTweetDetails(tweetId);
 
   if (!tweetDetails) {
     throw new ServerError({

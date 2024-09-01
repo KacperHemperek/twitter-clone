@@ -109,4 +109,44 @@ export module TweetsService {
       comments: [],
     };
   }
+
+  export async function getTweetDetails(tweetId: string): Promise<Tweet> {
+    const session = db.session();
+
+    const response = await session.run(
+      `
+      MATCH (tweet:Tweet {id: $tweetId})-[posted:POSTED]-(author:User)
+      OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
+      RETURN tweet, author, posted, collect(like) as likes
+      `,
+      { tweetId }
+    );
+
+    const tweet = Neo4jUtils.simplifyResponse<TweetNode>(
+      response.records[0].get('tweet')
+    );
+    const author = Neo4jUtils.simplifyResponse<UserNode>(
+      response.records[0].get('author')
+    );
+    const likes = Neo4jUtils.simplifyArrayResponse<LikedRelation>(
+      response.records[0].get('likes')
+    );
+    const posted = Neo4jUtils.simplifyResponse<PostedRelation>(
+      response.records[0].get('posted')
+    );
+    if (!tweet || !author || !likes || !posted) {
+      throw new Error('Failed to read tweet response');
+    }
+
+    return {
+      author,
+      createdAt: posted.createdAt,
+      id: tweet.id,
+      message: tweet.message,
+      retweetedBy: null,
+      likes: likes.map((l) => ({ id: l.id, userId: l.likedBy })),
+      retweets: [],
+      comments: [],
+    };
+  }
 }

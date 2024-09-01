@@ -7,13 +7,13 @@ import {
   getPageNumber,
   getServerSearchParams,
 } from '@/lib/getServerSearchParams';
-import { nextServerErrorFactory } from '@/lib/server';
+import { UnauthorizedError } from '@/lib/server';
 
 export async function getTweetsFromFollowedUsersHandler(req: NextRequest) {
   const session = await auth();
 
   if (!session) {
-    return nextServerErrorFactory(401, 'User is not logged in');
+    throw new UnauthorizedError();
   }
 
   const { page } = getServerSearchParams<['page']>(req, ['page']);

@@ -11,57 +11,57 @@ export class ServerError extends Error {
   }
 }
 
-export function nextServerErrorFactory(
-  code: number,
-  message: string = 'Unexpected Server Error',
-  cause: string = 'Unknown error occurred. Sorry for the inconvenience.'
-) {
+export class UnauthorizedError extends ServerError {
+  constructor() {
+    super({ message: 'User is not authenticated', code: 403 });
+  }
+}
+
+export class BadRequestError extends ServerError {
+  constructor(message?: string) {
+    super({ message: message ?? 'Bad Request', code: 400 });
+  }
+}
+
+export class ProfanityError extends ServerError {
+  constructor() {
+    super({ message: 'Profanity is not allowed', code: 400 });
+  }
+}
+
+export function nextServerErrorFactory({
+  code,
+  message = 'Unexpected Server Error',
+}: {
+  code: number;
+  message?: string;
+}) {
   return NextResponse.json(
-    { message, cause },
+    { message },
     {
       status: code,
     }
   );
 }
 
-export function ThrowProfanityError() {
-  throw new ServerError({
-    message: "You kiss your mother with that mouth?! Don't use profanity!",
-    code: 400,
-  });
-}
-
 export function handleServerError(e: any) {
-  if (e instanceof ServerError) {
-    console.error(e?.cause ?? '');
-    console.error(e?.message ?? '');
-    if (e.code === 400) {
-      return nextServerErrorFactory(
-        e.code,
-        e.message,
-        'Bad Request - Invalid user input'
-      );
-    }
-
-    if (e.code === 401) {
-      return nextServerErrorFactory(
-        e.code,
-        e.message,
-        'Unauthorized - User is not authenticated'
-      );
-    }
-
-    if (e.code === 404) {
-      return nextServerErrorFactory(
-        e.code,
-        e.message,
-        'Not Found - Resource not found'
-      );
-    }
-
-    return nextServerErrorFactory(500, 'Internal Server Error', e.message);
+  console.error('Error caught in server handler');
+  if (e.code) {
+    console.error('Code: ', e.code);
   }
-  return nextServerErrorFactory(500, e?.message);
+  if (e.message) {
+    console.error('Message: ', e.message);
+  }
+  if (e.cause) {
+    console.error('Cause: ', e.cause);
+  }
+  if (e instanceof ServerError) {
+    return nextServerErrorFactory({
+      code: e.code,
+      message: e.message,
+    });
+  }
+  return nextServerErrorFactory({ code: 500, message: e?.message });
 }
 export const apiHandler = async (
   fn: (req: NextRequest, params: any) => Promise<NextResponse | Response>,

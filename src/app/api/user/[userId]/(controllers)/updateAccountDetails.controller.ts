@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { updateAccountDetailsById } from '../(services)/account.service';
 import { uploadImage } from '@/app/api/images/[...path]/images.services';
 
-import { ThrowProfanityError, nextServerErrorFactory } from '@/lib/server';
+import { ProfanityError, UnauthorizedError } from '@/lib/server';
 
 const BadWordsFilter = new Filter();
 
@@ -34,10 +34,7 @@ export async function updateAccountDetailsControllerHandler(
   const session = await auth();
 
   if (!session?.user || userId !== session.user.id) {
-    return nextServerErrorFactory(
-      403,
-      'This user is unauthorized to update account details'
-    );
+    throw new UnauthorizedError();
   }
 
   const body: UpdateAccountDetailsBody = await req.json();
@@ -73,7 +70,7 @@ export async function updateAccountDetailsControllerHandler(
       (value) => typeof value === 'string' && BadWordsFilter.isProfane(value)
     )
   ) {
-    ThrowProfanityError();
+    throw new ProfanityError();
   }
 
   const updatedUser = await updateAccountDetailsById(userId, {
