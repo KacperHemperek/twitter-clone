@@ -1,8 +1,9 @@
 import { searchTweets } from '@/app/api/search/search.service';
-import { NextRequest, NextResponse } from 'next/server';
 
 import { getPageNumber } from '@/lib/getServerSearchParams';
-import { ServerError } from '@/lib/server';
+import { BadRequestError, ServerError } from '@/lib/server';
+
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function getSearchTweetsController(req: NextRequest) {
   const url = new URL(req.url);
@@ -10,8 +11,7 @@ export async function getSearchTweetsController(req: NextRequest) {
   const searchQ = url.searchParams.get('q');
   const page = getPageNumber(url.searchParams.get('page'));
 
-  if (!searchQ)
-    throw new ServerError({ code: 400, message: 'Missing search query' });
+  if (!searchQ) throw new BadRequestError('Missing search query');
 
   const results = await searchTweets(searchQ, page);
 
