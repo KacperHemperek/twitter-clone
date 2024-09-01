@@ -2,13 +2,10 @@ import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
 import { auth } from '@/auth';
 import Filter from 'bad-words';
 
-import { createComment } from '../(services)/comments.service';
-
 import { getBody } from '@/lib/getBodyFromRequest';
 import {
   BadRequestError,
   ProfanityError,
-  ServerError,
   UnauthorizedError,
 } from '@/lib/server';
 
