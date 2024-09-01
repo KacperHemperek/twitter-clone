@@ -203,9 +203,6 @@ export module TweetsService {
       throw new Error('Failed to read response');
     }
 
-    if (likes.length) {
-      debugLog(likes, 'likes');
-    }
     return {
       author,
       createdAt: posted.createdAt,
@@ -216,5 +213,24 @@ export module TweetsService {
       retweets: [],
       comments: comments.map((c) => ({ id: c.id })),
     };
+  }
+
+  export async function updateTweet({
+    tweetId,
+    message,
+  }: {
+    tweetId: string;
+    message: string;
+  }) {
+    const session = db.session();
+    await session.run(
+      `
+      MATCH (tweet:Tweet {id: $tweetId})
+      SET tweet.message = $message;
+      `,
+      { message, tweetId }
+    );
+
+    await session.close();
   }
 }

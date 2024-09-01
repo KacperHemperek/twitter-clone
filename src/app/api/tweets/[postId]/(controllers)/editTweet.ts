@@ -1,9 +1,9 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
-import { NextRequest, NextResponse } from 'next/server';
-
-import { updateTweet } from '@/app/api/tweets/(services)/tweet.service';
 
 import { getBody } from '@/lib/getBodyFromRequest';
+
+import { TweetsService } from '@/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function editTweetController(
   req: NextRequest,
@@ -12,7 +12,10 @@ export async function editTweetController(
   const { postId } = params;
   const { message } = await getBody(req);
 
-  await updateTweet(postId, message);
+  await TweetsService.updateTweet({
+    tweetId: postId,
+    message,
+  });
 
   return NextResponse.json({ postId, message });
 }
