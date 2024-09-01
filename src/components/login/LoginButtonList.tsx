@@ -1,6 +1,6 @@
 'use client';
 
-import { ClientSafeProvider, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 export default function LoginButtonList({
   providers,
 }: {
-  providers: ClientSafeProvider[];
+  providers: { id: string; name: string }[];
 }) {
   return (
     <div className="flex flex-col space-y-4">

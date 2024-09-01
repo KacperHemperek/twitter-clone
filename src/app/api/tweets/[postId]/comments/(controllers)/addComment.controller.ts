@@ -1,7 +1,6 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
-import { authOptions } from '@/utils/next-auth';
+import { auth } from '@/auth';
 import Filter from 'bad-words';
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createComment } from '../(services)/comments.service';
@@ -17,7 +16,7 @@ export async function addCommentHandler(
 ) {
   const { postId: tweetId } = params;
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     throw new ServerError({

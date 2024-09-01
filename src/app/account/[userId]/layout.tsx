@@ -1,6 +1,5 @@
+import { getAccountDetails } from '@/clients/account.client';
 import React, { PropsWithChildren } from 'react';
-
-import { getAccountDetails } from '@/services/Account.service';
 
 import SectionHeader from '@/components/account/AccountHeader';
 import AccountDetails from '@/components/account/account-details/AccountDetails';

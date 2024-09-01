@@ -1,15 +1,14 @@
 'use client';
 
 import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
+import {
+  createTweet,
+  getTweetsFromFollowedUsers,
+} from '@/clients/tweets.client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AlertOctagonIcon, RefreshCcwIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-
-import {
-  createTweet,
-  getTweetsFromFollowedUsers,
-} from '@/services/Tweets.service';
 
 import NewTweetForm from '@/components/common/new-tweet-form/NewTweetForm';
 import Feed from '@/components/feed/Feed';

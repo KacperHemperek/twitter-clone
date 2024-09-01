@@ -11,20 +11,12 @@ export async function getMainFeedTweets(
 
   const res = await fetch(url, { cache: 'no-cache' });
 
+  const data = await res.json();
   if (!res.ok) {
-    const error = (await res.json()) as ErrorResponse;
-
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new Error(data.message);
   }
 
-  const tweets = await res.json();
-
-  return tweets;
+  return data;
 }
 
 export async function createTweet(tweetBody: string) {
@@ -194,8 +186,6 @@ export async function searchTweets(
   page?: number
 ): Promise<PaginatedResponse<Tweet>> {
   const params = new URLSearchParams({ query, page: page?.toString() || '1' });
-
-  console.log(params);
 
   const res = await fetch(`/api/tweets/search?${params.toString()}`);
 

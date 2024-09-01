@@ -1,23 +1,17 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
-import { authOptions } from '@/utils/next-auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
+import { LikesService } from '@/server';
 import { NextRequest, NextResponse } from 'next/server';
-
-import {
-  dislikeTweet,
-  getLikeByTweetIdAndUserId,
-  likeTweet,
-} from '../(services)/like.service';
 
 import { ServerError } from '@/lib/server';
 
 export async function likeTweetController(
-  req: NextRequest,
+  _: NextRequest,
   params: TweetDetailsParams
 ) {
   const { postId: tweetId } = params;
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const userId = session?.user.id;
 
@@ -28,15 +22,14 @@ export async function likeTweetController(
     });
   }
 
-  const like = await getLikeByTweetIdAndUserId(tweetId, userId);
+  const isLiked = await LikesService.isLiked({ tweetId, userId });
 
-  if (!!like) {
-    await dislikeTweet(like.id);
+  if (isLiked) {
+    await LikesService.dislikeTweet({ userId, tweetId });
   } else {
-    await likeTweet(userId, tweetId);
+    await LikesService.likeTweet({ userId, tweetId });
   }
-
   return NextResponse.json({
-    message: !!like ? 'disliked successfuly' : 'liked successfuly',
+    message: isLiked ? 'disliked successfully' : 'liked successfully',
   });
 }

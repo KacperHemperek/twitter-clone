@@ -1,6 +1,5 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
-import { authOptions } from '@/utils/next-auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import {
@@ -16,7 +15,7 @@ export async function retweetHandler(
   params: TweetDetailsParams
 ) {
   const { postId: tweetId } = params;
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session?.user.id) {
     throw new ServerError({ code: 401, message: 'User is not authenticated' });

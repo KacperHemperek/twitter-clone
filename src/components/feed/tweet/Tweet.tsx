@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { memo } from 'react';
 
-import { commentTweet, likeTweet, retweet } from '@/services/Tweets.service';
+import { commentTweet, likeTweet, retweet } from '@/clients/tweets.client';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';

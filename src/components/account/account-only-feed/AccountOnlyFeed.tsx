@@ -1,11 +1,10 @@
 'use client';
 
+import { getUsersTweets } from '@/clients/account.client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { RefreshCcwIcon } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React from 'react';
-
-import { getUsersTweets } from '@/services/Account.service';
 
 import Feed from '@/components/feed/Feed';
 import FeedSceleton from '@/components/feed/FeedSceleton';

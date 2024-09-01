@@ -1,13 +1,12 @@
 'use client';
 
+import { getAccountDetails } from '@/clients/account.client';
 import { useQuery } from '@tanstack/react-query';
 import { PartyPopper, Pin } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useMemo } from 'react';
-
-import { getAccountDetails } from '@/services/Account.service';
 
 import {
   getAccountDetailsQueryKey,

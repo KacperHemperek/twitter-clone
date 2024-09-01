@@ -1,9 +1,8 @@
 'use client';
 
+import { createTweet, getMainFeedTweets } from '@/clients/tweets.client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
-
-import { createTweet, getMainFeedTweets } from '@/services/Tweets.service';
 
 import NewTweetForm from '@/components/common/new-tweet-form/NewTweetForm';
 import Feed from '@/components/feed/Feed';
@@ -34,6 +33,7 @@ export default function MainFeed({
     getNextPageParam: (lastPage) => lastPage.nextPage,
     refetchOnMount: false,
   });
+
   const arrayOfReducedTweets = useMemo<Tweet[]>(() => {
     return (
       tweets?.pages

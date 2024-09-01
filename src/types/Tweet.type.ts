@@ -1,15 +1,22 @@
 import { Like, Retweet, User } from '@prisma/client';
 
+export type TweetAuthor = {
+  email: string;
+  name: string;
+  id: string;
+  image: string | null;
+};
+
 export type Tweet = {
   message: string;
-  author: Pick<User, 'email' | 'name' | 'id' | 'image'>;
+  author: TweetAuthor;
   createdAt: Date;
   id: string;
-  likes: Pick<Like, 'id' | 'userId'>[];
+  likes: { id: string; userId: string }[];
   comments?: {
     id: string;
   }[];
-  retweets: Pick<Retweet, 'id' | 'userId'>[];
+  retweets: { id: string; userId: string }[];
   retweetedBy: { name: string; userId: string } | null;
   tweetedAt?: Date;
 };

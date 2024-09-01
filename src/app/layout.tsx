@@ -1,9 +1,7 @@
+import { auth } from '@/auth';
 import '@/globals.css';
-import { authOptions } from '@/utils/next-auth';
 import { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
 
-import { SignInButton } from '@/components/common/UserHandlingButtons';
 import Providers from '@/components/context/Providers';
 import NavBarContainer from '@/components/navbar/NavBarContainer';
 
@@ -17,7 +15,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   return (
     <html lang="en">

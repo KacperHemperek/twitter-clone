@@ -1,9 +1,8 @@
-import { authOptions } from '@/utils/next-auth';
+import { auth } from '@/auth';
+import { TweetsService } from '@/server';
 import Filter from 'bad-words';
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
-
-import { createTweet } from '../(services)/tweet.service';
+import { NextApiRequest } from 'next';
+import { NextResponse } from 'next/server';
 
 import { getBody } from '@/lib/getBodyFromRequest';
 import {
@@ -14,8 +13,8 @@ import {
 
 const BadWordFilter = new Filter();
 
-export async function createPostController(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+export async function createPostController(req: NextApiRequest) {
+  const session = await auth();
 
   if (!session) {
     return nextServerErrorFactory(403, 'User is not authenticated');
@@ -35,7 +34,12 @@ export async function createPostController(req: NextRequest) {
     ThrowProfanityError();
   }
 
-  const newTweet = await createTweet(body.tweetBody, userId);
+  await TweetsService.createTweet({
+    message: body.tweetBody,
+    userId,
+  });
+  // const newTweet = await createTweet(body.tweetBody, userId);
 
-  return NextResponse.json({ data: { createdPost: newTweet } });
+  return NextResponse.json({ data: 'OK' });
+  // return NextResponse.json({ data: { createdPost: newTweet } });
 }

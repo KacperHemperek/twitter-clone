@@ -1,8 +1,7 @@
 import { AccountParams } from '@/app/api/user/[userId]/tweets/route';
-import { authOptions } from '@/utils/next-auth';
+import { auth } from '@/auth';
 import { Prisma } from '@prisma/client';
 import Filter from 'bad-words';
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { updateAccountDetailsById } from '../(services)/account.service';
@@ -32,7 +31,7 @@ export async function updateAccountDetailsControllerHandler(
 ) {
   const { userId } = params;
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session?.user || userId !== session.user.id) {
     return nextServerErrorFactory(
@@ -62,8 +61,6 @@ export async function updateAccountDetailsControllerHandler(
     const bgImageExtension = body.background.contentType.split('/')[1];
     const bgImagePath = `background/${userId}.${bgImageExtension}`;
 
-    console.log('bgImagePath', bgImagePath);
-    console.log('bgImageObj', body.background);
     backgroundImg = await uploadImage(
       bgImagePath,
       body.background.data,

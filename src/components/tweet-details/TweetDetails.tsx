@@ -1,12 +1,11 @@
 'use client';
 
 import LikeButton from './LikeButtonDetails';
+import { commentTweet, getTweetDetails } from '@/clients/tweets.client';
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
-
-import { commentTweet, getTweetDetails } from '@/services/Tweets.service';
 
 import AddCommentModal from '@/components/common/AddCommentModal';
 import LoginDialog from '@/components/common/LoginDialog';

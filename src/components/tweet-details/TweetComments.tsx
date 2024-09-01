@@ -1,9 +1,8 @@
 'use client';
 
+import { commentTweet, getComments } from '@/clients/tweets.client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
-
-import { commentTweet, getComments } from '@/services/Tweets.service';
 
 import NewTweetForm from '@/components/common/new-tweet-form/NewTweetForm';
 import Feed from '@/components/feed/Feed';

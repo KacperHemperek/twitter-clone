@@ -1,8 +1,7 @@
+import { updateAccountDetails } from '@/clients/account.client';
 import { useMutation } from '@tanstack/react-query';
 import { getDaysInMonth, isBefore } from 'date-fns';
 import React, { useMemo, useState } from 'react';
-
-import { updateAccountDetails } from '@/services/Account.service';
 
 import { DateValues } from '@/components/account/account-details/AccountDetails';
 import {

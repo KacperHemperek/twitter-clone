@@ -2,14 +2,13 @@
 
 import { getTweetDetailsQueryKey } from './TweetDetails';
 import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
+import { likeTweet } from '@/clients/tweets.client';
 import { Like } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import { uuid } from 'uuidv4';
-
-import { likeTweet } from '@/services/Tweets.service';
 
 import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';

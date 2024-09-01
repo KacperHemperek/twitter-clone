@@ -1,5 +1,4 @@
-import { authOptions } from '@/utils/next-auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getTweetsFromFollowedUsers } from '@/app/api/tweets/followed/(services)/tweetsFollowed.service';
@@ -11,7 +10,7 @@ import {
 import { nextServerErrorFactory } from '@/lib/server';
 
 export async function getTweetsFromFollowedUsersHandler(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     return nextServerErrorFactory(401, 'User is not logged in');

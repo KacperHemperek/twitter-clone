@@ -1,8 +1,7 @@
+import { followUser } from '@/clients/account.client';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
-
-import { followUser } from '@/services/Account.service';
 
 import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';

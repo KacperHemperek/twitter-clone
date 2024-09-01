@@ -1,10 +1,9 @@
+import { editTweet } from '@/clients/tweets.client';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import { Oval } from 'react-loader-spinner';
-
-import { editTweet } from '@/services/Tweets.service';
 
 import { queryClient } from '@/components/context/Providers';
 import TweetAvatar from '@/components/feed/TweetAvatar';

@@ -1,6 +1,4 @@
-import { authOptions } from '@/utils/next-auth';
-import { getServerSession } from 'next-auth';
-import { getProviders } from 'next-auth/react';
+import { auth, config } from '@/auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -9,25 +7,26 @@ import LoginButtonList from '@/components/login/LoginButtonList';
 import LoginPageDescription from '@/components/login/LoginPageDescription';
 
 export default async function LoginPage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session) {
     return redirect('/feed/main');
   }
 
-  const providers = await getProviders();
-
-  const providerList = Object.values(providers ?? {});
-
-  if (!providers) {
+  if (!config.providers) {
     redirect('/feed/main');
   }
+
+  const providersList = config.providers.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+  }));
 
   return (
     <div className="flex-1 flex items-center p-6">
       <div className="flex mx-auto flex-col max-w-sm text-muted-foreground">
         <LoginPageDescription />
-        <LoginButtonList providers={providerList} />
+        <LoginButtonList providers={providersList} />
         <p className="pt-6">
           Don&#39;t want to login?{' '}
           <Link

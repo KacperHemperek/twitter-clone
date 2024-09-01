@@ -1,12 +1,11 @@
 import { MAIN_FEED_QUERY_KEYS } from '@/app/feed/main/(components)/MainFeed';
+import { retweet } from '@/clients/tweets.client';
 import { Retweet } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import { uuid } from 'uuidv4';
-
-import { retweet } from '@/services/Tweets.service';
 
 import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';

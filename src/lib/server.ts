@@ -38,24 +38,24 @@ export function handleServerError(e: any) {
     if (e.code === 400) {
       return nextServerErrorFactory(
         e.code,
-        'Bad Request - Invalid user input',
-        e.message
+        e.message,
+        'Bad Request - Invalid user input'
       );
     }
 
     if (e.code === 401) {
       return nextServerErrorFactory(
         e.code,
-        'Unauthorized - User is not authenticated',
-        e.message
+        e.message,
+        'Unauthorized - User is not authenticated'
       );
     }
 
     if (e.code === 404) {
       return nextServerErrorFactory(
         e.code,
-        'Not Found - Resource not found',
-        e.message
+        e.message,
+        'Not Found - Resource not found'
       );
     }
 

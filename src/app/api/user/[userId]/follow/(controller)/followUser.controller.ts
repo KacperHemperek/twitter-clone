@@ -1,6 +1,5 @@
 import { AccountParams } from '@/app/api/user/[userId]/tweets/route';
-import { authOptions } from '@/utils/next-auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 import {
@@ -18,7 +17,7 @@ export async function follwoUserHandler(
 ) {
   const { userId } = params;
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     throw new ServerError({ code: 403, message: 'User is not authenticated' });
