@@ -12,6 +12,7 @@ import {
   UserNode,
   db,
 } from '@/server';
+import { RetweetRelation } from '@/server/relations';
 
 export module TweetsService {
   export async function getHomePageTweets(
@@ -30,7 +31,15 @@ export module TweetsService {
       WHERE NOT (tweet)-[:COMMENTS]->(:Tweet)
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
-      RETURN tweet, author, posted, collect(DISTINCT like) as likes, collect(DISTINCT comment) as comments ORDER BY posted.createdAt DESC
+      OPTIONAL MATCH (tweet)<-[retweet:RETWEETED]-(:User)
+      RETURN 
+        tweet,
+        author,
+        posted,
+        collect(DISTINCT like) as likes,
+        collect(DISTINCT comment) as comments,
+        collect(DISTINCT retweet) as retweets
+      ORDER BY posted.createdAt DESC
       SKIP $skip 
       LIMIT $limit;
       `,
@@ -100,7 +109,14 @@ export module TweetsService {
       MATCH (tweet:Tweet {id: $tweetId})-[posted:POSTED]-(author:User)
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
-      RETURN tweet, author, posted, collect(DISTINCT like) as likes, collect(DISTINCT comment) as comments;
+      OPTIONAL MATCH (tweet)<-[retweet:RETWEETED]-(:User)
+      RETURN 
+       tweet, 
+       author, 
+       posted, 
+       collect(DISTINCT like) as likes,
+       collect(DISTINCT comment) as comments,
+       collect(DISTINCT retweet) as retweets;
       `,
       { tweetId }
     );
@@ -175,7 +191,15 @@ export module TweetsService {
       MATCH (author:User)-[posted:POSTED]->(tweet:Tweet)-[:COMMENTS]->(parent:Tweet {id: $parentId})
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
-      RETURN tweet, author, posted, collect(DISTINCT like) as likes, collect(DISTINCT comment) as comments ORDER BY posted.createdAt DESC
+      OPTIONAL MATCH (tweet)<-[retweet:RETWEETED]-(:User)
+      RETURN 
+        tweet, 
+        author, 
+        posted, 
+        collect(DISTINCT like) as likes, 
+        collect(DISTINCT comment) as comments,
+        collect(DISTINCT retweet) as retweets
+        ORDER BY posted.createdAt DESC
       SKIP $skip 
       LIMIT $limit;
       `,
@@ -199,7 +223,10 @@ export module TweetsService {
     const comments = Neo4jUtils.simplifyArrayResponse<TweetNode>(
       response.get('comments')
     );
-    if (!tweet || !author || !likes || !posted) {
+    const retweets = Neo4jUtils.simplifyArrayResponse<RetweetRelation>(
+      response.get('retweets')
+    );
+    if (!tweet || !author || !likes || !posted || !retweets) {
       throw new Error('Failed to read response');
     }
 
@@ -210,7 +237,7 @@ export module TweetsService {
       message: tweet.message,
       retweetedBy: null,
       likes: likes.map((l) => ({ id: l.id, userId: l.likedBy })),
-      retweets: [],
+      retweets: retweets.map((r) => ({ id: r.id, userId: r.retweetedBy })),
       comments: comments.map((c) => ({ id: c.id })),
     };
   }
@@ -232,5 +259,58 @@ export module TweetsService {
     );
 
     await session.close();
+  }
+
+  export async function retweet({
+    tweetId,
+    userId,
+  }: {
+    tweetId: string;
+    userId: string;
+  }) {
+    const session = db.session();
+    await session.run(
+      `
+      MATCH (tweet:Tweet {id: $tweetId}), (user:User {id: $userId})
+      CREATE (user)-[retweet:RETWEETED {id: randomUUID(), retweetedAt: datetime(), retweetedBy: user.id}]->(tweet);
+      `,
+      { tweetId, userId }
+    );
+
+    await session.close();
+  }
+
+  export async function removeRetweet({
+    tweetId,
+    userId,
+  }: {
+    tweetId: string;
+    userId: string;
+  }) {
+    const session = db.session();
+    await session.run(
+      `
+      MATCH (:User {id: $userId})-[:RETWEETED]->(:Tweet {id: $tweetId})
+      DELETE retweet;
+      `,
+      { tweetId, userId }
+    );
+
+    await session.close();
+  }
+
+  export async function getRetweetsUserIds(tweetId: string) {
+    const session = db.session();
+    const response = await session.run(
+      `
+      MATCH (:Tweet {id: $tweetId})<-[:RETWEETED]-(user:User)
+      RETURN user.id as userId;
+      `,
+      { tweetId }
+    );
+
+    await session.close();
+
+    return response.records.map<string>((r) => r.get('userId'));
   }
 }

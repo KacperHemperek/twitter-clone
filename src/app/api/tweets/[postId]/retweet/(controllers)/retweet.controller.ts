@@ -1,37 +1,30 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
 import { auth } from '@/auth';
+
+import { UnauthorizedError } from '@/lib/server';
+
+import { TweetsService } from '@/server';
 import { NextRequest, NextResponse } from 'next/server';
 
-import {
-  getRetweets,
-  removeRetweet,
-  retweetTweet,
-} from '@/app/api/tweets/[postId]/retweet/(services)/retweet.service';
-
-import { ServerError } from '@/lib/server';
-
 export async function retweetHandler(
-  req: NextRequest,
+  _: NextRequest,
   params: TweetDetailsParams
 ) {
   const { postId: tweetId } = params;
   const session = await auth();
 
   if (!session?.user.id) {
-    throw new ServerError({ code: 401, message: 'User is not authenticated' });
+    throw new UnauthorizedError();
   }
 
-  const retweetIds = await getRetweets(tweetId);
-
-  if (!!retweetIds && retweetIds?.includes(session.user.id)) {
-    await removeRetweet(tweetId, session.user.id);
-    return NextResponse.json({
-      message: 'removed retweet from tweet with id: ' + tweetId,
-    });
+  const retweetUserIds = await TweetsService.getRetweetsUserIds(tweetId);
+  if (retweetUserIds.includes(session.user.id)) {
+    await TweetsService.removeRetweet({ tweetId, userId: session.user.id });
+  } else {
+    await TweetsService.retweet({ tweetId, userId: session.user.id });
   }
 
-  await retweetTweet(tweetId, session.user.id);
   return NextResponse.json({
-    message: 'retweeted tweet with id: ' + tweetId,
+    message: 'updated retweet status',
   });
 }

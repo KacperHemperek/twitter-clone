@@ -12,6 +12,15 @@ export type LikedRelation = {
 };
 
 /**
+ * Represents a liked relation's properties
+ */
+export type RetweetRelation = {
+  retweetedAt: Date;
+  retweetedBy: string;
+  id: string;
+};
+
+/**
  * Represents a posted relation's properties
  */
 export type PostedRelation = {
