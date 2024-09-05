@@ -2,7 +2,6 @@ import neo4j, { Record } from 'neo4j-driver';
 
 import { Tweet } from '@/types/Tweet.type';
 
-import { debugLog } from '@/utils/debug';
 import { Neo4jUtils } from '@/utils/neo4j';
 
 import {
