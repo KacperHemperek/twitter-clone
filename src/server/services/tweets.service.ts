@@ -289,7 +289,7 @@ export module TweetsService {
     const session = db.session();
     await session.run(
       `
-      MATCH (:User {id: $userId})-[:RETWEETED]->(:Tweet {id: $tweetId})
+      MATCH (:User {id: $userId})-[retweet:RETWEETED]->(:Tweet {id: $tweetId})
       DELETE retweet;
       `,
       { tweetId, userId }
