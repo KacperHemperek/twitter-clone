@@ -17,5 +17,10 @@ export type UserNode = {
   id: string;
   name: string;
   email: string;
-  image: string;
+  emailVerified: Date | undefined;
+  image: string | undefined;
+  background: string | undefined;
+  description: string | undefined;
+  born: Date | undefined;
+  location: string | undefined;
 };

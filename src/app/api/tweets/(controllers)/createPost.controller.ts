@@ -1,8 +1,7 @@
 import { auth } from '@/auth';
 import { TweetsService } from '@/server';
 import Filter from 'bad-words';
-import { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { getBody } from '@/lib/getBodyFromRequest';
 import {
@@ -13,7 +12,7 @@ import {
 
 const BadWordFilter = new Filter();
 
-export async function createPostController(req: NextApiRequest) {
+export async function createPostController(req: NextRequest) {
   const session = await auth();
 
   if (!session) {

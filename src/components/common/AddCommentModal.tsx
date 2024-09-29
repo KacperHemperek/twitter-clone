@@ -20,8 +20,8 @@ type AddCommentModalContextType = {
 };
 
 const AddCommentModalContext = createContext<AddCommentModalContextType>({
-  addComment: async () => {},
-  setDialogIsOpened: () => {},
+  addComment: async () => { },
+  setDialogIsOpened: () => { },
   feedQueryKey: [],
 });
 
@@ -55,7 +55,7 @@ function Form() {
           <div className="flex flex-col items-center">
             <TweetAvatar
               authorName={tweet?.author.name ?? null}
-              image={tweet?.author.image ?? null}
+              image={tweet?.author.image}
               authorId={tweet?.author.id ?? null}
             />
             <div className="h-full w-0.5 bg-gray-400 my-2" />

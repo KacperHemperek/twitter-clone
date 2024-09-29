@@ -1,6 +1,6 @@
-import { User } from '@prisma/client';
+import { UserNode } from '@/server';
 
-export type AccountDetails = User & {
+export type AccountDetails = UserNode & {
   followers: string[];
   following: string[];
 };

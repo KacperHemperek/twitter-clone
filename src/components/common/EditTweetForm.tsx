@@ -61,7 +61,7 @@ export function EditTweetForm({
       <div className="flex flex-col">
         <div className="flex space-x-3 pt-4">
           <TweetAvatar
-            image={session?.user.image ?? null}
+            image={session?.user.image ?? undefined}
             authorName={session?.user.name ?? null}
             authorId={session?.user.id ?? null}
           />

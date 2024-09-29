@@ -10,7 +10,7 @@ export default function TweetAvatar({
   authorName,
   authorId,
 }: {
-  image: string | null;
+  image: string | undefined;
   authorName: string | null;
   authorId: string | null;
 }) {

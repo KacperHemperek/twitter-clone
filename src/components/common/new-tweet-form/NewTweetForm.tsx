@@ -82,7 +82,7 @@ export default function NewTweetForm({
       )}
     >
       <TweetAvatar
-        image={session?.user.image ?? null}
+        image={session?.user.image ?? undefined}
         authorName={session?.user.name ?? null}
         authorId={session?.user.id ?? null}
       />

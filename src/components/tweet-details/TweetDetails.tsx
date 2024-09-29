@@ -3,7 +3,7 @@
 import LikeButton from './LikeButtonDetails';
 import { commentTweet, getTweetDetails } from '@/clients/tweets.client';
 import { useQuery } from '@tanstack/react-query';
-import { MessageCircleIcon, RefreshCwIcon } from 'lucide-react';
+import { MessageCircleIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 
@@ -52,7 +52,7 @@ export default function TweetDetails({
               <TweetAvatar
                 authorId={tweetDetails?.author.id ?? null}
                 authorName={tweetDetails?.author.name ?? null}
-                image={tweetDetails?.author.image ?? null}
+                image={tweetDetails?.author.image}
               />
               <TweetUserInfo
                 authorName={tweetDetails?.author.name}

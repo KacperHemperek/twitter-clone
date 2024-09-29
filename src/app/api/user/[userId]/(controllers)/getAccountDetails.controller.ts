@@ -1,7 +1,7 @@
 import { AccountParams } from '@/app/api/user/[userId]/tweets/route';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAccountDetailsById } from '../(services)/account.service';
+import { AccountService } from '@/server/services/account.service';
 
 export async function getAccountDetailsController(
   req: NextRequest,
@@ -9,7 +9,7 @@ export async function getAccountDetailsController(
 ) {
   const { userId } = params;
 
-  const accountDetails = await getAccountDetailsById(userId);
+  const accountDetails = await AccountService.getDetailsById(userId)
 
   return NextResponse.json(accountDetails);
 }

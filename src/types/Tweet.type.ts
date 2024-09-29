@@ -1,10 +1,8 @@
-import { Like, Retweet, User } from '@prisma/client';
-
 export type TweetAuthor = {
   email: string;
   name: string;
   id: string;
-  image: string | null;
+  image: string | undefined;
 };
 
 export type Tweet = {
