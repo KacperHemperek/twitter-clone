@@ -1,28 +1,26 @@
 /**
- * This file contains the types for the relations in the database.
+ * This file contains the types for the relations between nodes in the database.
  */
 
-/**
- * Represents a liked relation's properties
- */
 export type LikedRelation = {
   likedAt: Date;
   likedBy: string;
   id: string;
 };
 
-/**
- * Represents a liked relation's properties
- */
 export type RetweetRelation = {
   retweetedAt: Date;
   retweetedBy: string;
   id: string;
 };
 
-/**
- * Represents a posted relation's properties
- */
 export type PostedRelation = {
   createdAt: Date;
+};
+
+export type FollowRelation = {
+  followerId: string;
+  followeeId: string;
+  followedAt: string;
+  id: string;
 };

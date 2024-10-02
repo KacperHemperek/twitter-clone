@@ -218,7 +218,7 @@ export default function AccountDetails({
           <TextWithLinks>
             <p className="text-base overflow-break whitespace-pre-line">
               {accountDetails?.description ||
-              !!accountDetails.description?.length
+                !!accountDetails.description?.length
                 ? accountDetails.description
                 : DEFAULT_DESCRIPTION}
             </p>
