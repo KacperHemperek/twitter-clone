@@ -1,7 +1,7 @@
 import { AccountParams } from '@/app/api/user/[userId]/tweets/route';
 import { auth } from '@/auth';
 
-import { FollowerService } from '@/server/services/follower.service';
+import { FollowService } from '@/server/services/follow.service';
 
 import '@/lib/server';
 import { ServerError } from '@/lib/server';
@@ -17,10 +17,10 @@ export async function follwoUserHandler(_: NextRequest, params: AccountParams) {
     throw new ServerError({ code: 403, message: 'User is not authenticated' });
   }
 
-  const followersIds = await FollowerService.getUserFollowerIds(userId);
+  const followersIds = await FollowService.getUserFollowerIds(userId);
 
   if (followersIds.includes(session.user.id)) {
-    await FollowerService.unfollowUser({
+    await FollowService.unfollowUser({
       followerId: session.user.id,
       followeeId: userId,
     });
@@ -28,7 +28,7 @@ export async function follwoUserHandler(_: NextRequest, params: AccountParams) {
     return NextResponse.json({ message: 'User unfollowed successfully' });
   }
 
-  await FollowerService.followUser({
+  await FollowService.followUser({
     followeeId: userId,
     followerId: session.user.id,
   });
