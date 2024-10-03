@@ -19,7 +19,7 @@ export module FollowService {
       const follows = Neo4jUtils.simplifyArrayResponse<FollowRelation>(
         response.records[0].get('follows')
       );
-      return follows.map((f) => f.followerId);
+      return follows.map((f) => f.followeeId);
     } catch (err) {
       throw err;
     } finally {
