@@ -101,8 +101,6 @@ export default function AccountDetails({
     [session?.user.id, accountDetails]
   );
 
-  console.log(followState, accountDetails)
-
   const isCurrentUsersPage = session?.user.id === accountDetails?.id;
 
   const showSubInfoTags = !!accountDetails?.born || !!accountDetails?.location;

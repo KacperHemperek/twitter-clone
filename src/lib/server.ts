@@ -1,9 +1,18 @@
+import { StatusCodes } from 'http-status-codes';
+import { ZodError } from 'zod';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 export class ServerError extends Error {
   code: number;
 
-  constructor({ message, code = 500 }: { message: string; code?: number }) {
+  constructor({
+    message,
+    code = StatusCodes.INTERNAL_SERVER_ERROR,
+  }: {
+    message: string;
+    code?: number;
+  }) {
     super(message);
     this.code = code;
 
@@ -13,25 +22,31 @@ export class ServerError extends Error {
 
 export class NotFoundError extends ServerError {
   constructor(message?: string) {
-    super({ message: message ?? 'Not Found', code: 404 });
+    super({ message: message ?? 'Not Found', code: StatusCodes.NOT_FOUND });
   }
 }
 
 export class UnauthorizedError extends ServerError {
   constructor() {
-    super({ message: 'User is not authenticated', code: 403 });
+    super({
+      message: 'User is not authenticated',
+      code: StatusCodes.UNAUTHORIZED,
+    });
   }
 }
 
 export class BadRequestError extends ServerError {
   constructor(message?: string) {
-    super({ message: message ?? 'Bad Request', code: 400 });
+    super({ message: message ?? 'Bad Request', code: StatusCodes.BAD_REQUEST });
   }
 }
 
 export class ProfanityError extends ServerError {
   constructor() {
-    super({ message: 'Profanity is not allowed', code: 400 });
+    super({
+      message: 'Profanity is not allowed',
+      code: StatusCodes.BAD_REQUEST,
+    });
   }
 }
 
@@ -51,6 +66,13 @@ export function nextServerErrorFactory({
 }
 
 export function handleServerError(e: any) {
+  if (e instanceof ZodError) {
+    console.log(e);
+    return nextServerErrorFactory({
+      code: StatusCodes.BAD_REQUEST,
+      message: 'Bad Request',
+    });
+  }
   console.error('Error caught in server handler');
   if (e.code) {
     console.error('Code: ', e.code);
@@ -67,7 +89,12 @@ export function handleServerError(e: any) {
       message: e.message,
     });
   }
-  return nextServerErrorFactory({ code: 500, message: e?.message });
+
+  console.log('Unexpected error: ', e);
+  return nextServerErrorFactory({
+    code: StatusCodes.INTERNAL_SERVER_ERROR,
+    message: 'Unexpected error occured, we are sorry!',
+  });
 }
 export const apiHandler = async (
   fn: (req: NextRequest, params: any) => Promise<NextResponse | Response>,

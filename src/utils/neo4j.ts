@@ -3,12 +3,17 @@ import {
   Duration,
   Integer,
   LocalDateTime,
+  Date as Neo4jDate,
   Point,
 } from 'neo4j-driver';
 
 export module Neo4jUtils {
   function translate(node: any) {
-    if (node instanceof DateTime || node instanceof LocalDateTime) {
+    if (
+      node instanceof DateTime ||
+      node instanceof LocalDateTime ||
+      node instanceof Neo4jDate
+    ) {
       return node.toStandardDate();
     }
     if (node instanceof Integer) {

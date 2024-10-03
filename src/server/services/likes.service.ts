@@ -61,8 +61,6 @@ export module LikesService {
       { userId, tweetId }
     );
 
-    console.log(response.records[0].get('isLiked'));
-
     return response.records[0].get('isLiked') as boolean;
   }
 }
