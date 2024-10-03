@@ -39,27 +39,4 @@ export module AccountService {
       await session.close();
     }
   };
-
-  export const followUser = async ({
-    followeeId,
-    followerId,
-  }: {
-    followerId: string;
-    followeeId: string;
-  }) => {
-    const session = db.session();
-    try {
-      await session.run(
-        `
-        MATCH (follower: User {id: $followerId}), (followee: User {id: $followeeId })
-        CREATE (follower)-[follow:FOLLOWS { id: randomUUID(), followedAt: datatime(), followeeId: followee.id, followerId: follower.id }]->(followee);
-        `,
-        { followerId, followeeId }
-      );
-    } catch (err) {
-      throw err;
-    } finally {
-      session.close();
-    }
-  };
 }
