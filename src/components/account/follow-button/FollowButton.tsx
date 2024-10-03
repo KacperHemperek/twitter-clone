@@ -17,8 +17,14 @@ import { toast } from '@/components/ui/use-toast';
 
 import { cn } from '@/lib/cn';
 
+export enum FollowState {
+  following = "following",
+  followedBy = "followedBy",
+}
+
+
 type FollowButtonProps = {
-  isFollowing: boolean;
+  followState?: FollowState;
   queryKey: string[];
   userId: string;
   username: string;
@@ -27,7 +33,7 @@ type FollowButtonProps = {
 export default function FollowButton({
   userId,
   queryKey,
-  isFollowing,
+  followState,
   username,
 }: FollowButtonProps) {
   const { mutate: followUserMutation, isLoading: followingUserLoading } =
@@ -57,6 +63,8 @@ export default function FollowButton({
   const [dialogOpen, setDialogOpen] = useState(false);
   const { data: session } = useSession();
 
+  const isFollowing = followState === FollowState.following
+
   function openUnfollowModalOrFollowUser() {
     if (isFollowing) {
       setDialogOpen(true);
@@ -64,6 +72,19 @@ export default function FollowButton({
       followUserMutation();
     }
   }
+
+  function getButtonText({ state, hovering }: { state?: FollowState, hovering: boolean }): string {
+    if (state === FollowState.following) {
+      return hovering ? "Unfollow" : "Following"
+    }
+
+    if (state === FollowState.followedBy) {
+      return "Follow Back"
+    }
+
+    return "Follow"
+  }
+
 
   if (!session) {
     return (
@@ -95,7 +116,7 @@ export default function FollowButton({
           hover && isFollowing && 'border-red-500 text-red-500'
         )}
       >
-        {isFollowing ? (hover ? 'Unfollow' : 'Following') : 'Follow'}
+        {getButtonText({ state: followState, hovering: hover })}
       </button>
       {dialogOpen && (
         <DialogContent className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit">

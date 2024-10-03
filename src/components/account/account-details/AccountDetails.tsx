@@ -17,7 +17,7 @@ import BackgroundImageInput from '@/components/account/account-details/Backgroun
 import ProfileImageInput from '@/components/account/account-details/ProfileImageInput';
 import useEditAccountDetailsFormController from '@/components/account/account-details/useEditAccountDetailsFormControler';
 import AccountSubInfo from '@/components/account/account-sub-info/AccountSubInfo';
-import FollowButton from '@/components/account/follow-button/FollowButton';
+import FollowButton, { FollowState } from '@/components/account/follow-button/FollowButton';
 import SelectDate from '@/components/account/select-date/SelectDate';
 import ImagePreview from '@/components/common/ImagePreview';
 import Input from '@/components/common/Input';
@@ -84,12 +84,24 @@ export default function AccountDetails({
     isLoading: updatingUser,
   } = useEditAccountDetailsFormController({ accountDetails });
 
-  const isFollowing = useMemo(
-    () =>
-      !!session?.user.id &&
-      accountDetails?.followers?.includes(session?.user.id),
-    [session?.user.id, accountDetails?.followers]
+
+  const followState = useMemo(
+    () => {
+      if (!session?.user || !accountDetails)
+        return
+
+      if (accountDetails.followers.includes(session.user.id)) {
+        return FollowState.following
+      }
+
+      if (accountDetails.following.includes(session.user.id)) {
+        return FollowState.followedBy
+      }
+    },
+    [session?.user.id, accountDetails]
   );
+
+  console.log(followState, accountDetails)
 
   const isCurrentUsersPage = session?.user.id === accountDetails?.id;
 
@@ -199,7 +211,7 @@ export default function AccountDetails({
               )}
               {!isCurrentUsersPage && (
                 <FollowButton
-                  isFollowing={isFollowing}
+                  followState={followState}
                   queryKey={getAccountDetailsQueryKey(initialAccountDetails.id)}
                   userId={accountDetails.id}
                   username={accountDetails.name!}
