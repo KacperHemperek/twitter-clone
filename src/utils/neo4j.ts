@@ -5,6 +5,7 @@ import {
   LocalDateTime,
   Date as Neo4jDate,
   Point,
+  int as neo4jInt,
 } from 'neo4j-driver';
 
 export module Neo4jUtils {
@@ -56,5 +57,12 @@ export module Neo4jUtils {
     }
 
     return translate(response.properties);
+  }
+
+  export function pagination(page: number, limit: number) {
+    return {
+      skip: neo4jInt((page - 1) * limit),
+      limit: neo4jInt(limit),
+    };
   }
 }
