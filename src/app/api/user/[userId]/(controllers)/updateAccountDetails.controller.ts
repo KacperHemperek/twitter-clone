@@ -4,8 +4,8 @@ import { Prisma } from '@prisma/client';
 import Filter from 'bad-words';
 import z from 'zod';
 
-import { uploadImage } from '@/app/api/images/[...path]/images.services';
 import { AccountService } from '@/server/services/account.service';
+import { ImageService } from '@/server/services/image.service';
 
 import { ProfanityError, UnauthorizedError } from '@/lib/server';
 
@@ -80,7 +80,7 @@ export async function updateAccountDetailsControllerHandler(
     const imgExtension = validatedBody.image.contentType.split('/')[1];
     const imgPath = `profile/${userId}.${imgExtension}`;
 
-    profileImg = await uploadImage(
+    profileImg = await ImageService.uploadImage(
       imgPath,
       validatedBody.image.data,
       validatedBody.image.contentType
@@ -91,7 +91,7 @@ export async function updateAccountDetailsControllerHandler(
     const bgImageExtension = validatedBody.background.contentType.split('/')[1];
     const bgImagePath = `background/${userId}.${bgImageExtension}`;
 
-    backgroundImg = await uploadImage(
+    backgroundImg = await ImageService.uploadImage(
       bgImagePath,
       validatedBody.background.data,
       validatedBody.background.contentType

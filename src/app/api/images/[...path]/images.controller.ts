@@ -1,6 +1,6 @@
-import { NextRequest } from 'next/server';
+import { ImageService } from '@/server/services/image.service';
 
-import { getImage } from '@/app/api/images/[...path]/images.services';
+import { NextRequest } from 'next/server';
 
 export async function getImageController(
   _req: NextRequest,
@@ -9,7 +9,7 @@ export async function getImageController(
   const { path } = params;
   const imagePath = path.join('/');
 
-  const { buffer, contentType } = await getImage(imagePath);
+  const { buffer, contentType } = await ImageService.getImage(imagePath);
 
   return new Response(buffer, {
     status: 200,
