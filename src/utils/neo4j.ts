@@ -9,6 +9,14 @@ import {
 } from 'neo4j-driver';
 
 export module Neo4jUtils {
+  /**
+   * @param node - node of any type
+   *
+   * @descriptions Takes in a node of any type, if the node is of any type that is returned from the neo4j database
+   * value of that node is translated into native JavaScript value. If node is an object with fields all those fields are
+   * translated into JavaScript values recursively.
+   *
+   */
   function translate(node: any) {
     if (
       node instanceof DateTime ||
@@ -39,6 +47,14 @@ export module Neo4jUtils {
     return node;
   }
 
+  /**
+   * @param response - from the neo4j database that is an array response
+   *
+   * @description Takes a response from the database and translates array of
+   * neo4j database specific data structures into native JavaScript values like Dates, numbers,
+   * strings or booleans.
+   *
+   */
   export function simplifyArrayResponse<T = any>(response: any[]): T[] {
     if (!Array.isArray(response)) {
       throw new Error('Response is not an array');
@@ -49,6 +65,13 @@ export module Neo4jUtils {
     );
   }
 
+  /**
+   * @param response - from the neo4j database that is a singular item
+   *
+   * @description Takes a response from the database and returns full objects or simple value
+   * converting all neo4j specific data structures to native JavaScript values like Dates, strings, numbers or booleans.
+   *
+   */
   export function simplifyResponse<T = any>(
     response: any | any[]
   ): T | undefined {
@@ -59,6 +82,21 @@ export module Neo4jUtils {
     if (!response.properties) return translate(response);
 
     return translate(response.properties);
+  }
+
+  /**
+   *
+   * @param response - either array or item response from neo4j database query
+   *
+   * @description Takes response from the neo4j database and depending on the
+   * type and returns result from simplifyArrayResponse for arrays
+   * and simplifyResponse for single items
+   *
+   */
+  export function simplifyAnyResponse(response: any | any[]): any | undefined {
+    return Array.isArray(response)
+      ? simplifyArrayResponse(response)
+      : simplifyResponse(response);
   }
 
   export function pagination(page: number, limit: number) {

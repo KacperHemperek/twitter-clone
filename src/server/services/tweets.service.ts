@@ -75,25 +75,20 @@ export module TweetsService {
         `,
       { userId, message }
     );
-    const tweet = Neo4jUtils.simplifyResponse<TweetNode>(
-      response.records[0].get('tweet')
-    );
-    const relation = Neo4jUtils.simplifyResponse<PostedRelation>(
-      response.records[0].get('posted')
-    );
-    const author = Neo4jUtils.simplifyResponse<UserNode>(
-      response.records[0].get('author')
+
+    const [tweet, posted, author] = response.records[0].map(
+      Neo4jUtils.simplifyAnyResponse
     );
 
-    if (!tweet || !relation || !author) {
-      throw new Error('Failed to read response');
+    if (!tweet || !posted || !author) {
+      throw new Error('Failed to read comment response');
     }
 
     await session.close();
 
     return {
-      tweetedAt: relation.createdAt,
-      createdAt: relation.createdAt,
+      tweetedAt: posted.createdAt,
+      createdAt: posted.createdAt,
       author: {
         name: author.name,
         email: author.email,
@@ -157,22 +152,17 @@ export module TweetsService {
 
     await session.close();
 
-    const comment = Neo4jUtils.simplifyResponse<TweetNode>(
-      response.records[0].get('comment')
+    const [comment, posted, author] = response.records[0].map(
+      Neo4jUtils.simplifyAnyResponse
     );
-    const relation = Neo4jUtils.simplifyResponse<PostedRelation>(
-      response.records[0].get('posted')
-    );
-    const author = Neo4jUtils.simplifyResponse<UserNode>(
-      response.records[0].get('author')
-    );
-    if (!comment || !relation || !author) {
+
+    if (!comment || !posted || !author) {
       throw new Error('Failed to read comment response');
     }
 
     return {
-      tweetedAt: relation.createdAt,
-      createdAt: relation.createdAt,
+      tweetedAt: posted.createdAt,
+      createdAt: posted.createdAt,
       author,
       id: comment.id,
       message: comment.message,
@@ -231,11 +221,7 @@ export module TweetsService {
           likes,
           comments,
           retweets,
-        ] = r.map((record) =>
-          Array.isArray(record)
-            ? Neo4jUtils.simplifyArrayResponse(record)
-            : Neo4jUtils.simplifyResponse(record)
-        );
+        ] = r.map(Neo4jUtils.simplifyAnyResponse);
         if (!tweet || !author || !tweetedAt || !likes || !comments || !retweets)
           throw new Error('could not retrieve tweets, invalid response');
         return {
