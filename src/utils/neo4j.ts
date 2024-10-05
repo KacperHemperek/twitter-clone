@@ -52,9 +52,11 @@ export module Neo4jUtils {
   export function simplifyResponse<T = any>(
     response: any | any[]
   ): T | undefined {
-    if (!response.properties) {
+    if (response === null) {
       return undefined;
     }
+
+    if (!response.properties) return translate(response);
 
     return translate(response.properties);
   }

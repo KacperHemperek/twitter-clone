@@ -1,7 +1,5 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
 
-import { getComments } from '../(services)/comments.service';
-
 import { getServerSearchParams } from '@/lib/getServerSearchParams';
 
 import { TweetsService } from '@/server';

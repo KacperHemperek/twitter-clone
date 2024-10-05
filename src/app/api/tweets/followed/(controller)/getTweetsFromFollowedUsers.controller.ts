@@ -1,13 +1,15 @@
 import { auth } from '@/auth';
-import { NextRequest, NextResponse } from 'next/server';
 
-import { getTweetsFromFollowedUsers } from '@/app/api/tweets/followed/(services)/tweetsFollowed.service';
+import { FollowService } from '@/server/services/follow.service';
 
 import {
   getPageNumber,
   getServerSearchParams,
 } from '@/lib/getServerSearchParams';
 import { UnauthorizedError } from '@/lib/server';
+
+import { TweetsService } from '@/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function getTweetsFromFollowedUsersHandler(req: NextRequest) {
   const session = await auth();
@@ -19,7 +21,16 @@ export async function getTweetsFromFollowedUsersHandler(req: NextRequest) {
   const { page } = getServerSearchParams<['page']>(req, ['page']);
   const pageNumber = getPageNumber(page);
 
-  const tweets = await getTweetsFromFollowedUsers(pageNumber, session.user.id);
+  const followedUserIds = await FollowService.getUserFolloweeIds(
+    session.user.id
+  );
+
+  const tweets = await TweetsService.getTweetsFromFollowedUsers({
+    page: pageNumber,
+    limit: 10,
+    userId: session.user.id,
+  });
+  //const tweets = await getTweetsFromFollowedUsers(pageNumber, session.user.id);
 
   const nextPage = tweets.length === 10 ? pageNumber + 1 : undefined;
 
