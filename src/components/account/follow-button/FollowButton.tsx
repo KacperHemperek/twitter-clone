@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
+import { ConfirmationDialog } from '@/components/common/ConfirmationDialog';
 import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';
 import {
@@ -18,10 +19,9 @@ import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/cn';
 
 export enum FollowState {
-  following = "following",
-  followedBy = "followedBy",
+  following = 'following',
+  followedBy = 'followedBy',
 }
-
 
 type FollowButtonProps = {
   followState?: FollowState;
@@ -63,7 +63,7 @@ export default function FollowButton({
   const [dialogOpen, setDialogOpen] = useState(false);
   const { data: session } = useSession();
 
-  const isFollowing = followState === FollowState.following
+  const isFollowing = followState === FollowState.following;
 
   function openUnfollowModalOrFollowUser() {
     if (isFollowing) {
@@ -73,18 +73,26 @@ export default function FollowButton({
     }
   }
 
-  function getButtonText({ state, hovering }: { state?: FollowState, hovering: boolean }): string {
+  function getButtonText({
+    state,
+    hovering,
+  }: {
+    state?: FollowState;
+    hovering: boolean;
+  }): string {
     if (state === FollowState.following) {
-      return hovering ? "Unfollow" : "Following"
+      return hovering ? 'Unfollow' : 'Following';
     }
 
     if (state === FollowState.followedBy) {
-      return "Follow Back"
+      return 'Follow Back';
     }
 
-    return "Follow"
+    return 'Follow';
   }
 
+  const dialogMessage =
+    'Their tweets will no longer show up in your home timeline. You will also not see their tweets in followed feed.';
 
   if (!session) {
     return (
@@ -103,50 +111,34 @@ export default function FollowButton({
   }
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      {/* <DialogTrigger asChild> */}
-      <button
-        disabled={followingUserLoading}
-        onClick={() => openUnfollowModalOrFollowUser()}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        className={cn(
-          '  px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600',
-          isFollowing ? '' : 'bg-white active:bg-white/80  text-background',
-          hover && isFollowing && 'border-red-500 text-red-500'
-        )}
-      >
-        {getButtonText({ state: followState, hovering: hover })}
-      </button>
-      {dialogOpen && (
-        <DialogContent className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit">
-          <DialogHeader>
-            <DialogTitle className="text-xl">Unfollow {username}?</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className="text-base text-gray-600 mb-4">
-            Their tweets will no longer show up in your home timeline. You will
-            also not see their tweets in followed feed.
-          </DialogDescription>
-          <DialogFooter className="flex w-full gap-4 flex-col sm:flex-col space-x-0 sm:space-x-0">
-            <button
-              onClick={() => followUserMutation()}
-              disabled={followingUserLoading}
-              className={cn(
-                'py-3 border-2 font-semibold m-0 rounded-full border-white bg-white text-background disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600'
-              )}
-            >
-              Unfollow
-            </button>
-            <button
-              disabled={followingUserLoading}
-              onClick={() => setDialogOpen(false)}
-              className="py-3 border-2 font-semibold m-0 rounded-full border-white disabled:border-gray-600 disabled:text-gray-600"
-            >
-              Cancel
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      )}
-    </Dialog>
+    <>
+      <ConfirmationDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        title={`Unfollow ${username}?`}
+        message={dialogMessage}
+        trigger={
+          <button
+            disabled={followingUserLoading}
+            onClick={() => openUnfollowModalOrFollowUser()}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            className={cn(
+              '  px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600',
+              isFollowing ? '' : 'bg-white active:bg-white/80  text-background',
+              hover && isFollowing && 'border-red-500 text-red-500'
+            )}
+          >
+            {getButtonText({ state: followState, hovering: hover })}
+          </button>
+        }
+        onCancel={() => setDialogOpen(false)}
+        onConfirm={() => followUserMutation()}
+        cancelDisabled={followingUserLoading}
+        confirmDisabled={followingUserLoading}
+        confirmLabel="Unfollow"
+        cancelLabel="Cancel"
+      />
+    </>
   );
 }
