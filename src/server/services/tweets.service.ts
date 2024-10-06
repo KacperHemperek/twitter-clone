@@ -39,6 +39,7 @@ export module TweetsService {
       WHERE NOT (tweet)-[:COMMENTS]->(:Tweet)
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
+      WHERE comment.deletedAt IS NULL
       OPTIONAL MATCH (tweet)<-[retweet:RETWEETED]-(:User)
       RETURN 
         tweet,
@@ -112,6 +113,7 @@ export module TweetsService {
       MATCH (tweet:Tweet {id: $tweetId})-[posted:POSTED]-(author:User)
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
+      WHERE comment.deletedAt IS NULL
       OPTIONAL MATCH (tweet)<-[retweet:RETWEETED]-(:User)
       RETURN 
        tweet, 
@@ -186,11 +188,13 @@ export module TweetsService {
         `
       MATCH (u:User { id: $userId })-[:FOLLOWS]->(f:User)
       MATCH (f)-[postedOrRetweeted:POSTED|RETWEETED]->(tweet:Tweet)
+      WHERE tweet.deletedAt IS NULL
       MATCH (tweet)<-[posted:POSTED]-(author:User)
       WHERE NOT (tweet)-[:COMMENTS]->(:Tweet) 
       OPTIONAL MATCH (ru:User)-[:RETWEETED]->(tweet)
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
+      WHERE comment.deletedAt IS NULL
       OPTIONAL MATCH (:User)-[retweet:RETWEETED]->(tweet)
       WITH tweet, author, ru, postedOrRetweeted, posted, like, comment, retweet
       WHERE ru IS NULL OR ru.id <> author.id
@@ -255,8 +259,10 @@ export module TweetsService {
     const response = await session.run(
       `
       MATCH (author:User)-[posted:POSTED]->(tweet:Tweet)-[:COMMENTS]->(parent:Tweet {id: $parentId})
-      OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
+      WHERE tweet.deletedAt IS NULL
+      OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User) 
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
+      WHERE comment.deletedAt IS NULL
       OPTIONAL MATCH (tweet)<-[retweet:RETWEETED]-(:User)
       RETURN 
         tweet, 
@@ -292,6 +298,22 @@ export module TweetsService {
     );
 
     await session.close();
+  }
+
+  export async function deleteTweet(tweetId: string) {
+    const session = db.session();
+    try {
+    } catch (err) {
+      await session.run(
+        `
+      MATCH (t:Tweet {id: $tweetId})
+      SET t.deletedAt = datetime();
+      `,
+        { tweetId }
+      );
+    } finally {
+      session.close();
+    }
   }
 
   export async function retweet({

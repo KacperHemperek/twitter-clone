@@ -38,7 +38,7 @@ export function getUpdatedFeedWithNewLike(
                   : [
                       ...tweetFromCache.likes,
                       {
-                        id: uuid(),
+                        id: window.crypto.randomUUID(),
                         postId: tweetFromCache.id,
                         userId: userId,
                       },
@@ -74,7 +74,7 @@ export function getUpdatedFeedWithNewRetweet(
         retweets = [
           ...tweet.retweets,
           {
-            id: uuid(),
+            id: window.crypto.randomUUID(),
             userId,
           },
         ];

@@ -46,7 +46,7 @@ export default function LikeButtonDetails({
           }
         : {
             ...tweet,
-            likes: [...tweet.likes, { userId, id: uuid() }],
+            likes: [...tweet.likes, { userId, id: window.crypto.randomUUID() }],
           };
 
       queryClient.setQueryData(tweetDetailsQueryKeys, updatedTweet);

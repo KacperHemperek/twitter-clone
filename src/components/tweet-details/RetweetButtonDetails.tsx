@@ -5,7 +5,6 @@ import { useMutation } from '@tanstack/react-query';
 import { RefreshCwIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React from 'react';
-import { uuid } from 'uuidv4';
 
 import LoginDialog from '@/components/common/LoginDialog';
 import { queryClient } from '@/components/context/Providers';
@@ -47,7 +46,10 @@ export function RetweetButtonDetails({
           }
         : {
             ...tweet,
-            retweets: [...tweet.retweets, { userId, id: uuid() }],
+            retweets: [
+              ...tweet.retweets,
+              { userId, id: window.crypto.randomUUID() },
+            ],
           };
 
       queryClient.setQueryData(queryKey, updatedTweet);
