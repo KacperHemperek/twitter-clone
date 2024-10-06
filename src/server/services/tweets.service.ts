@@ -36,7 +36,7 @@ export module TweetsService {
     const response = await session.run(
       `
       MATCH (tweet:Tweet)<-[posted:POSTED]-(author:User)
-      WHERE NOT (tweet)-[:COMMENTS]->(:Tweet)
+      WHERE NOT (tweet)-[:COMMENTS]->(:Tweet) AND tweet.deletedAt IS NULL
       OPTIONAL MATCH (tweet)<-[like:LIKED]-(:User)
       OPTIONAL MATCH (comment:Tweet)-[:COMMENTS]->(tweet)
       WHERE comment.deletedAt IS NULL
@@ -303,7 +303,6 @@ export module TweetsService {
   export async function deleteTweet(tweetId: string) {
     const session = db.session();
     try {
-    } catch (err) {
       await session.run(
         `
       MATCH (t:Tweet {id: $tweetId})
@@ -311,6 +310,8 @@ export module TweetsService {
       `,
         { tweetId }
       );
+    } catch (err) {
+      throw err;
     } finally {
       session.close();
     }

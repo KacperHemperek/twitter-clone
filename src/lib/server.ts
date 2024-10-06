@@ -35,6 +35,15 @@ export class UnauthorizedError extends ServerError {
   }
 }
 
+export class ForbiddenError extends ServerError {
+  constructor(message?: string) {
+    super({
+      message: message ?? 'User does not have access to this item',
+      code: StatusCodes.FORBIDDEN,
+    });
+  }
+}
+
 export class BadRequestError extends ServerError {
   constructor(message?: string) {
     super({ message: message ?? 'Bad Request', code: StatusCodes.BAD_REQUEST });

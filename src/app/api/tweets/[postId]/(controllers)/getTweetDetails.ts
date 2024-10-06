@@ -1,8 +1,9 @@
 import { TweetDetailsParams } from '@/app/api/tweets/[postId]/route';
-import { TweetsService } from '@/server';
-import { NextRequest, NextResponse } from 'next/server';
 
 import { ServerError } from '@/lib/server';
+
+import { TweetsService } from '@/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function getTweetDetailsController(
   _req: NextRequest,

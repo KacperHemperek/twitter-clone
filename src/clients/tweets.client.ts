@@ -1,5 +1,5 @@
 import { Tweet } from '@/types/Tweet.type';
-import { ErrorResponse } from '@/types/api/error';
+import { ApiError, ErrorResponse } from '@/types/api/error';
 import { PaginatedResponse } from '@/types/api/pagination';
 
 export async function getMainFeedTweets(
@@ -13,7 +13,7 @@ export async function getMainFeedTweets(
 
   const data = await res.json();
   if (!res.ok) {
-    throw new Error(data.message);
+    throw new ApiError(error, res.status);
   }
 
   return data;
@@ -28,12 +28,7 @@ export async function createTweet(tweetBody: string) {
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
 }
 
@@ -41,14 +36,9 @@ export async function likeTweet(tweetId: string) {
   const res = await fetch(`/api/tweets/${tweetId}/like`, { method: 'POST' });
 
   if (!res.ok) {
-    const error = (await res.json()) as ErrorResponse;
+    const error = await res.json();
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
 }
 
@@ -60,14 +50,9 @@ export async function getTweetDetails(
   const res = await fetch(url, { cache: 'no-cache' });
 
   if (!res.ok) {
-    const error = (await res.json()) as ErrorResponse;
+    const error = await res.json();
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
 
   const tweetDetails = await res.json();
@@ -88,12 +73,7 @@ export async function getComments(
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
   return await res.json();
 }
@@ -109,12 +89,21 @@ export async function commentTweet(tweetBody: string, tweetId?: string) {
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
+  }
+}
+
+export async function deleteTweet(tweetId: string) {
+  const url = `/api/tweets/${tweetId}`;
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    const error = (await res.json()) as ErrorResponse;
+
+    throw new ApiError(error, res.status);
   }
 }
 
@@ -129,12 +118,7 @@ export async function getTweetsFromFollowedUsers(
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
 
   return await res.json();
@@ -148,12 +132,7 @@ export async function retweet(tweetId: string) {
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
 }
 
@@ -172,12 +151,7 @@ export async function editTweet({
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message, {
-      cause: {
-        status: res.status,
-        cause: error.cause,
-      },
-    });
+    throw new ApiError(error, res.status);
   }
 }
 
@@ -192,7 +166,7 @@ export async function searchTweets(
   if (!res.ok) {
     const error = (await res.json()) as ErrorResponse;
 
-    throw new Error(error.message);
+    throw new ApiError(error, res.status);
   }
 
   return await res.json();
