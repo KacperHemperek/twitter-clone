@@ -1,0 +1,22 @@
+
+services:
+  neoj4-db:
+    image: neo4j:5
+    container_name: twitter-neoj4-db
+    volumes:
+      - twitter_db_data:/data
+      - /$HOME/neo4j/logs:/logs
+      - /$HOME/neo4j/config:/config
+      - /$HOME/neo4j/plugins:/plugins
+    ports:
+      - "7687:7687"
+    environment:
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_AUTH="${DB_USER}/${DB_PASSWORD}
+    restart: "always"
+
+volumes:
+  twitter_db_data:
