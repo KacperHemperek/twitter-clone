@@ -33,8 +33,8 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
         label: 'Accounts',
       },
     ]);
+
     router.push(`${pathname}?q=${searchRef.current?.value}`);
-    console.log('search', searchRef.current?.value);
   };
 
   return (

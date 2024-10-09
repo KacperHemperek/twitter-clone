@@ -17,6 +17,10 @@ export async function getCommentsHandler(
 
   const comments = await getComments(tweetId, pageNumber);
 
+  if (!comments) {
+    return NextResponse.json({ data: [], nextPage: undefined });
+  }
+
   const nextPage = comments.length === 10 ? pageNumber + 1 : undefined;
 
   return NextResponse.json({

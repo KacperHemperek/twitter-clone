@@ -84,14 +84,13 @@ export default function FollowButton({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      {/* <DialogTrigger asChild> */}
       <button
         disabled={followingUserLoading}
         onClick={() => openUnfollowModalOrFollowUser()}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          '  px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600',
+          'max-h-min text-base px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600',
           isFollowing ? '' : 'bg-white active:bg-white/80  text-background',
           hover && isFollowing && 'border-red-500 text-red-500'
         )}

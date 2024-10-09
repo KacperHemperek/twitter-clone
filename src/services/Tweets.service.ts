@@ -195,8 +195,6 @@ export async function searchTweets(
 ): Promise<PaginatedResponse<Tweet>> {
   const params = new URLSearchParams({ query, page: page?.toString() || '1' });
 
-  console.log(params);
-
   const res = await fetch(`/api/tweets/search?${params.toString()}`);
 
   if (!res.ok) {

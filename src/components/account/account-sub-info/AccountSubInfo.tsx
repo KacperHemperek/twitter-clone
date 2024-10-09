@@ -9,8 +9,8 @@ export default function AccountSubInfo({
   text: string;
 }) {
   return (
-    <div className="flex gap-2 items-center text-sm">
-      <div className="w-4 h-4">{icon}</div>
+    <div className="flex gap-2 items-center text-sm text-gray-400">
+      <div className="w-4 h-4 flex">{icon}</div>
       <p>{text}</p>
     </div>
   );
