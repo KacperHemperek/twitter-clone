@@ -1,6 +1,7 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
@@ -50,7 +51,17 @@ export default function SearchTweetsFeed() {
   });
 
   if (!searchQ) {
-    return <div className="text-center py-10 text-2xl">Search for tweets</div>;
+    return (
+      <div className="flex flex-col text-center py-10 items-center">
+        <Search className="w-10 h-10 text-gray-500" />
+        <h4 className="text-lg font-semibold text-gray-400">
+          Search for tweets
+        </h4>
+        <p className="text-gray-500 text-sm max-w-[200px]">
+          Try searching for topics or keywords to find relevant tweets.
+        </p>
+      </div>
+    );
   }
 
   if (isLoading) {

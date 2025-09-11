@@ -6,7 +6,6 @@ import {
   Overlay,
 } from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react';
 
 export default function ImagePreview({
