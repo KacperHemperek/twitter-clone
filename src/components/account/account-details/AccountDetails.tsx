@@ -33,6 +33,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
+import { cn } from '@/lib/cn';
 import { formatShortDate } from '@/lib/dateFormatters';
 import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
@@ -217,7 +218,12 @@ export default function AccountDetails({
             <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
           </div>
           <TextWithLinks>
-            <p className="text-base overflow-break whitespace-pre-line">
+            <p
+              className={cn(
+                !accountDetails.description?.length && 'text-gray-600',
+                'text-base overflow-break whitespace-pre-line'
+              )}
+            >
               {accountDetails?.description ||
               !!accountDetails.description?.length
                 ? accountDetails.description
