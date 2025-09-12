@@ -215,7 +215,14 @@ export default function AccountDetails({
               {accountDetails?.name}
             </h5>
 
-            <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
+            <div className="space-x-2 flex">
+              <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
+              {isFollowing && (
+                <div className="text-xs px-2 max-w-fit text-gray-400 rounded-sm bg-gray-800">
+                  follows you
+                </div>
+              )}
+            </div>
           </div>
           <TextWithLinks>
             <p
