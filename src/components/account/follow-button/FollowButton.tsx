@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { UserMinus, UserPlus } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
@@ -23,13 +24,15 @@ type FollowButtonProps = {
   queryKey: string[];
   userId: string;
   username: string;
+  compact?: boolean;
 };
 
-export default function FollowButton({
+export function FollowButton({
   userId,
   queryKey,
   isFollowing,
   username,
+  compact = false,
 }: FollowButtonProps) {
   const { mutate: followUserMutation, isLoading: followingUserLoading } =
     useMutation({
@@ -66,13 +69,28 @@ export default function FollowButton({
     }
   }
 
+  function getFollowButtonContent(
+    isFollowing: boolean,
+    compact: boolean,
+    hover: boolean
+  ) {
+    if (compact) {
+      return isFollowing ? (
+        <UserMinus className="h-4 w-4" />
+      ) : (
+        <UserPlus className="h-4 w-4" />
+      );
+    }
+    return isFollowing ? (hover ? 'Unfollow' : 'Following') : 'Follow';
+  }
   if (!session) {
     return (
       <LoginDialog
         trigger={
           <button
             className={cn(
-              'px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600'
+              compact ? 'p-1.5' : 'px-4 py-1.5',
+              'text-sm rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600'
             )}
           >
             Follow
@@ -84,19 +102,21 @@ export default function FollowButton({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      {/* <DialogTrigger asChild> */}
       <button
         disabled={followingUserLoading}
         onClick={() => openUnfollowModalOrFollowUser()}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={cn(
-          '  px-4 py-1.5 rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600',
+          'text-sm rounded-full font-bold border-2 border-white disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-600',
+          compact ? 'p-1.5' : 'px-4 py-1.5',
           isFollowing ? '' : 'bg-white active:bg-white/80  text-background',
-          hover && isFollowing && 'border-red-500 text-red-500'
+          hover && isFollowing && 'border-red-500 text-red-500',
+          // NOTE: this makes sure that the button is red on small devices without the need to hover overriding the previous hover effects
+          compact && isFollowing && 'border-red-500 text-red-500'
         )}
       >
-        {isFollowing ? (hover ? 'Unfollow' : 'Following') : 'Follow'}
+        {getFollowButtonContent(isFollowing, compact, hover)}
       </button>
       {dialogOpen && (
         <DialogContent className="border-none sm:max-w-[350px] h-full justify-start sm:justify-start flex flex-col sm:h-fit">

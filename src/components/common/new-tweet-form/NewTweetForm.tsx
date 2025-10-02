@@ -86,7 +86,7 @@ export default function NewTweetForm({
         authorName={session?.user.name ?? null}
         authorId={session?.user.id ?? null}
       />
-      <div className="flex flex-grow flex-col">
+      <div className="flex flex-grow flex-col overflow-hidden">
         <textarea
           disabled={isLoading || !session}
           value={newTweet}

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ReactNode, useMemo, useRef, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 
 import SectionHeader from '@/components/account/AccountHeader';
 import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
@@ -13,10 +13,16 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const getInitialQ = () => {
+    const q = searchParams.get('q');
+    return q ? `?q=${q}` : '';
+  };
+
   const [links, setLinks] = useState<Array<{ href: string; label: string }>>([
-    { href: '/search/tweets', label: 'Tweets' },
+    { href: `/search/tweets${getInitialQ()}`, label: 'Tweets' },
     {
-      href: '/search/accounts',
+      href: `/search/accounts${getInitialQ()}`,
       label: 'Accounts',
     },
   ]);
@@ -34,7 +40,6 @@ export default function SearchLayout({ children }: { children: ReactNode }) {
       },
     ]);
     router.push(`${pathname}?q=${searchRef.current?.value}`);
-    console.log('search', searchRef.current?.value);
   };
 
   return (

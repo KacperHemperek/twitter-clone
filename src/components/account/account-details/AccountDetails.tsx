@@ -1,11 +1,13 @@
 'use client';
 
+import { AccountBio } from './AccountDescription';
 import { useQuery } from '@tanstack/react-query';
-import { PartyPopper, Pin } from 'lucide-react';
+import { PartyPopper, Pin, UserCog } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useMemo } from 'react';
+import { useWindowSize } from 'usehooks-ts';
 
 import { getAccountDetails } from '@/services/Account.service';
 
@@ -18,11 +20,11 @@ import BackgroundImageInput from '@/components/account/account-details/Backgroun
 import ProfileImageInput from '@/components/account/account-details/ProfileImageInput';
 import useEditAccountDetailsFormController from '@/components/account/account-details/useEditAccountDetailsFormControler';
 import AccountSubInfo from '@/components/account/account-sub-info/AccountSubInfo';
-import FollowButton from '@/components/account/follow-button/FollowButton';
+import { FollowButton } from '@/components/account/follow-button/FollowButton';
 import SelectDate from '@/components/account/select-date/SelectDate';
+import { FollowsYouIndicator } from '@/components/common/FollowsYouIndicator';
 import ImagePreview from '@/components/common/ImagePreview';
 import Input from '@/components/common/Input';
-import { TextWithLinks } from '@/components/common/TextWithLinks';
 import FeedNavigation from '@/components/common/feed-navigation/FeedNavigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -39,8 +41,6 @@ import { formatNumberToCompact } from '@/lib/shortNumberFormatter';
 
 import { type AccountDetails as AccountDetailsType } from '@/types/AccountDetails.type';
 
-const DEFAULT_DESCRIPTION = "This user doesn't have a description";
-
 export type DateValues = {
   day: number;
   month: number;
@@ -56,6 +56,7 @@ export default function AccountDetails({
 }: {
   initialAccountDetails: AccountDetailsType;
 }) {
+  const { width } = useWindowSize();
   const { data: session } = useSession();
   const params = useParams();
 
@@ -96,6 +97,8 @@ export default function AccountDetails({
   const isCurrentUsersPage = session?.user.id === accountDetails?.id;
 
   const showSubInfoTags = !!accountDetails?.born || !!accountDetails?.location;
+
+  const compact = width < 640;
 
   return (
     <Dialog
@@ -195,8 +198,13 @@ export default function AccountDetails({
             </ImagePreview>
             <div className="flex flex-row gap-2">
               {isCurrentUsersPage && (
-                <DialogTrigger className="bg-background text-white hover:bg-white/10 transition-all px-4 py-1.5 rounded-full font-bold border border-white">
-                  Edit Profile
+                <DialogTrigger
+                  className={cn(
+                    'bg-background text-white hover:bg-white/10 transition-all px-4 py-1.5 rounded-full font-bold border border-white',
+                    compact && 'p-1.5'
+                  )}
+                >
+                  {compact ? <UserCog className="w-4 h-4" /> : 'Edit Profile'}
                 </DialogTrigger>
               )}
               {!isCurrentUsersPage && (
@@ -205,39 +213,25 @@ export default function AccountDetails({
                   queryKey={getAccountDetailsQueryKey(initialAccountDetails.id)}
                   userId={accountDetails.id}
                   username={accountDetails.name!}
+                  compact={compact}
                 />
               )}
             </div>
           </div>
 
           <div className={'flex flex-col text-lg leading-[22px]'}>
-            <h5 className="whitespace-nowrap font-bold text-xl">
+            <h5 className="truncate font-bold text-xl">
               {accountDetails?.name}
             </h5>
 
             <div className="space-x-2 flex">
               <span className="truncate text-gray-400 text-sm">{`@${accountDetails?.email}`}</span>
-              {isFollowing && (
-                <div className="text-xs px-2 max-w-fit text-gray-400 rounded-sm bg-gray-800">
-                  follows you
-                </div>
+              {accountDetails.following.some((f) => f === session?.user.id) && (
+                <FollowsYouIndicator />
               )}
             </div>
           </div>
-          <TextWithLinks>
-            <p
-              className={cn(
-                !accountDetails.description?.length && 'text-gray-600',
-                'text-base overflow-break whitespace-pre-line'
-              )}
-            >
-              {accountDetails?.description ||
-              !!accountDetails.description?.length
-                ? accountDetails.description
-                : DEFAULT_DESCRIPTION}
-            </p>
-          </TextWithLinks>
-
+          <AccountBio bio={accountDetails.description} />
           {showSubInfoTags && (
             <div className="flex flex-wrap text-gray-400 gap-x-3 gap-y-1.5">
               {accountDetails?.location && (

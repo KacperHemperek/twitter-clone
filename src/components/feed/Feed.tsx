@@ -50,7 +50,9 @@ export default function Feed({
         </div>
       )}{' '}
       {!hasNextPage && (
-        <div className="p-3 text-center">{noMoreTweetsText}</div>
+        <div className="p-3 text-gray-600 text-sm md:text-base text-center">
+          {noMoreTweetsText}
+        </div>
       )}
     </>
   );

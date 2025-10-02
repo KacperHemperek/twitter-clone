@@ -62,8 +62,6 @@ export async function updateAccountDetailsControllerHandler(
     const bgImageExtension = body.background.contentType.split('/')[1];
     const bgImagePath = `background/${userId}.${bgImageExtension}`;
 
-    console.log('bgImagePath', bgImagePath);
-    console.log('bgImageObj', body.background);
     backgroundImg = await uploadImage(
       bgImagePath,
       body.background.data,

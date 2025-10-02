@@ -28,7 +28,7 @@ export default function AvatarDropdown({
     return (
       <button
         onClick={() => signIn()}
-        className="p-3 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all cursor-pointer min-w-full"
+        className="p-2 gap-6 flex rounded-full hover:bg-gray-600/30 items-center transition-all cursor-pointer min-w-full"
       >
         <LogIn className="h-6 w-6 md:h-8 md:w-8" />
         <p className="text-xl md:mr-3 hidden md:inline">Login</p>
@@ -39,7 +39,7 @@ export default function AvatarDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild={true}>
-        <div className="flex cursor-pointer items-center md:gap-3 rounded-full p-2 outline-none transition-all hover:bg-gray-600/30 w-min md:w-full">
+        <div className="flex cursor-pointer items-center md:gap-3 rounded-full p-1 outline-none transition-all hover:bg-gray-600/30 w-min md:w-full">
           <Avatar className="h-8 w-8 md:h-10 md:w-10">
             <AvatarImage src={image ?? undefined} />
             <AvatarFallback>{name?.[0] ?? ''}</AvatarFallback>

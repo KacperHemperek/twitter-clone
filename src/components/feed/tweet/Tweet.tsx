@@ -135,17 +135,17 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
     >
       <>
         <div
-          onClick={goToTweetDetails}
-          className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm group"
+         onClick={goToTweetDetails}
+         className="flex cursor-pointer space-x-3 border-b border-gray-700 p-4 text-sm group"
         >
           <TweetAvatar
             image={post.author.image}
             authorName={post.author.name}
             authorId={post.author.id}
           />
-          <div className="flex-grow space-y-2">
-            <div className='flex justify-between'>
-              <div>
+          <div className="flex flex-col w-full space-y-2 overflow-hidden">
+            <div className='flex justify-between overflow-hidden'>
+              <div className='flex flex-col overflow-hidden'>
                 {!!post.retweetedBy && 
                   <div className='text-gray-600 text-sm mb-2 flex items-center'>
                     <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
@@ -195,7 +195,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                       )}
                       onClick={onLikeTweet}
                     >
-                      <HeartIcon className="mr-4  h-4 w-4" />
+                      <HeartIcon className="mr-2 md:mr-4 h-4 w-4" />
                       {formatNumberToCompact(post.likes.length)}
                     </button>    
                   )
@@ -211,7 +211,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                           onClick={e => e.stopPropagation()}
                           className='text-gray-400 group flex cursor-pointer items-center transition-all hover:text-green-400' 
                         >
-                          <RefreshCwIcon className="mr-4  h-4 w-4" />
+                          <RefreshCwIcon className="mr-2 md:mr-4  h-4 w-4" />
                           {formatNumberToCompact(post.retweets.length)}
                         </button>
                       } 
@@ -228,7 +228,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                         'group flex cursor-pointer items-center transition-all hover:text-green-400'
                       )}
                     >
-                      <RefreshCwIcon className="mr-4  h-4 w-4" />
+                      <RefreshCwIcon className="mr-2 md:mr-4  h-4 w-4" />
                       {formatNumberToCompact(post.retweets.length)}
                     
                     </button>
@@ -243,7 +243,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                       onClick={(e) => e.stopPropagation()}
                       className='group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
                     >
-                      <MessageCircleIcon className="mr-4 h-4 w-4" />  
+                      <MessageCircleIcon className="mr-2 md:mr-4 h-4 w-4" />  
                       {formatNumberToCompact(post.comments?.length ?? 0)}
                     </button>
                   }/>
@@ -256,7 +256,7 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
                       'group flex cursor-pointer items-center text-gray-400 transition-all hover:text-sky-500'
                     }
                   >
-                    <MessageCircleIcon className="mr-4  h-4 w-4" />
+                    <MessageCircleIcon className="mr-2 md:mr-4 h-4 w-4" />
                     {formatNumberToCompact(post.comments?.length ?? 0)}
                   </AddCommentModal.DialogTrigger>
                 )}

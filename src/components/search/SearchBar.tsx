@@ -15,7 +15,7 @@ export const SearchBar = forwardRef<
   return (
     <form
       onSubmit={onSubmit}
-      className=" flex p-4 rounded-full bg-gray-800 gap-2 mx-4 mt-6 mb-4"
+      className="flex p-2 md:p-4 rounded-full bg-gray-800 gap-2 mx-2 md:mx-4 mt-3 md:mt-6 mb-2 md:mb-4"
     >
       <SearchIcon className="text-gray-600" />
       <input

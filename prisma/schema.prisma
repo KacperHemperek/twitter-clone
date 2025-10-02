@@ -65,7 +65,8 @@ model User {
   retweets  Retweet[]
 
   @@index([id, email])
-  @@fulltext([name, email])
+  @@fulltext([name])
+  @@fulltext([description])
 }
 
 model VerificationToken {

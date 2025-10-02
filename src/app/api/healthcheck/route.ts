@@ -61,8 +61,6 @@ export async function POST(req: NextRequest) {
 
     const dbCheckResult = await checkDb();
 
-    console.log(process.env.HEALTHCHECK_SECRET);
-
     if (!dbCheckResult) {
       return NextResponse.json(
         {
