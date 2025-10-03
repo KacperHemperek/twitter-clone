@@ -91,10 +91,10 @@ export default function NewTweetForm({
           disabled={isLoading || !session}
           value={newTweet}
           onChange={(e) => setNewTweet(e.target.value)}
-          rows={3}
+          rows={5}
           placeholder={placeholder}
           className={cn(
-            'resize-x-none mb-4 flex-grow overscroll-contain text-white border-b border-gray-600 bg-transparent text-xl outline-none transition-colors placeholder:text-gray-600',
+            'resize-x-none mb-4 flex-grow overscroll-contain text-white border-b border-gray-600 bg-transparent outline-none transition-colors placeholder:text-gray-600',
             isLoading && 'text-gray-600'
           )}
         />
