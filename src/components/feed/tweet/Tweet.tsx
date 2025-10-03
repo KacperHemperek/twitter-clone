@@ -147,10 +147,12 @@ function Tweet({ post, feedQueryKey }: { post: Tweet; feedQueryKey: string[] }) 
             <div className='flex justify-between overflow-hidden'>
               <div className='flex flex-col overflow-hidden'>
                 {!!post.retweetedBy && 
-                  <div className='text-gray-600 text-sm mb-2 flex items-center'>
-                    <RefreshCwIcon className='w-3 h-3 text-gray-600 mr-1' />
-                    Retweeted by{' '}
-                    {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
+                  <div className='text-gray-600 text-sm mb-2 flex items-center overflow-hidden'>
+                    <RefreshCwIcon className='max-w-3 max-h-3 min-w-fit text-gray-600 mr-1' />
+                    <span className="truncate min-w-0">
+                      Retweeted by{' '}
+                      {post.retweetedBy.userId === session?.user.id ? 'You' : post.retweetedBy.name}
+                    </span>
                   </div>
                 }
                 <TweetUserInfo
