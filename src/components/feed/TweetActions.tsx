@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 import { EditTweetForm } from '@/components/common/EditTweetForm';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +22,7 @@ export default function TweetActions({
   authorId: string;
   queryKey?: string[];
 }) {
+  // TODO: Add delete option to tweets that will make them hidden instead of deleting them
   const { data: session } = useSession();
 
   const [dialogOpen, setDialogOpen] = useState(false);

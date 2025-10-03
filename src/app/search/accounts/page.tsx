@@ -9,15 +9,39 @@ import { useWindowSize } from 'usehooks-ts';
 import { AccountBio } from '@/components/account/account-details/AccountDescription';
 import { FollowButton } from '@/components/account/follow-button/FollowButton';
 import TweetUserInfo from '@/components/common/tweet-user-info/TweetUserInfo';
+import TweetUserInfoSceleton from '@/components/common/tweet-user-info/TweetUserInfoSceleton';
 import TweetAvatar from '@/components/feed/TweetAvatar';
 import { SearchBanner } from '@/components/search/SearchBanner';
 
 import { ErrorResponse } from '@/types/api/error';
 import { PaginatedResponse } from '@/types/api/pagination';
 
-function SearchAccountsListSceleton() {
-  // TODO: implement sceletons
-  return <div>SearchAccountsListSceleton</div>;
+function SearchAccountsListSceleton({ amount = 5 }: { amount?: number }) {
+  return (
+    <>
+      {Array.from({ length: amount }).map((_, idx) => (
+        <div className="flex flex-col p-3 border-b overflow-hidden" key={idx}>
+          <div className="flex gap-3 overflow-hidden">
+            {/* Avatar skeleton */}
+            <div className="w-12 h-12 rounded-full bg-muted animate-pulse flex-shrink-0" />
+            <div className="flex flex-col w-full overflow-hidden">
+              <div className="flex w-full justify-between items-start md:grow overflow-hidden">
+                {/* User info skeleton */}
+                <TweetUserInfoSceleton
+                  alwaysShowShowInColumn={true}
+                  showDate={false}
+                />
+                {/* Follow button skeleton */}
+                <div className="w-20 h-8 bg-muted rounded-full animate-pulse ml-2" />
+              </div>
+              {/* Bio skeleton */}
+              <div className="w-3/4 h-4 bg-muted rounded mt-2 animate-pulse" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
 }
 
 function AccountSearchList({ accounts }: { accounts: SearchUsersResult[] }) {
@@ -133,7 +157,7 @@ export default function AccountSearchPage() {
   }
 
   // TODO: create loading sceletons for accounts search results
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <SearchAccountsListSceleton />;
 
   if (!data)
     return (
