@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: twitter_db
+    ports:
+      - '3308:3306'
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
+      MYSQL_DATABASE: ${DB_NAME:-twitter}
+      MYSQL_USER: ${DB_USER:-user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
+
+  shadow-db:
+    image: mysql:8.0
+    container_name: twitter_shadow_db
+    ports:
+      - '3309:3306'
+    volumes:
+      - ./database_shadow:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SHADOW_DB_ROOT_PASSWORD:-password}
+      MYSQL_DATABASE: ${SHADOW_DB_NAME:-twitter_shadow}
+      MYSQL_USER: ${SHADOW_DB_USER:-user}
+      MYSQL_PASSWORD: ${SHADOW_DB_PASSWORD:-password}
