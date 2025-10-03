@@ -55,7 +55,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/bad-words": "^3.0.1",
     "@types/lodash": "^4.14.195",
-    "@types/node": "^20.1.2",
+    "@types/node": "^22",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
     "prisma": "^5.0.0",

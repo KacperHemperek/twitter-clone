@@ -3,10 +3,12 @@ import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 
 import { ServerError } from '@/lib/server';
 
+const BUCKET = process.env.AWS_S3_BUCKET_NAME || 'twitter-khemperek';
+
 export async function getImage(path: string) {
   try {
     const getObjCommand = new GetObjectCommand({
-      Bucket: 'twitter-khemperek',
+      Bucket: BUCKET,
       Key: path,
     });
 
@@ -54,7 +56,7 @@ export async function uploadImage(
 
     await s3Client.send(
       new PutObjectCommand({
-        Bucket: 'twitter-khemperek',
+        Bucket: BUCKET,
         Key: path,
         Body: buffer,
         ContentType: type,
