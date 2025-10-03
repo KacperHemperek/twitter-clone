@@ -21,17 +21,19 @@ import { cn } from '@/lib/cn';
 
 type FollowButtonProps = {
   isFollowing: boolean;
-  queryKey: string[];
   userId: string;
   username: string;
+  queryKey?: string[];
+  onFollowToggle?: (userId: string, isFollowing: boolean) => void;
   compact?: boolean;
 };
 
 export function FollowButton({
   userId,
-  queryKey,
   isFollowing,
   username,
+  queryKey,
+  onFollowToggle,
   compact = false,
 }: FollowButtonProps) {
   const { mutate: followUserMutation, isLoading: followingUserLoading } =
@@ -39,7 +41,9 @@ export function FollowButton({
       mutationFn: async () => followUser(userId),
       mutationKey: ['followUser'],
       onSuccess: () => {
-        queryClient.invalidateQueries(queryKey);
+        queryKey !== undefined && queryClient.invalidateQueries(queryKey);
+
+        onFollowToggle && onFollowToggle(userId, !isFollowing);
 
         if (dialogOpen) {
           setDialogOpen(false);
